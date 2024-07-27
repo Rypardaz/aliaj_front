@@ -1,0 +1,57 @@
+<div class="modal fade" data-keyboard="false" data-bs-backdrop="static" id="{{modalConfig.id}}" aria-hidden="true"
+  tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable {{modalConfig.size}}">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="!modalConfig.hideHeader">
+        <h3 class="modal-title {{modalConfig.titleClassName}}">{{ modalConfig.modalTitle }}</h3>
+        <div class="btn btn-sm btn-icon btn-active-color-primary" (click)="close()"
+          *ngIf="!modalConfig.hideCloseButton">
+          <img width="25x" height="25px" src="assets/images/icons/close-circle-svgrepo-com.svg">
+        </div>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer align-content-center d-flex justify-content-between" *ngIf="!modalConfig.hideFooter">
+
+        <div class="button-list" *ngIf="!modalConfig.hideSubmitButton">
+
+          <ng-container *ngIf="modalConfig.dualSave">
+            <button type="button" class="btn btn-success waves-effect waves-light" (click)="submit('exit')">
+              <span class="btn-label">
+                <i class="fa fa-check"></i>
+              </span>{{
+              modalConfig.submitButtonLabel }} و
+              خروج
+            </button>
+            <button type="button" class="btn btn-success waves-effect waves-light" (click)="submit('new')">
+              <span class="btn-label">
+                <i class="fa fa-check-double"></i>
+              </span>
+              {{ modalConfig.submitButtonLabel }} و جدید
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="!modalConfig.dualSave">
+            <button type="button" class="btn btn-success waves-effect waves-light" (click)="submit('new')">
+              <span class="btn-label">
+                <i class="fa fa-times"></i>
+              </span>
+              {{ modalConfig.submitButtonLabel }}
+            </button>
+          </ng-container>
+
+        </div>
+
+        <div class="button-list">
+          <button type="button" class="btn btn-danger waves-effect waves-light" (click)="close()"
+            *ngIf="!modalConfig.hideCloseButton" [disabled]="modalConfig.disableCloseButton">
+            <span class="btn-label"><img width="20px" height="20px" src="assets/images/icons/close.svg"></span> {{
+            modalConfig.closeButtonLabel }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

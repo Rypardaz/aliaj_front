@@ -1,0 +1,358 @@
+@import 'ag-grid-enterprise/dist/styles/ag-grid.css';
+@import 'ag-grid-enterprise/dist/styles/ag-theme-material.css';
+@import 'ag-grid-enterprise/dist/styles/ag-theme-alpine.css';
+@import 'ag-grid-enterprise/dist/styles/ag-theme-balham.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+@import 'ngx-toastr/toastr';
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 100;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-Thin.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-Thin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 200;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-UltraLight.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-UltraLight.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 300;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-Light.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 500;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-Medium.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 600;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-DemiBold.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-DemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 800;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-ExtraBold.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-ExtraBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 900;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-Black.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-Black.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: bold;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-Bold.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: normal;
+  src: url("./assets/fonts/iransans/woff/IRANSansX-Regular.woff") format("woff"),
+    url("./assets/fonts/iransans/woff2/IRANSansX-Regular.woff2") format("woff2");
+}
+
+
+* {
+  font-family: IRANSansX !important;
+}
+
+.ss01 {
+  -moz-font-feature-settings: "ss01";
+  -webkit-font-feature-settings: "ss01";
+  font-feature-settings: "ss01";
+  font-weight: 900;
+}
+
+.ss02 {
+  -moz-font-feature-settings: "ss02";
+  -webkit-font-feature-settings: "ss02";
+  font-feature-settings: "ss02";
+}
+
+.ss03 {
+  -moz-font-feature-settings: "ss03";
+  -webkit-font-feature-settings: "ss03";
+  font-feature-settings: "ss03";
+}
+
+
+.modal-header .btn-close {
+  margin: 0;
+}
+
+.table {
+  direction: rtl;
+}
+
+app-custom-button {
+  padding-right: 1px;
+  padding-left: 1px;
+}
+
+.mdi-set,
+.mdi:before {
+  font-size: 16px !important;
+}
+
+.page-title-box {
+  margin: 0 -27px 20px;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+  padding-right: 10px;
+  padding-left: unset;
+  rotate: 180deg;
+}
+
+.logo-lg img {
+  width: 160px;
+  height: 45px;
+}
+
+.w-full {
+  width: 100%;
+  justify-content: center !important;
+}
+
+.input-group .select2-container {
+  width: unset !important;
+  flex: 1 1 auto;
+}
+
+.select2-container--open .select2-dropdown--below {
+  z-index: 9999;
+}
+
+.mr-3 {
+  margin-right: 10px;
+}
+
+fieldset {
+  border: 1px dotted #a7a9ab !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  padding: 10px !important;
+  position: relative !important;
+  border-radius: 4px !important;
+  padding-left: 10px !important;
+  padding-top: 10px !important;
+}
+
+.select2-container {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.select2-container--open {
+  overflow: visible;
+}
+
+.input-group {
+  flex-wrap: unset !important;
+}
+
+.select2-container .selection {
+  display: block;
+}
+
+.select2-selection__rendered {
+  overflow-x: auto !important;
+  width: 100% !important;
+  display: flex !important;
+}
+
+.select2-selection__rendered li {
+  margin-right: unset !important;
+}
+
+legend {
+  float: none !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  margin-bottom: 0px !important;
+  width: 100% !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  padding: 5px 5px 5px 10px !important;
+  background-color: #a7a9ab !important;
+}
+
+.select2-selection {
+  height: 38px;
+}
+
+.select2-selection__choice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 5px 0 5px !important;
+  margin: 0;
+  font-size: 14px;
+}
+
+.select2-selection__choice__remove {
+  margin-left: 5px !important;
+}
+
+.vakata-context,
+.vakata-context ul {
+  z-index: 1060;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #535353;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #383838;
+}
+
+.ng-dropdown-panel.ng-select-bottom {
+  z-index: 99999 !important;
+}
+
+.ng-select {
+  width: 100% !important;
+
+}
+
+.ng-select-container {
+  height: 38px !important;
+}
+
+.was-validated .custom-select:invalid+.select2 .select2-selection {
+  border-color: #dc3545 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23f1556c' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23f1556c' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.225rem) center;
+  padding-right: calc(1.5em + 0.9rem);
+  background-size: calc(0.75em + 0.45rem) calc(0.75em + 0.45rem);
+}
+
+.was-validated .custom-select:valid+.select2 .select2-selection {
+  border-color: #28a745 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%231abc9c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.225rem) center;
+  padding-right: calc(1.5em + 0.9rem);
+  background-size: calc(0.75em + 0.45rem) calc(0.75em + 0.45rem);
+}
+
+[type="tel"],
+[type="url"],
+[type="email"],
+[type="number"] {
+  direction: rtl;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+  text-align: left !important;
+}
+
+table.dataTable thead th,
+table.dataTable thead td,
+table.dataTable tfoot th,
+table.dataTable tfoot td {
+  text-align: right !important;
+}
+
+body[data-layout-mode=two-column] .sidebar-icon-menu {
+  background-color: #2d2d2d !important;
+}
+
+.logo .logo-lg-text-light {
+  color: #1fac83;
+}
+
+.w-max-content {
+  width: max-content;
+  min-width: 100%;
+}
+
+.custom-tr {
+  cursor: pointer;
+}
+
+.custom-tr td {
+  padding: 5px;
+}
+
+.custom-tr input {
+  padding: .2rem .3rem;
+}
+
+.ag-theme-material .ag-icon {
+  font-family: "agGridMaterial" !important;
+}
+
+.ag-theme-material .ag-checkbox-input-wrapper {
+  font-family: "agGridMaterial" !important;
+}
+
+.menu-arrow {
+  font-family: "Material Design Icons" !important
+}
+
+.input-group-text {
+  min-width: 110px;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+.rightbar-overlay {
+  z-index: 1030 !important;
+}
+
+.sidefilter {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1035;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  overflow-x: hidden;
+  transition: 0.2s;
+}

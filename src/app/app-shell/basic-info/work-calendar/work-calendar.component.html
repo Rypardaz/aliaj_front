@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">سال
+                                    <span class="text-danger"> *</span>
+                                </div>
+                            </div>
+                            <ng-select [items]="years" [(ngModel)]="yearId" id="yearId" bindLabel="title"
+                                bindValue="guid">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">ماه
+                                    <span class="text-danger"> *</span>
+                                </div>
+                            </div>
+                            <ng-select [items]="months" [(ngModel)]="monthId" id="monthId" bindLabel="name"
+                                bindValue="id">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="button-list">
+                            <app-label-icon-button identifier="submitBtn" label="مشاهده نتایج" icon="fas fa-eye"
+                                (clicked)="getList()">
+                            </app-label-icon-button>
+                            <app-label-icon-button className="success" identifier="submitBtn" label="ذخیره تغییرات"
+                                icon="fas fa-save" (clicked)="submit()">
+                            </app-label-icon-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>تاریخ</th>
+                            <th>ماه</th>
+                            <th>هفته</th>
+                            <th>روز</th>
+                            <th>شیفت</th>
+                            <th>ساعات کاری</th>
+                            <th>تعطیل</th>
+                            <th>نوع تعطیلی</th>
+                            <th>توضیحات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of records; let index = index">
+                            <td>{{index + 1}}</td>
+                            <td>{{item.date}}</td>
+                            <td>{{item.month}}</td>
+                            <td>{{item.week}}</td>
+                            <td>{{item.day}}</td>
+                            <td>{{item.shift}}</td>
+                            <td>
+                                <input type="text" class="form-control" [(ngModel)]="item.workTime"
+                                    (ngModelChange)="itemEdited(item)">
+                            </td>
+                            <td>
+                                <select [(ngModel)]="item.isClosed" class="form-control"
+                                    (ngModelChange)="onIsClosedChange(item)">
+                                    <option [ngValue]='false'>خیر</option>
+                                    <option [ngValue]='true'>بلی</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select [(ngModel)]="item.closedTypeId" class="form-control" [disabled]="!item.isClosed"
+                                    (ngModelChange)="itemEdited(item)">
+                                    <option *ngFor="let item of closeTypes" [value]="item.id">{{item.title}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" [(ngModel)]="item.description"
+                                    (ngModelChange)="itemEdited(item)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

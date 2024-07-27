@@ -1,0 +1,51 @@
+<form [formGroup]="form" (submit)="getLog()" id="submitForm">
+
+  <div class="card">
+    <div class="card-header">
+      تنظیم شروط گزارش ورود کاربران
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <custom-input type="date" label="تاریخ ورود از " formControlName="startDatePer" identity="startDatePer"
+          size="col-3" [required]="true">
+        </custom-input>
+        <custom-input type="date" label="تاریخ ورود تا " formControlName="endDatePer" identity="endDatePer" size="col-3"
+          [required]="true">
+        </custom-input>
+        <custom-select formControlName="userGuid" identity="userGuid" label="انتخاب کاربر" size="col-3"
+          [options]="userList">
+        </custom-select>
+        <custom-input label="IP Address" formControlName="clientIpAddress" identity="clientIpAddress" size="col-3">
+        </custom-input>
+      </div>
+    </div>
+    <div class="card-footer">
+
+      <app-label-icon-button btnType="submit" identifier="submitBtn" label="دریافت گزارش" icon="mdi-refresh"
+        className="success">
+      </app-label-icon-button>
+
+    </div>
+  </div>
+
+</form>
+
+<div class="col-12">
+  <div class="card card-w">
+    <div class="card-header">
+      <div class="button-list">
+        <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف فیلترهای جدول" icon="mdi-refresh"
+          className="danger" (clicked)="removeAllFilters()">
+        </app-label-icon-button>
+        <app-label-icon-button btnType="button" identifier="submitBtn" label="دریافت خروجی" icon="mdi-refresh"
+          className="secondary" (clicked)="onExportExcel()">
+        </app-label-icon-button>
+      </div>
+    </div>
+    <div class="card-body">
+      <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-material"
+        style="height: 600px; width: auto;" [rowData]="userLogList" [gridOptions]="gridOptions" [modules]="modules"
+        (gridReady)="onGridReady($event)"></ag-grid-angular>
+    </div>
+  </div>
+</div>

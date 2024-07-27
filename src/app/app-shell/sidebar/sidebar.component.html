@@ -1,0 +1,242 @@
+<div class="left-side-menu">
+  <div class="h-100">
+    <div class="sidebar-content">
+      <div class="sidebar-icon-menu h-100" data-simplebar>
+        <a href="#" class="logo">
+          <span>
+            <img src="../assets/images/logo.svg" alt="" height="28" />
+          </span>
+        </a>
+        <nav class="nav flex-column" id="two-col-sidenav-main">
+
+          <a class="nav-link active" href="#dashboard" title="میز کار">
+            <i class="ri-home-4-line"></i>
+          </a>
+
+          <a class="nav-link" href="#reports" title="گزارشات">
+            <i class="ri-bar-chart-fill"></i>
+          </a>
+
+          <a class="nav-link" href="#project-info" title="پروژه">
+            <i class="ri-folders-line"></i>
+          </a>
+
+          <a class="nav-link" href="#daily-record-info" title="اطلاعات روزانه">
+            <i class="ri-todo-line"></i>
+          </a>
+
+          <a class="nav-link" href="#basic-info" title="اطلاعات پایه">
+            <i class="ri-database-2-line"></i>
+          </a>
+
+          <a class="nav-link" href="#messages" title="پیام ها">
+            <i class="ri-message-3-line"></i>
+          </a>
+
+          <a class="nav-link" href="#system-management" title="مدیریت امنیت">
+            <i class="ri-lock-2-line"></i>
+          </a>
+
+        </nav>
+      </div>
+      <div class="sidebar-main-menu">
+        <div id="two-col-menu" class="h-100" data-simplebar>
+
+          <div class="twocolumn-menu-item d-block" id="dashboard">
+            <div class="title-box">
+              <h5 class="menu-title">میز کار</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active">داشبورد</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="twocolumn-menu-item" id="reports">
+            <div class="title-box">
+              <h5 class="menu-title">گزارشات</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/basic-info/daily-record-report">خلاصه گزارش روزانه</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/basic-info/wire-type-consumption-report">گزارش سیم مصرفی</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/basic-info/activity-report">گزارش فعالیت</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/basic-info/by-part-report">گزارش به تفکیک قطعات</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/basic-info/project-report">گزارش عملکرد پروژه</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/basic-info/personnel-report">گزارش عملکرد پرسنل</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="twocolumn-menu-item" id="project-info">
+            <h5 class="menu-title">پروژه</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/project">پروژه ها</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="twocolumn-menu-item" id="daily-record-info">
+            <h5 class="menu-title">اطلاعات روزانه</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item" *ngFor="let item of salons">
+                <a class="nav-link" href="javascript:void(0)" (click)="navigateToForm(item.guid)">{{item.title}}</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="twocolumn-menu-item" id="basic-info">
+            <h5 class="menu-title">اطلاعات پایه</h5>
+            <ul class="nav flex-column">
+
+
+              <li class="nav-item">
+                <a href="#sidebarWire" data-bs-toggle="collapse" class="nav-link">
+                  <span> سیم جوشکاری </span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarWire">
+                  <ul class="nav-second-level">
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/wireTypeGroup">گروه سیم</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/wireType">نوع سیم</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/wireScrew">موجودی سیم جوش</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a href="#sidebarPowder" data-bs-toggle="collapse" class="nav-link">
+                  <span> پودر جوشکاری</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPowder">
+                  <ul class="nav-second-level">
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/powderTypeGroup">گروه پودر</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/powderType">نوع پودر</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a href="#sidebarGas" data-bs-toggle="collapse" class="nav-link">
+                  <span> گاز جوشکاری</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarGas">
+                  <ul class="nav-second-level">
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/gasTypeGroup">گروه گاز</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/gasType">نوع گاز</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a href="#sidebarpart" data-bs-toggle="collapse" class="nav-link">
+                  <span>قطعات / تجهیزات</span>
+                  <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarpart">
+                  <ul class="nav-second-level">
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/partGroup">گروه قطعه</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/basic-info/part">نوع قطعه</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/salon">واحدهای تولید</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/projectType">دسته‌بندی پروژه</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/machine">ماشین آلات</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/personnel">پرسنل</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/taskMaster">کارفرمایان</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/activity">کد فعالیت/توقف</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/basic-info/work-calendar">ساعات کاری</a>
+              </li>
+
+            </ul>
+          </div>
+
+          <div class="twocolumn-menu-item" id="messages">
+            <div class="title-box">
+              <h5 class="menu-title">پیام ها</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" href="javascript:void(0)"> ارسال پیام</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="javascript:void(0)"> صندوق پیام</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="twocolumn-menu-item" id="system-management">
+            <div class="title-box">
+              <h5 class="menu-title">مدیریت کاربران</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/user-management/user/list" href="javascript:void(0)">مدیریت
+                    کاربران</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/user-management/user-group/list" href="javascript:void(0)">مدیریت
+                    گروه کاربران</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>

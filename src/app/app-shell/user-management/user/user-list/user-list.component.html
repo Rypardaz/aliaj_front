@@ -1,0 +1,88 @@
+<div class="card">
+
+    <div class="card-header">
+        <div class="button-list">
+            <app-label-icon-button identifier="submitBtn" label="افزودن" icon="fa fa-plus" className="success"
+                routerLink="/user-management/user/create">
+            </app-label-icon-button>
+            <app-label-icon-button identifier="submitBtn" label="بازخوانی" icon="fas fa-redo-alt" (clicked)="getList()">
+            </app-label-icon-button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table id="datatable" class="table dt-responsive nowrap w-100 table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">نام کاربری</th>
+                    <th scope="col">نام کامل</th>
+                    <th scope="col">گروه کاربری</th>
+                    <th scope="col">کد کارمندی</th>
+                    <th scope="col">شرکت</th>
+                    <th scope="col">واحد سازمانی</th>
+                    <th scope="col">ایجاد کننده</th>
+                    <th scope="col">تاریخ ایجاد</th>
+                    <th scope="col">وضعیت</th>
+                    <th scope="col">عملیات</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of records; let index = index">
+                    <td>{{item.username}}</td>
+                    <td>{{item.fullname}}</td>
+                    <td>{{item.userGroupName}}</td>
+                    <td>{{item.employeeCode}}</td>
+                    <td>{{item.companyTitle}}</td>
+                    <td>{{item.organizationChartTitle}}</td>
+                    <td>{{item.createdBy}}</td>
+                    <td>{{item.created}}</td>
+                    <td>
+                        <span *ngIf="item.isLocked == 2" class="text-danger px-1">قفل شده</span>
+                        <span *ngIf="item.isLocked == 3" class="text-success px-1">فعال</span>
+                    </td>
+                    <td>
+                        <div class="button-list">
+                            <app-icon-button identifier="submitBtn" label="ویرایش" icon="fa fa-pen"
+                                className="soft-primary btn-sm" (clicked)="navigateToEdit(item.guid)">
+                            </app-icon-button>
+                            <app-icon-button *ngIf="item.isLocked == 2" identifier="submitBtn" label="فعال سازی"
+                                icon="fa fa-check" className="soft-success btn-sm" (clicked)="activate(item.guid)">
+                            </app-icon-button>
+                            <app-icon-button *ngIf="item.isLocked == 3" identifier="submitBtn" label="غیر فعال سازی"
+                                icon="fa fa-times" className="soft-warning btn-sm" (clicked)="deactivate(item.guid)">
+                            </app-icon-button>
+                            <!-- <app-icon-button identifier="submitBtn" label="بستن نشست" icon="logout-dark"
+                                className="warning btn-sm" (clicked)="closeSession(item.guid)">
+                            </app-icon-button> -->
+                            <app-icon-button identifier="submitBtn" label="حذف" icon="fa fa-pen"
+                                className="soft-danger btn-sm" (click)="delete(item.guid)">
+                            </app-icon-button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<app-modal #opsModal [modalConfig]="modalConfig" (submited)="submit($event)" (onModalHide)="modalClosed()">
+    <form [formGroup]="form" id="submitForm" class="form-row">
+        <custom-select [options]="userGroups" formControlName="userGroupId" identity="userGroupId" label="گروه کاربری"
+            [required]="true"></custom-select>
+
+        <custom-input label="نام کامل" formControlName="fullname" identity="fullname" [required]="true">
+        </custom-input>
+
+        <custom-input label="نام کاربری" formControlName="username" identity="username" [required]="true">
+        </custom-input>
+
+        <custom-input label="کلمه رمز" formControlName="password" identity="password">
+        </custom-input>
+
+        <custom-input label="تکرار کلمه رمز" formControlName="rePassword" identity="rePassword">
+        </custom-input>
+
+    </form>
+</app-modal>

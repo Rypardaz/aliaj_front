@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button identifier="submitBtn" label="افزودن" icon="fa fa-plus" className="success"
+                        (clicked)="openOpsModal()" permission="BasicInformation_MissionType_New">
+                    </app-label-icon-button>
+                    <app-label-icon-button identifier="submitBtn" label="بازخوانی" icon="fas fa-redo-alt"
+                        (clicked)="getList()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف جستجو"
+                        className="btn btn-outline-danger" icon="fas fa-eye-slash" (clicked)="removeAllFilters()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
+                        className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
+                    </app-label-icon-button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-material"
+                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
+                    [modules]="modules" (gridReady)="onGridReady($event)"></ag-grid-angular>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<app-modal #opsModal [modalConfig]="modalConfig" (submited)="submit($event)" (onModalHide)="modalClosed()"
+    [isModalOpen]="isModalOpen">
+    <form [formGroup]="form" id="submitForm" class="form-row">
+
+        <div class="mb-1 mt-1">
+            <label class="sr-only" for="wireTypeGuid">نوع سیم</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">نوع سیم
+                        <span class="text-danger"> *</span>
+                    </div>
+                </div>
+                <ng-select [items]="wireTypes" formControlName="wireTypeGuid" id="wireTypeGuid" bindLabel="title"
+                    bindValue="guid">
+                </ng-select>
+            </div>
+        </div>
+
+        <custom-input type="number" label="شماره بچ" formControlName="screw" identity="screw" size="col-12" [required]="true">
+        </custom-input>
+
+        <custom-input type="number" label="مقدار (kg)" formControlName="qty" identity="qty" size="col-12"
+            [required]="true">
+        </custom-input>
+
+    </form>
+</app-modal>

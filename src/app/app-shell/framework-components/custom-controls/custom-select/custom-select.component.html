@@ -1,0 +1,37 @@
+<div class="mb-1 mt-1">
+  <label class="sr-only" [for]="identity">{{label}}</label>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">{{label}}
+        <span class="text-danger" *ngIf="required"> *</span>
+      </div>
+    </div>
+
+    <ng-container [ngSwitch]="type">
+      <ng-container *ngSwitchCase="'select'">
+        <select appSelect2 data-toggle="select2" class="mr-2" [id]="identity" (itemSelected)="itemSeleceted()"
+          [disabled]="isDisabled" [attr.required]="required || null" [placeholder]="placeholder">
+          <option></option>
+          <option *ngFor="let item of options" [value]="item.guid" [selected]="item.guid == value">{{item.title}}
+          </option>
+        </select>
+      </ng-container>
+      <ng-container *ngSwitchCase="'select-ajax'">
+        <select appSelect2 data-toggle="select2" class="mr-2" [id]="identity" (itemSelected)="itemSeleceted()"
+          [disabled]="isDisabled" [ajaxUrl]="ajaxUrl" [searchTerm]="searchTerm" [attr.required]="required || null"
+          [placeholder]="placeholder" [selectedItem]="selectedItem">
+          <option *ngFor="let item of options" [value]="item.guid">{{item.title}}</option>
+        </select>
+      </ng-container>
+    </ng-container>
+
+    <ng-content></ng-content>
+  </div>
+
+  <ul class="text-danger mt-1" *ngIf="ngControl?.invalid && (ngControl?.dirty)">
+    <li *ngIf="ngControl?.errors?.['required']">
+      این فیلد اجباری است.
+    </li>
+  </ul>
+
+</div>

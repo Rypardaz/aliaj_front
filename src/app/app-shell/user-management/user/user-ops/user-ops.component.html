@@ -1,0 +1,92 @@
+<form [formGroup]="userOpsFrm" (ngSubmit)="submit('')" id="submitForm">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body row">
+
+          <div class="mb-1 mt-1">
+            <label class="sr-only" for="roleGuids">نوع</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">گروه کاربری
+                  <span class="text-danger"> *</span>
+                </div>
+              </div>
+              <ng-select [items]="userGroups" formControlName="roleGuids" id="roleGuids" bindLabel="title"
+                bindValue="guid" [multiple]="true">
+              </ng-select>
+            </div>
+          </div>
+
+          <!-- <custom-select [options]="companies" formControlName="companyGuid" identity="companyGuid" label="شرکت"
+            [required]="true"></custom-select>
+
+          <div class="col-4">
+            <div class="input-group">
+              <input type="text" class="form-control" formControlName="organizationChartTitle"
+                id="organizationChartTitle" readonly>
+              <button (click)="openOrganizationChartModal()" class="btn btn-dark waves-effect waves-light"
+                type="button">انتخاب واحد سازمانی</button>
+            </div>
+          </div> -->
+
+          <custom-input label="نام کامل" formControlName="fullname" identity="fullname" [required]="true">
+          </custom-input>
+
+          <custom-input label="نام کاربری" formControlName="username" identity="username" [required]="true">
+          </custom-input>
+
+          <custom-input label="کد کارمندی" formControlName="employeeCode" identity="employeeCode" [required]="true">
+          </custom-input>
+
+          <!-- <custom-select [options]="classificationLevels" formControlName="classificationLevelGuid"
+            identity="classificationLevelGuid" label="سطح محرمانگی" [required]="true"></custom-select> -->
+
+          <custom-input label="کلمه رمز" formControlName="password" identity="password" type="password">
+            <div class="w-100 position-absolute top-100" style="direction: ltr;">
+              <password-strength-meter [password]="password" [minPasswordLength]="6" [numberOfProgressBarItems]="4"
+                (strengthChange)="strengthChange($event)"></password-strength-meter>
+            </div>
+          </custom-input>
+
+          <custom-input label="تکرار کلمه رمز" formControlName="rePassword" identity="rePassword" type="password">
+          </custom-input>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="card">
+  <div class="card-body">
+    <div class="button-list">
+      <a href="javascript:void(0)" type="button" class="btn btn-success waves-effect waves-light mr-1"
+        (click)="submit('exit')">
+        <span class="btn-label"><img width="25x" height="25px" src="assets/images/icons/check.svg"></span>ذخیره و خروج
+      </a>
+      <a href="javascript:void(0)" type="button" class="btn btn-light waves-effect waves-light mr-1"
+        (click)="submit('')">
+        <span class="btn-label"><img width="20x" height="20px"
+            src="assets/images/icons/check-double-fill.svg"></span>ذخیره
+      </a>
+      <a href="javascript:void(0)" type="button" class="btn btn-light waves-effect waves-light mr-1"
+        (click)="submit('new')">
+        <span class="btn-label"><img width="20x" height="20px" src="assets/images/icons/add-outline.svg"></span>ذخیره و
+        جدید
+      </a>
+      <a href="javascript:void(0)" type="button" class="btn btn-light waves-effect waves-light mr-1"
+        (click)="onBtnCancelClick()">
+        <span class="btn-label"><img width="20x" height="20px" src="assets/images/icons/close-black.svg"></span>انصراف
+      </a>
+    </div>
+  </div>
+</div>
+
+<app-modal #organizationChartModal [modalConfig]="modalConfig" (onModalHide)="onModalClose()">
+  <div class="row">
+    <div class="col-lg-12">
+      <app-js-tree #jsTree [readonly]="true" (selected)="selected($event)"></app-js-tree>
+    </div>
+  </div>
+</app-modal>

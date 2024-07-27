@@ -1,0 +1,91 @@
+<div class="mb-1 mt-1">
+  <label class="sr-only" [for]="identity">{{label}}</label>
+  <div class="input-group">
+    <div class="input-group-prepend" *ngIf="label">
+      <div class="input-group-text">{{label}}
+        <span class="text-danger" *ngIf="required"> *</span>
+      </div>
+    </div>
+
+    <ng-container [ngSwitch]="type">
+
+      <ng-container *ngSwitchCase="'text'">
+        <input type="text" [id]="identity" class="form-control {{customClass}}" [placeholder]="placeholder"
+          [value]="value" [attr.disabled]="isDisabled ? '' : null" (input)="valueChanged($event)" (blur)="onTouched()"
+          autocomplete="off" [attr.required]="required || null" (keyup.enter)="keyup('enter')"
+          [attr.minLength]="min ? min : null" [attr.maxLength]="max ? max : null">
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'password'">
+        <input type="password" [id]="identity" class="form-control" [placeholder]="placeholder" [value]="value"
+          [attr.disabled]="isDisabled ? '' : null" (input)="valueChanged($event)" (blur)="onTouched()"
+          autocomplete="off" [attr.required]="required || null" (keyup.enter)="keyup('enter')"
+          [attr.minLength]="min ? min : null" [attr.maxLength]="max ? max : null">
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'number'">
+        <input type="number" step="0.001" [id]="identity" class="form-control {{customClass}}"
+          [placeholder]="placeholder" [value]="value" [attr.disabled]="isDisabled ? '' : null"
+          (input)="valueChanged($event)" (blur)="onTouched()" autocomplete="off" [attr.required]="required || null"
+          [attr.min]="min ? min : null" [attr.max]="max ? max : null">
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'date'">
+        <input [id]="identity" class="form-control" [placeholder]="placeholder" [value]="value" [disabled]="isDisabled"
+          (input)="valueChanged($event)" (blur)="onTouched()" [input]="value" autocomplete="off"
+          [attr.required]="required || null" appDateMask data-date />
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'file'">
+        <input type="file" (change)="valueChanged($event)" [id]="identity" class="form-control"
+          [placeholder]="placeholder" [value]="value" [disabled]="isDisabled" (input)="valueChanged($event)"
+          autocomplete="off" [attr.required]="required || null" />
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'text-area'">
+        <textarea rows="3" (change)="valueChanged($event)" [id]="identity" class="form-control"
+          [placeholder]="placeholder" [value]="value" [disabled]="isDisabled" (input)="valueChanged($event)"
+          autocomplete="off" [attr.required]="required || null"></textarea>
+      </ng-container>
+
+      <!-- <ng-container *ngSwitchCase="'color'">
+        <input type="color" [id]="identity" class="form-control" [placeholder]="placeholder" [value]="value"
+          [disabled]="isDisabled" (input)="valueChanged($event)" (blur)="onTouched()" [input]="value" autocomplete="off"
+          [attr.required]="required || null" />
+      </ng-container> -->
+
+    </ng-container>
+
+    <ng-content></ng-content>
+
+  </div>
+
+  <ul class="text-danger mt-1" *ngIf="ngControl?.invalid && (ngControl?.touched || ngControl?.dirty)">
+    <li *ngIf="ngControl?.errors?.['required']">
+      این فیلد اجباری است.
+    </li>
+    <li *ngIf="ngControl?.errors?.['minlength']">
+      حداقل طول {{ngControl?.errors?.['minlength'].requiredLength}} می باشد. طول فعلی:
+      {{ngControl?.errors?.['minlength'].actualLength}}
+    </li>
+    <li *ngIf="ngControl?.errors?.['maxlength']">
+      حداکثر طول {{ngControl?.errors?.['maxlength'].requiredLength}} می باشد. طول فعلی:
+      {{ngControl?.errors?.['maxlength'].actualLength}}
+    </li>
+    <li *ngIf="ngControl?.errors?.['min']">
+      حداقل مقدار {{ngControl?.errors?.['min'].requiredLength}} می باشد. مقدار فعلی:
+      {{ngControl?.errors?.['min'].actualLength}}
+    </li>
+    <li *ngIf="ngControl?.errors?.['max']">
+      حداکثر مقدار {{ngControl?.errors?.['max'].requiredLength}} می باشد. طول مقدار:
+      {{ngControl?.errors?.['max'].actualLength}}
+    </li>
+    <li *ngIf="ngControl?.errors?.['urlValid']">
+      مقدار وارد شده URL معتبر نیست.
+    </li>
+    <li *ngIf="ngControl?.errors?.['email']">
+      مقدار وارد شده ایمیل معتبر نیست.
+    </li>
+  </ul>
+
+</div>

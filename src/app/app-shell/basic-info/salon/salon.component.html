@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button identifier="submitBtn" label="افزودن" icon="fa fa-plus" className="success"
+                        (clicked)="openOpsModal()" permission="BasicInformation_MissionType_New">
+                    </app-label-icon-button>
+                    <app-label-icon-button identifier="submitBtn" label="بازخوانی" icon="fas fa-redo-alt"
+                        (clicked)="getList()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف جستجو"
+                        className="btn btn-outline-danger" icon="fas fa-eye-slash" (clicked)="removeAllFilters()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
+                        className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
+                    </app-label-icon-button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-material"
+                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
+                    [modules]="modules" (gridReady)="onGridReady($event)"></ag-grid-angular>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<app-modal #opsModal [modalConfig]="modalConfig" (submited)="submit($event)" (onModalHide)="modalClosed()"
+    [isModalOpen]="isModalOpen">
+    <form [formGroup]="form" id="submitForm" class="form-row">
+
+        <custom-input label="نام واحد" formControlName="name" identity="name" size="col-12" [required]="true">
+        </custom-input>
+
+        <custom-checkbox label="استفاده از گاز" formControlName="hasGas" identity="hasGas" size="col-12"
+            [required]="true">
+        </custom-checkbox>
+
+        <custom-checkbox label="استفاده از سیم" formControlName="hasWire" identity="hasWire" size="col-12"
+            [required]="true">
+        </custom-checkbox>
+
+        <custom-checkbox label="استفاده از بچ سیم (واحد تولید سیم)" formControlName="hasWireScrew"
+            identity="hasWireScrew" size="col-12" [required]="true">
+        </custom-checkbox>
+
+        <custom-checkbox label="استفاده از پودر" formControlName="hasPowder" identity="hasPowder" size="col-12"
+            [required]="true">
+        </custom-checkbox>
+
+    </form>
+</app-modal>

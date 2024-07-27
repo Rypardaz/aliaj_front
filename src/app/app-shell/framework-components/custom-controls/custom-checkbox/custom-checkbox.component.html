@@ -1,0 +1,10 @@
+<div class="form-check {{size}}">
+  <input type="checkbox" class="form-check-input" [id]="identity" [disabled]="isDisabled" [ngModel]="checked"
+    (ngModelChange)="onModelChange($event)">
+  <label class="form-check-label" [for]="identity">{{label}}</label>
+  <ul class="text-danger mt-1" *ngIf="ngControl?.invalid && (ngControl?.touched || ngControl?.dirty)">
+    <li *ngIf="ngControl?.errors?.['required']">
+      این فیلد اجباری است.
+    </li>
+  </ul>
+</div>

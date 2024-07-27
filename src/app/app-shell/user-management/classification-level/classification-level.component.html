@@ -1,0 +1,29 @@
+<div class="card mb-5">
+    <div class="card-body pb-0">
+        <table class="table table-bordered table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        نام صفحه
+                    </th>
+                    <th>
+                        سطح محرمانگی
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of records; let index = index">
+                    <td> {{ item.name }} </td>
+                    <td>
+                        <select appSelect2 [(ngModel)]="item.classificationLevelGuid" [id]="item.guid"
+                            class="form-control" (ngModelChange)="setClassificationLevel(item.guid)">
+                            <option *ngFor="let level of classificationLevels" [value]="level.guid">
+                                {{level.title}}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

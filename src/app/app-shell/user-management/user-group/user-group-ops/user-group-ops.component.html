@@ -1,0 +1,75 @@
+<form [formGroup]="userGroupOpsFrm" (ngSubmit)="submit('')" id="submitForm">
+  <div class="row">
+
+    <div class="col-5">
+      <div class="card">
+        <div class="bg-soft-primary card-header text-primary">
+          حقوق دسترسی
+        </div>
+        <div class="card-body">
+          <div id="checkTree">
+            <ul class="rtl">
+              <div class="d-flex align-items-center justify-content-between">
+                <input type="text" class="form-control" id="plugins4_q" placeholder="جستجو ..." autocomplete="off"
+                  style="width: 85%;">
+                <button class="btn btn-outline-primary" (click)="collapseAll()" type="button">
+                  <img width="20x" height="20px" src="assets/images/icons/compress-arrows-alt-solid.svg">
+                </button>
+                <button class="btn btn-outline-primary" (click)="expandAll()" type="button">
+                  <img width="20x" height="20px" src="assets/images/icons/expand-arrows-alt-solid.svg">
+                </button>
+              </div>
+
+              <br>
+
+              <div id="basicTree"> </div>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+      <div class="card">
+        <div class="bg-soft-primary card-header text-primary">
+          مشخصات گروه کاربری
+        </div>
+        <div class="card-body">
+
+          <div class="form-group row">
+            <custom-input label="عنوان" formControlName="title" identity="title" size="col-12" [required]="true">
+            </custom-input>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<div class="card">
+  <div class="card-body">
+    <div class="button-list">
+      <a href="javascript:void(0)" type="button" class="btn btn-success waves-effect waves-light mr-1"
+        (click)="submit('exit')">
+        <span class="btn-label"><img width="25x" height="25px" src="assets/images/icons/check.svg"></span>ذخیره و خروج
+      </a>
+      <a href="javascript:void(0)" type="button" class="btn btn-light waves-effect waves-light mr-1"
+        (click)="submit('')">
+        <span class="btn-label"><img width="20x" height="20px"
+            src="assets/images/icons/check-double-fill.svg"></span>ذخیره
+      </a>
+      <a href="javascript:void(0)" type="button" class="btn btn-light waves-effect waves-light mr-1"
+        (click)="submit('new')">
+        <span class="btn-label"><img width="20x" height="20px" src="assets/images/icons/add-outline.svg"></span>ذخیره و
+        جدید
+      </a>
+      <a href="javascript:void(0)" type="button" class="btn btn-light waves-effect waves-light mr-1"
+        (click)="onBtnCancelClick()">
+        <span class="btn-label"><img width="20x" height="20px" src="assets/images/icons/close-black.svg"></span>انصراف
+      </a>
+    </div>
+  </div>
+</div>

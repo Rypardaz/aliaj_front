@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button identifier="submitBtn" label="دریافت گزارش" icon="fas fa-redo-alt"
+                        (clicked)="getReport()">
+                    </app-label-icon-button>
+                    <app-label-icon-button identifier="submitBtn" label="نمایش شروط" icon="fas fa-cog"
+                        className="btn btn-outline-purple" (clicked)="openNav()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف جستجو"
+                        className="btn btn-outline-danger" icon="fas fa-eye-slash" (clicked)="removeAllFilters()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
+                        className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
+                    </app-label-icon-button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-balham"
+                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
+                    [columnDefs]="columnDefs" [modules]="modules" (gridReady)="onGridReady($event)"></ag-grid-angular>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="sidefilter" class="sidefilter">
+    <div>
+        <ul class="nav nav-tabs nav-bordered nav-justified" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link py-2 active" data-toggle="tab" href="#report-filters-tab" role="tab">
+                    <i class="fas fa-filter d-block font-22 my-1"></i>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content pt-0" [formGroup]="form">
+            <div class="tab-pane active" id="report-filters-tab" role="tabpanel">
+
+                <h6 class="font-weight-medium px-3 m-0 py-2 font-13 text-uppercase bg-light">
+                    <span class="d-block py-1">شروط گزارش</span>
+                </h6>
+                <div class="p-2">
+
+                    <div class="form-group my-2">
+                        <select class="form-control" formControlName="personnelGuid" id="personnelGuid"
+                            data-toggle="select2">
+                            <option value="">انتخاب پرسنل</option>
+                            <option [value]="personnel.guid" *ngFor="let personnel of personnels"> {{ personnel.title }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <select class="form-control" formControlName="monthId" id="monthId" data-toggle="select2">
+                            <option value="">انتخاب ماه</option>
+                            <option [value]="item.id" *ngFor="let item of months"> {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <select class="form-control" formControlName="weekId" id="weekId" data-toggle="select2">
+                            <option value="">انتخاب هفته</option>
+                            <option [value]="item.id" *ngFor="let item of weeks"> {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <input class="form-control" id="fromDate" formControlName="fromDate" autocomplete="off"
+                                appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
+                        </div>
+
+                        <div class="col-6">
+                            <input class="form-control" id="toDate" formControlName="toDate" autocomplete="off"
+                                appDateMask [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="position-sticky px-2" style="bottom: 10px">
+                <a type="button" class="btn btn-block btn-success waves-effect waves-light" (click)="getReport()">
+                    دریافت گزارش
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="card">
+    <div class="card-header">
+        <div class="button-list">
+            <app-label-icon-button identifier="submitBtn" label="افزودن" icon="fa fa-plus" className="success"
+                [routerLink]="['/user-management/user-group/create']">
+            </app-label-icon-button>
+            <app-label-icon-button identifier="submitBtn" label="بازخوانی" icon="fas fa-redo-alt" (clicked)="getList()">
+            </app-label-icon-button>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <table id="datatable" class="table dt-responsive nowrap w-100 table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">عنوان گروه کاربری</th>
+                    <th scope="col">ایجاد کننده</th>
+                    <th scope="col">تاریخ ایجاد</th>
+                    <th scope="col">وضعیت</th>
+                    <th scope="col">عملیات</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of userGroups; let index = index">
+                    <td>{{item.title}}</td>
+                    <td>{{item.createdBy}}</td>
+                    <td>{{item.created}}</td>
+                    <td>
+                        <span *ngIf="item.isActive == 2" class="text-danger px-1">غیرفعال</span>
+                        <span *ngIf="item.isActive == 1" class="text-success px-1">فعال</span>
+                    </td>
+                    <td>
+                        <div class="button-list">
+                            <app-icon-button identifier="submitBtn" label="ویرایش" icon="fa fa-pen"
+                                className="soft-primary btn-sm" (clicked)="navigateToEdit(item.guid)">
+                            </app-icon-button>
+                            <app-icon-button identifier="submitBtn" label="حذف" icon="fas fa-trash-alt"
+                                className="soft-danger btn-sm" (click)="delete(item.guid)">
+                            </app-icon-button>
+                            <app-icon-button *ngIf="item.isActive == 2" identifier="submitBtn" label="فعال سازی"
+                                icon="fa fa-check" className="soft-success btn-sm">
+                            </app-icon-button>
+                            <app-icon-button *ngIf="item.isActive == 1" identifier="submitBtn" label="غیر فعال سازی"
+                                icon="fa fa-times" className="soft-warning btn-sm">
+                            </app-icon-button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="افزودن" icon="fa fa-plus"
+                        className="success" (clicked)="navigateTo()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="بازخوانی"
+                        icon="fas fa-redo-alt" (clicked)="getList()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف جستجو"
+                        className="btn btn-outline-danger" icon="fas fa-eye-slash" (clicked)="removeAllFilters()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
+                        className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
+                    </app-label-icon-button>
+                    <grid-search-panel (search)="searchList($event)"></grid-search-panel>
+                </div>
+            </div>
+            <div class="card-body">
+                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-material"
+                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
+                    [modules]="modules" (gridReady)="onGridReady($event)"
+                    (rowDoubleClicked)="navigateTo($event.data.guid)"></ag-grid-angular>
+            </div>
+        </div>
+    </div>
+</div>
