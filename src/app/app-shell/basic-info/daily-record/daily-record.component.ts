@@ -88,6 +88,11 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
         filter: 'agSetColumnFilter'
       },
       {
+        field: 'head',
+        headerName: 'شماره هد',
+        filter: 'agSetColumnFilter'
+      },
+      {
         field: 'totalHours',
         headerName: 'مجموع ساعات',
         filter: 'agSetColumnFilter'

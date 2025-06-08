@@ -7,7 +7,6 @@ import { HttpService } from "../../framework-services/http.service";
 })
 export class MachineService extends ServiceBase {
 
-
   constructor(httpService: HttpService) {
     super("Machine", httpService)
   }

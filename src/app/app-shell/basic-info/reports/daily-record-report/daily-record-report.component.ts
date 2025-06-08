@@ -4,6 +4,11 @@ import { ReportService } from '../report.service';
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component';
 import { SalonService } from '../../salon/salon.service';
 import { ListItemService } from '../../list-item/list-item.service';
+import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service';
+import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
+import { ActivatedRoute } from '@angular/router';
+import { getCurrentMonth, getCurrentYear, getTodayDate, months, weeks, years } from 'src/app/app-shell/framework-components/constants';
+import * as moment from 'jalali-moment';
 
 @Component({
   selector: 'app-daily-record-report',
@@ -17,124 +22,63 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
   shifts = []
   columns = []
   records = []
+  type
+  weeks = weeks
+  months = months
+  years = years
+  currentMonth;
 
   form: FormGroup
 
-  constructor(private readonly fb: FormBuilder,
+  constructor(fb: FormBuilder,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly notificationService: NotificationService,
     private readonly salonService: SalonService,
     private readonly listItemService: ListItemService,
-    private readonly reportService: ReportService) {
+    private readonly reportService: ReportService,
+    private readonly breadCrumbService: BreadcrumbService) {
     super(false)
 
+    this.currentMonth = getCurrentMonth()
+    const year = getCurrentYear()
+
     this.form = fb.group({
-      salonGuid: ['30D49D6B-611B-46EA-AE4D-9ED842214C9B'],
-      shiftGuid: [],
+      salonGuid: [],
+      weekIds: [],
+      monthIds: [],
+      yearIds: [[year]],
       fromDate: [],
-      toDate: []
+      toDate: [],
+      type: []
     })
   }
 
   override ngOnInit(): void {
     this.getSalons()
     this.getShifts()
-    const salonGuid = this.getFormValue(this.form, 'salonGuid')
-    this.reportService
-      .getActivityNames(salonGuid)
-      .subscribe(columns => {
-        this.columns = columns
 
-        this.columnDefs = [
-          {
-            field: 'month',
-            headerName: 'ماه',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'week',
-            headerName: 'هفته',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'day',
-            headerName: 'روز',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'date',
-            headerName: 'تاریخ',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'shift',
-            headerName: 'شیفت',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'wireConsumption',
-            headerName: 'میزان سیم مصرفی (کیلوگرم)',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'weldingActivity',
-            headerName: 'ساعت جوشکاری',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'productionActivity',
-            headerName: 'فعالیت های تولیدی',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'productionStop',
-            headerName: 'توقفات تولیدی',
-            filter: 'agSetColumnFilter'
-          }
-        ]
+    this.type = this.activatedRoute.snapshot.paramMap.get('type')
+    this.setFormValue(this.form, 'type', this.type)
 
-        this.columns.forEach(column => {
-          this.columnDefs.push({
-            field: 'value' + column.colId,
-            headerName: column.activityName,
-            filter: 'agSetColumnFilter'
-          })
-        })
-
-        this.columnDefs.push(
-          {
-            field: 'otherNonProductionStop',
-            headerName: 'سایر توقفات غیر تولیدی',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'reportTime',
-            headerName: 'جمع ساعت در اختیار',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'timeInProduction',
-            headerName: 'خالص ساعت در اختیار تولید',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'head',
-            headerName: 'تعداد هد جوشکاری',
-            filter: 'agSetColumnFilter'
-          },
-          {
-            field: 'realHead',
-            headerName: 'تعداد هد واقعی در اختیار تولید',
-            filter: 'agSetColumnFilter'
-          }
-        )
-
-        this.gridApi.redrawRows()
-        this.gridApi.refreshCells()
-      })
+    switch (this.type) {
+      case '1':
+        this.breadCrumbService.setTitle('خلاصه گزارش روزانه')
+        this.setFormValue(this.form, 'monthIds', [this.currentMonth])
+        break;
+      case '2':
+        this.breadCrumbService.setTitle('خلاصه گزارش هفتگی')
+        this.setFormValue(this.form, 'weekIds', [moment().jWeek()]);
+        break;
+      case '3':
+        this.breadCrumbService.setTitle('خلاصه گزارش ماهانه')
+        this.setFormValue(this.form, 'monthIds', [this.currentMonth])
+        break;
+    }
   }
 
   getSalons() {
     this.salonService
-      .getForCombo<[]>()
+      .getForComboBySalonType(2)
       .subscribe(data => this.salons = data)
   }
 
@@ -150,21 +94,194 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
 
   getReport() {
     const searchModel = this.form.value
-    searchModel.type = 1
 
-    if (!searchModel.shiftGuid)
-      searchModel.shiftGuid = ''
+    if (!searchModel.salonGuid) {
+      this.notificationService.error('لطفا برای دریافت گزارش ابتدا سالن را انتخاب نمایید.')
+      return
+    }
 
-    if (!searchModel.fromDate)
-      searchModel.fromDate = ''
-
-    if (!searchModel.toDate)
-      searchModel.toDate = ''
+    if (!searchModel.yearIds.length) {
+      this.notificationService.error('لطفا برای دریافت گزارش ابتدا سال را انتخاب نمایید.')
+      return
+    }
 
     this.reportService
-      .getMachineDailyRecordReport(searchModel)
-      .subscribe(data => {
-        this.records = data
+      .getActivityNames(searchModel.salonGuid)
+      .subscribe(columns => {
+        this.columns = columns
+
+        switch (this.type) {
+          case '1':
+            this.breadCrumbService.setTitle('خلاصه گزارش روزانه')
+            this.columnDefs = [
+              {
+                field: 'date',
+                headerName: 'تاریخ',
+                filter: 'agSetColumnFilter'
+              },
+              {
+                field: 'day',
+                headerName: 'روز',
+                filter: 'agSetColumnFilter'
+              },
+              {
+                field: 'shift',
+                headerName: 'شیفت',
+                filter: 'agSetColumnFilter'
+              }
+            ]
+
+            break;
+          case '2':
+            this.breadCrumbService.setTitle('خلاصه گزارش هفتگی')
+            this.columnDefs = [
+              {
+                field: 'year',
+                headerName: 'سال',
+                filter: 'agSetColumnFilter'
+              },
+              {
+                field: 'week',
+                headerName: 'هفته',
+                filter: 'agSetColumnFilter'
+              }
+            ]
+
+            break;
+          case '3':
+            this.breadCrumbService.setTitle('خلاصه گزارش ماهانه')
+            this.columnDefs = [
+              {
+                field: 'year',
+                headerName: 'سال',
+                filter: 'agSetColumnFilter'
+              },
+              {
+                field: 'month',
+                headerName: 'ماه',
+                filter: 'agSetColumnFilter'
+              }
+            ]
+            break;
+        }
+
+        const activityCol = {
+          headerName: 'فعالیت ها',
+          filter: 'agSetColumnFilter',
+          children: []
+        }
+
+        this.columns
+          .forEach(column => {
+            activityCol.children.push({
+              field: 'value' + column.activityId,
+              headerName: column.activityName + ' (kg)',
+              filter: 'agSetColumnFilter'
+            })
+          })
+
+        this.columnDefs.push(activityCol)
+
+        this.columnDefs.push(
+          {
+            field: 'wireConsumption',
+            headerName: 'جمع سیم مصرفی (kg)',
+            filter: 'agSetColumnFilter',
+          },
+          {
+            field: 'weldingTime',
+            headerName: 'زمان خالص جوشکاری (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'randeman',
+            headerName: 'راندمان جوشکاری (%)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'productionActivityTime',
+            headerName: 'زمان فعالیت های تولیدی (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'productionStopTime',
+            headerName: 'زمان توقفات تولیدی (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'productionTime',
+            headerName: 'جمع فعالیت ها و توقفات تولیدی (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'maintenanceStoppageTime',
+            headerName: 'زمان توقفات تعمیراتی (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'unMaintenanceStoppageTime',
+            headerName: 'زمان سایر توقفات غیرتولیدی (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'totalHoursReported',
+            headerName: 'جمع ساعت گزارش شده توسط تولید (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'netHoursInProduce',
+            headerName: 'خالص ساعت در اختیار تولید (h)',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'headCount',
+            headerName: 'تعداد هد جوشکاری',
+            filter: 'agSetColumnFilter'
+          },
+          {
+            field: 'realHead',
+            headerName: 'تعداد هد واقعی در اختیار تولید',
+            filter: 'agSetColumnFilter'
+          }
+        )
+
+        this.gridApi.redrawRows()
+        this.gridApi.refreshCells()
+
+        this.reportService
+          .getDailyRecordReport(searchModel)
+          .subscribe((data: []) => {
+            this.records = data
+          })
       })
+  }
+
+  modalUpdated() {
+    let columnsForAggregation = [
+      { column: 'wireConsumption', type: 'sum' },
+      { column: 'weldingTime', type: 'time' },
+      { column: 'randeman', type: 'sum' },
+      { column: 'productionActivityTime', type: 'time' },
+      { column: 'productionStopTime', type: 'time' },
+      { column: 'productionTime', type: 'time' },
+      { column: 'maintenanceStoppageTime', type: 'time' },
+      { column: 'unMaintenanceStoppageTime', type: 'time' },
+      { column: 'totalHoursReported', type: 'time' },
+      { column: 'netHoursInProduce', type: 'time' },
+      { column: 'headCount', type: 'avg' },
+      { column: 'realHead', type: 'avg' }
+    ]
+
+    this.columns
+      .forEach(column => {
+        columnsForAggregation.push({
+          column: 'value' + column.activityId,
+          type: 'sum'
+        })
+      })
+
+    let pinnedRow = this.generatePinnedBottomData(columnsForAggregation)
+
+    this.gridApi.setPinnedBottomRowData([pinnedRow])
   }
 }

@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { PartGroupModel } from './part-group-model'
 import { PartGroupService } from "./part-group.service"
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
+import { SalonService } from '../salon/salon.service';
 
 @Component({
   selector: 'app-part-group',
@@ -11,8 +12,11 @@ import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-
 })
 export class PartGroupComponent extends ModalFormBaseComponent<PartGroupService, PartGroupModel> implements AfterViewInit {
 
+  salons = []
+
   constructor(private readonly fb: FormBuilder,
-    partGroupService: PartGroupService) {
+    partGroupService: PartGroupService,
+    private readonly salonService: SalonService) {
     super('گروه قطعه', partGroupService, 'BasicInformation_MissionType')
 
     this.form = this.fb.group({
@@ -22,11 +26,11 @@ export class PartGroupComponent extends ModalFormBaseComponent<PartGroupService,
         Validators.minLength(1),
         Validators.maxLength(100)
       ]],
+      salonGuid: ['', [Validators.required]]
     })
 
     this.afterListFetch
       .subscribe(_ => {
-        // this.datatableService.init()
       })
   }
 
@@ -53,6 +57,11 @@ export class PartGroupComponent extends ModalFormBaseComponent<PartGroupService,
         filter: 'agSetColumnFilter'
       },
       {
+        field: 'salonName',
+        headerName: 'نام سالن',
+        filter: 'agSetColumnFilter'
+      },
+      {
         field: 'isActiveStr',
         headerName: 'وضعیت',
         filter: 'agSetColumnFilter',
@@ -71,6 +80,10 @@ export class PartGroupComponent extends ModalFormBaseComponent<PartGroupService,
         filter: 'agSetColumnFilter'
       }
     ]
+
+    this.salonService
+      .getForCombo()
+      .subscribe((data: any) => this.salons = data)
   }
 
   override ngAfterViewInit(): void {

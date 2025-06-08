@@ -34,6 +34,20 @@ import { ActivityReportComponent } from './reports/activity-report/activity-repo
 import { ByPartReportComponent } from './reports/by-part-report/by-part-report.component';
 import { ProjectReportComponent } from './reports/project-report/project-report.component';
 import { PersonnelReportComponent } from './reports/personnel-report/personnel-report.component';
+import { WireConsumptionChartReportComponent } from './reports/wire-consumption-chart-report/wire-consumption-chart-report.component';
+import { RandemanChartReportComponent } from './reports/randeman-chart-report/randeman-chart-report.component';
+import { WireConsumptionToStandardChartReportComponent } from './reports/wire-consumption-to-standaard-chart-report/wire-consumption-to-standaard-chart-report.component';
+import { ProjectChartReportComponent } from './reports/project-chart-report/project-chart-report.component';
+import { DataLoggerReportComponent } from './reports/data-logger-report/data-logger-report.component';
+import { MachineReportComponent } from './reports/machine-report/machine-report.component';
+import { WeldingTimeChartReportComponent } from './reports/welding-time-chart-report/welding-time-chart-report.component';
+import { ActivityChartReportComponent } from './reports/activity-chart-report/activity-chart-report.component';
+import { TicketComponent } from './ticket/ticket.component';
+import { InboxComponent } from './ticket/inbox/inbox.component';
+import { FinalCardProjectReportComponent } from './reports/final-card-project-report/final-card-project-report.component';
+import { DailyRecordListReportComponent } from './reports/daily-record-list-report/daily-record-list-report.component';
+import { BachreportondateComponent } from './reports/bachreportondate/bachreportondate.component';
+import { DailyrecordlistproductunitsComponent } from './reports/dailyrecordlistproductunits/dailyrecordlistproductunits.component';
 
 @NgModule({
   imports: [
@@ -78,7 +92,26 @@ import { PersonnelReportComponent } from './reports/personnel-report/personnel-r
     ActivityReportComponent,
     ByPartReportComponent,
     ProjectReportComponent,
-    PersonnelReportComponent
+    PersonnelReportComponent,
+
+    WireConsumptionChartReportComponent,
+    WeldingTimeChartReportComponent,
+    RandemanChartReportComponent,
+    WireConsumptionToStandardChartReportComponent,
+    ActivityChartReportComponent,
+
+    ProjectChartReportComponent,
+    DataLoggerReportComponent,
+    MachineReportComponent,
+    FinalCardProjectReportComponent,
+    DailyRecordListReportComponent,
+
+    TicketComponent,
+    InboxComponent,
+    FinalCardProjectReportComponent,
+    DailyRecordListReportComponent,
+    BachreportondateComponent,
+    DailyrecordlistproductunitsComponent
   ],
 })
 export class BasicInfoModule { }

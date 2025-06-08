@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core'
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router, ParamMap } from '@angular/router'
 import { FeatureService } from '../../services/feature.service'
 import { UserGroupService } from '../../services/user-group.service'
 import { operationSuccessful } from 'src/app/app-shell/framework-components/app-messages'
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
+import { JsTreeComponent } from 'src/app/app-shell/framework-components/js-tree-component/js-tree.component'
 declare var $: any
 
 @Component({
   selector: 'app-user-group-ops',
   templateUrl: './user-group-ops.component.html'
 })
-export class UserGroupOpsComponent implements OnInit {
+export class UserGroupOpsComponent implements OnInit, AfterViewInit {
 
   title = "ایجاد گروه کاربران"
   userGroupGuid: string = ''
@@ -39,8 +40,11 @@ export class UserGroupOpsComponent implements OnInit {
         this.userGroupGuid = guid
         this.getUserGroupDetails()
       }
-      this.getFeatures()
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.getFeatures()
   }
 
   getFeatures() {
@@ -57,7 +61,6 @@ export class UserGroupOpsComponent implements OnInit {
 
           if (item.selected)
             this.selectedPermissions.push(item.id)
-
         })
 
         $("#basicTree").jstree({
@@ -67,7 +70,7 @@ export class UserGroupOpsComponent implements OnInit {
           core: {
             "check_callback": true,
             themes: { responsive: !1 },
-            'data': data,
+            data: data,
           },
           types: {
             default: { icon: "fa fa-folder text-warning" }

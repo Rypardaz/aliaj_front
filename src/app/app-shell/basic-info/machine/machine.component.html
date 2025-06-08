@@ -66,12 +66,14 @@
             </div>
         </div>
 
-        <custom-input type="number" label="ظرفیت دستگاه" formControlName="capacity" identity="capacity" size="col-12"
-            [required]="true">
-        </custom-input>
-
         <custom-input label="شرح فعالیت" formControlName="description" identity="description" size="col-12">
         </custom-input>
+
+        <custom-input label="آیپی دستگاه" formControlName="ip" identity="ip" size="col-12">
+        </custom-input>
+
+        <app-label-icon-button (clicked)="openMachineSetting()" label="مشاهده تنظیمات دستگاه"
+            icon="fa fa-cog"></app-label-icon-button>
 
     </form>
 </app-modal>

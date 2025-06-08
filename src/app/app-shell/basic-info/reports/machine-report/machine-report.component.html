@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"> شروط گزارش </div>
+            <div class="card-body">
+                <div class="form-group row" [formGroup]="form">
+                    <div class="col-4">
+                        <ng-select formControlName="salonGuid" class="mt-1" placeholder="انتخاب سالن">
+                            <ng-option [value]="item.guid" *ngFor="let item of salons">{{item.title}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-4">
+                        <ng-select formControlName="yearIds" class="mt-1" placeholder="انتخاب سال" [multiple]="true">
+                            <ng-option [value]="item.id" *ngFor="let item of years">{{item.name}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-4">
+                        <ng-select formControlName="monthIds" class="mt-1" placeholder="انتخاب ماه" [multiple]="true">
+                            <ng-option [value]="item.id" *ngFor="let item of months">{{item.name}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-4">
+                        <ng-select formControlName="weekIds" class="mt-1" placeholder="انتخاب هفته" [multiple]="true">
+                            <ng-option [value]="item.id" *ngFor="let item of weeks">{{item.name}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control mt-1" id="fromDate" formControlName="fromDate" autocomplete="off"
+                            appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control mt-1" id="toDate" formControlName="toDate" autocomplete="off"
+                            appDateMask [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button identifier="submitBtn" label="دریافت گزارش" icon="fas fa-redo-alt"
+                        (clicked)="getReport()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف جستجو"
+                        className="btn btn-outline-danger" icon="fas fa-eye-slash" (clicked)="removeAllFilters()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
+                        className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
+                    </app-label-icon-button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-balham"
+                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
+                    [columnDefs]="columnDefs" [modules]="modules" (gridReady)="onGridReady($event)"
+                    (modelUpdated)="modalUpdated()"></ag-grid-angular>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
-import { FormGroup } from "@angular/forms";
 import { UUID } from "angular2-uuid"
 import * as moment from "jalali-moment";
+import { FormGroup } from "@angular/forms";
 declare var $: any;
 
 export const noImagePath = "../../../../../assets/images/noimage.png";
@@ -10,7 +10,13 @@ export var sessions = [
     { id: 2, name: "تابستان", miladi: 'Summer' },
     { id: 3, name: "پاییز", miladi: 'Autumn' },
     { id: 4, name: "زمستان", miladi: 'Winter' }
-];
+]
+
+export const years = [
+    { id: 1402, name: 1402 },
+    { id: 1403, name: 1403 },
+    { id: 1404, name: 1404 }
+]
 
 export var months = [
     { id: 1, name: "فروردین", miladi: 'January' },
@@ -25,7 +31,7 @@ export var months = [
     { id: 10, name: "دی", miladi: 'October' },
     { id: 11, name: "بهمن", miladi: 'November' },
     { id: 12, name: "اسفند", miladi: 'December' }
-];
+]
 
 export var daysOfMonth = [
     { id: 1, name: "1" },
@@ -59,7 +65,7 @@ export var daysOfMonth = [
     { id: 29, name: "29" },
     { id: 30, name: "30" },
     { id: 31, name: "31" }
-];
+]
 
 export var weeks = [
     { id: 0, name: "0" },
@@ -115,12 +121,12 @@ export var weeks = [
     { id: 50, name: "50" },
     { id: 51, name: "51" },
     { id: 52, name: "52" },
-];
+]
 
 export var welcomeImages = [
     { id: '6' },
     { id: '7' },
-];
+]
 
 export var daysOfWeek = [
     { id: 1, name: "شنبه" },
@@ -142,6 +148,18 @@ export function getCurrentMonth(calendarType = 1) {
     }
 
     return months[month].id;
+}
+
+export function getCurrentYear(calendarType = 1) {
+    const date = new Date();
+    const mom = moment(date);
+    let year = mom.jYear();
+
+    if (calendarType == 2) {
+        year = mom.year();
+    }
+
+    return years.find(x => x.id == year).name
 }
 
 export var datePickerConfig = {
@@ -181,6 +199,10 @@ export function colorizeRow(index, prefix = 'item') {
 
 export function getTodayDate() {
     return moment().locale('fa').format('jYYYY/jMM/jDD');
+}
+
+export function GetCurrentYear() {
+
 }
 
 export function toMoney(value) {
@@ -264,5 +286,8 @@ export var activitySubTypes = [
     { guid: 1, title: 'جوشکاری', type: 1 },
     { guid: 2, title: 'غیر جوشکاری', type: 1 },
     { guid: 3, title: 'تولیدی', type: 2 },
-    { guid: 4, title: 'غیر تولیدی', type: 2 }
+    { guid: 4, title: 'غیر تولیدی', type: 2 },
+    { guid: 5, title: 'تولید سیم', type: 1 },
+    { guid: 6, title: 'بسته بندی سیم', type: 1 },
+    { guid: 7, title: 'خدمات فنی', type: 1 },
 ]

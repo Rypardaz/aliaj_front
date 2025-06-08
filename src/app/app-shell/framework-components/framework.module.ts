@@ -42,6 +42,7 @@ import { ModalComponent } from './modal/modal.component';
 import { LabelButtonComponent } from './custom-buttons/label-button.component';
 import { IconButtonComponent } from './custom-buttons/icon-button.component';
 import { LabelIconButtonComponent } from './custom-buttons/label-icon-button.component';
+import { YesNoCellRenderer } from './ag-grid/yes-no-label-cell';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { LabelIconButtonComponent } from './custom-buttons/label-icon-button.com
     ValidateionStateCellRenderer,
     TaxStateCellRenderer,
     ConfirmationStateCellRenderer,
+    YesNoCellRenderer,
     EditDeleteCellRenderer,
     ImageCellRenderer,
     IsCanceledCellRenderer,
@@ -122,7 +124,7 @@ import { LabelIconButtonComponent } from './custom-buttons/label-icon-button.com
     LabelButtonComponent,
     IconButtonComponent,
     LabelIconButtonComponent,
-
+    YesNoCellRenderer,
     ModalComponent
   ]
 })

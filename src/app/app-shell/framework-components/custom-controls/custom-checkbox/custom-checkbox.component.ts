@@ -26,7 +26,7 @@ export class CustomCheckboxComponent extends CustomControlComponent implements O
   }
 
   onModelChange(e: boolean) {
-    this.checked = e;
-    this.onChange(e);
+    this.checked = e
+    this.onChange(e)
   }
 }

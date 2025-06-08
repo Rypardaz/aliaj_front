@@ -3,7 +3,19 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">سالن
+                                    <span class="text-danger"> *</span>
+                                </div>
+                            </div>
+                            <ng-select [items]="salons" [(ngModel)]="salonGuid" id="salonGuid" bindLabel="title"
+                                bindValue="guid">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">سال
@@ -15,7 +27,7 @@
                             </ng-select>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">ماه
@@ -27,7 +39,7 @@
                             </ng-select>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="button-list">
                             <app-label-icon-button identifier="submitBtn" label="مشاهده نتایج" icon="fas fa-eye"
                                 (clicked)="getList()">
@@ -50,7 +62,9 @@
                             <th>هفته</th>
                             <th>روز</th>
                             <th>شیفت</th>
-                            <th>ساعات کاری</th>
+                            <th style="width: 150px;">ساعت‌کاری</th>
+                            <th style="width: 150px;">ساعت‌شروع</th>
+                            <th style="width: 150px;">ساعت‌پایان</th>
                             <th>تعطیل</th>
                             <th>نوع تعطیلی</th>
                             <th>توضیحات</th>
@@ -67,6 +81,16 @@
                             <td>
                                 <input type="text" class="form-control" [(ngModel)]="item.workTime"
                                     (ngModelChange)="itemEdited(item)">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" [(ngModel)]="item.startTime"
+                                    (ngModelChange)="itemEdited(item)" mask="00:00" [showMaskTyped]="true"
+                                    [keepCharacterPositions]="false">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" [(ngModel)]="item.endTime"
+                                    (ngModelChange)="itemEdited(item)" mask="00:00" [showMaskTyped]="true"
+                                    [keepCharacterPositions]="false">
                             </td>
                             <td>
                                 <select [(ngModel)]="item.isClosed" class="form-control"

@@ -1,0 +1,69 @@
+<div class="row" [formGroup]="form">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"> شروط گزارش </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <ng-select formControlName="machineGuid" class="my-1" placeholder="انتخاب دستگاه">
+                            <ng-option [value]="item.guid" *ngFor="let item of machines">{{item.title}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-4">
+                        <ng-select formControlName="shift" class="my-1" placeholder="انتخاب شیفت">
+                            <ng-option [value]="item.id" *ngFor="let item of shifts">{{item.title}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <ng-container *ngIf="type == 2; else specificDate">
+                        <div class="col-4">
+                            <input class="form-control my-1" id="yearId" formControlName="yearId" autocomplete="off"
+                                placeholder="سال" />
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control my-1" id="monthId" formControlName="monthId" autocomplete="off"
+                                placeholder="ماه" />
+                        </div>
+                    </ng-container>
+
+                    <ng-template #specificDate>
+                        <div class="col-4 mt-1">
+                            <input class="form-control" id="specificDate" formControlName="specificDate"
+                                autocomplete="off" appDateMask [input]="getFormValue(form, 'specificDate')" data-date
+                                placeholder="تاریخ" />
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button identifier="submitBtn" label="دریافت گزارش" icon="fas fa-redo-alt"
+                        (clicked)="getReport()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف جستجو"
+                        className="btn btn-outline-danger" icon="fas fa-eye-slash" (clicked)="removeAllFilters()">
+                    </app-label-icon-button>
+                    <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
+                        className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
+                    </app-label-icon-button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-balham"
+                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
+                    [columnDefs]="columnDefs" [modules]="modules" (gridReady)="onGridReady($event)"></ag-grid-angular>
+            </div>
+
+        </div>
+    </div>
+</div>

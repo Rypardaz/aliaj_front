@@ -82,9 +82,7 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
     // }
   }
 
-  ngAfterViewInit(): void {
-
-  }
+  ngAfterViewInit(): void { }
 
   listSubscription = this.service.getList<TModel[]>()
 

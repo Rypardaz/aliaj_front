@@ -21,10 +21,6 @@ export class UserListComponent extends ModalFormBaseComponent<UserService, User>
   userGroups: UserGroup[]
 
   constructor(readonly userService: UserService,
-    localStorageService: LocalStorageService,
-    settingService: SettingService,
-    notificationService: NotificationService,
-    breadcrumbService: BreadcrumbService,
     private readonly userGroupService: UserGroupService) {
     super('مدیریت کاربران', userService)
 

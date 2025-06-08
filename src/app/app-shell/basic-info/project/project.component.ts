@@ -18,7 +18,7 @@ export class ProjectComponent extends ModalFormBaseComponent<ProjectService, Pro
   constructor(private readonly fb: FormBuilder,
     ProjectService: ProjectService,
     private readonly salonService: SalonService) {
-    super('لیست پروژه ها', ProjectService, 'BasicInformation_MissionType')
+    super('لیست پروژه‌ها', ProjectService, 'BasicInformation_MissionType')
 
     this.form = this.fb.group({
       guid: [''],

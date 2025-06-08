@@ -1,17 +1,16 @@
-import { AllModules } from '@ag-grid-enterprise/all-modules';
+import { AllModules, RowGroupingModule } from '@ag-grid-enterprise/all-modules';
 import { ConfirmationStateCellRenderer } from '../ag-grid/confirmation-state-label-cell';
 import { EditDeleteCellRenderer } from '../ag-grid/edit-delete-cell-btn';
-import { GoToDocumentCellBtnRenderer } from '../ag-grid/go-to-document-cell-btn-renderer';
 import { IsCanceledCellRenderer } from '../ag-grid/is-canceled-label-cell';
 import { TaxStateCellRenderer } from '../ag-grid/tax-state-label-cell';
 import { ValidateionStateCellRenderer } from '../ag-grid/validation-state-label-cell';
-import { Component, EventEmitter, Inject, Output, inject } from '@angular/core';
 import { AppSharedDataComponent } from '../app-shared-data/app-shared-data.component';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { ImageCellRenderer } from '../ag-grid/image-cell-renderer';
-import { LocalStorageService } from '../../framework-services/local.storage.service';
-import { SettingService } from '../../framework-services/setting.service';
+import { YesNoCellRenderer } from '../ag-grid/yes-no-label-cell';
 import { AG_GRID_LOCALE_FA } from './locale.fa';
-import { Module } from 'ag-grid-community';
+import { GoToDocumentCellBtnRenderer } from '../ag-grid/go-to-document-cell-btn-renderer';
+import { RowNode } from 'ag-grid-community';
 declare var Swal: any;
 
 @Component({
@@ -75,7 +74,8 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
     taxStateCellRenderer: TaxStateCellRenderer,
     confirmationStateCellRenderer: ConfirmationStateCellRenderer,
     isCanceledCellRenderer: IsCanceledCellRenderer,
-    goToDocumentCellRenderer: GoToDocumentCellBtnRenderer
+    goToDocumentCellRenderer: GoToDocumentCellBtnRenderer,
+    yesNoCellRenderer: YesNoCellRenderer
   };
 
   fireDeleteSwal() {
@@ -118,9 +118,11 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
   onExportCSV() {
     this.gridApi.exportDataAsCsv();
   }
+
   setColumnsVisible(colName: string, state: boolean) {
     this.gridColumnApi.setColumnsVisible(colName, state)
   }
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -140,5 +142,54 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
   closeNav() {
     $("#sidefilter").css('width', "0px")
     $(".rightbar-overlay").removeClass("d-block")
+  }
+
+  generatePinnedBottomData(columns) {
+    let target = {}
+
+    if (!this.gridColumnApi) return
+
+    this.gridColumnApi
+      .getAllGridColumns()
+      .forEach(item => {
+        target[item.colId] = null
+      })
+
+    return this.calculatePinnedBottomData(columns, target)
+  }
+
+  calculatePinnedBottomData(columns, target) {
+    let a;
+    let b;
+    columns.forEach(item => {
+      a = 0;
+      b = 0;
+
+      this.gridApi.forEachNodeAfterFilter((rowNode: RowNode) => {
+        if (rowNode.data[item.column])
+          target[item.column] += Number(rowNode.data[item.column])
+
+        a += Math.floor(rowNode.data[item.column])
+        b += (rowNode.data[item.column] - Math.floor(rowNode.data[item.column])) * 100
+      })
+
+
+      if (target[item.column])
+        if (item.type == 'sum')
+          target[item.column] = `${target[item.column].toFixed(2)}`
+        else if (item.type == 'avg')
+          target[item.column] = `${(target[item.column] / this.gridApi.getDisplayedRowCount()).toFixed(2)}`
+        else if (item.type == 'time') {
+          a += Math.floor(Math.floor(b) / 60)
+          b = Math.floor(b - (Math.floor(Math.floor(b) / 60) * 60))
+          b = b / 100
+          a = a + b
+
+          target[item.column] = `${a}`
+        }
+
+    })
+
+    return target
   }
 }

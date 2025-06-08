@@ -4,6 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { SalonModel } from './salon-model'
 import { SalonService } from "./salon.service"
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
+import { ComboBase } from '../../framework-components/combo-base';
+import { ListItemService } from '../list-item/list-item.service';
 
 @Component({
   selector: 'app-salon',
@@ -11,8 +13,11 @@ import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-
 })
 export class SalonComponent extends ModalFormBaseComponent<SalonService, SalonModel> implements AfterViewInit {
 
+  types: ComboBase[] = []
+
   constructor(private readonly fb: FormBuilder,
-    salonService: SalonService) {
+    salonService: SalonService,
+    private readonly listItemService: ListItemService) {
     super('واحدهای تولید', salonService, 'BasicInformation_MissionType')
 
     this.initForm()
@@ -34,10 +39,18 @@ export class SalonComponent extends ModalFormBaseComponent<SalonService, SalonMo
   override initForm() {
     this.form = this.fb.group({
       guid: [''],
+      code: ['', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(20)
+      ]],
       name: ['', [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(100)
+      ]],
+      typeGuid: ['', [
+        Validators.required
       ]],
       hasGas: [true],
       hasWire: [true],
@@ -64,8 +77,18 @@ export class SalonComponent extends ModalFormBaseComponent<SalonService, SalonMo
         width: 200
       },
       {
+        field: 'code',
+        headerName: 'کد',
+        filter: 'agSetColumnFilter'
+      },
+      {
         field: 'name',
         headerName: 'نام',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'typeName',
+        headerName: 'نوع واحد',
         filter: 'agSetColumnFilter'
       },
       {
@@ -119,6 +142,10 @@ export class SalonComponent extends ModalFormBaseComponent<SalonService, SalonMo
         filter: 'agSetColumnFilter'
       }
     ]
+
+    this.listItemService
+      .getForCombo<ComboBase[]>('14')
+      .subscribe(data => this.types = data)
   }
 
   override ngAfterViewInit(): void {

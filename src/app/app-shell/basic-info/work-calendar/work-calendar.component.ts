@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkCalendarService } from './work-calendar.service';
-import { months } from '../../framework-components/constants';
+import { getTodayDate, months } from '../../framework-components/constants';
 import { ListItemService } from '../list-item/list-item.service';
 import { NotificationService } from '../../framework-services/notification.service';
+import { BreadcrumbService } from '../../framework-services/breadcrumb.service';
+import { SalonService } from '../salon/salon.service';
 
 @Component({
   selector: 'app-work-calendar',
@@ -20,15 +22,29 @@ export class WorkCalendarComponent implements OnInit {
   closeTypes = []
   yearId: number
   monthId: number
+  salonGuid: string
+  salons = []
 
   constructor(
     private readonly listItemService: ListItemService,
     private readonly notificationService: NotificationService,
-    private readonly workCalendarService: WorkCalendarService) {
+    private readonly workCalendarService: WorkCalendarService,
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly salonService: SalonService) {
   }
 
   ngOnInit(): void {
     this.getCloseTypes()
+    const today = getTodayDate()
+    this.yearId = parseInt(today.split('/')[0])
+    this.monthId = parseInt(today.split('/')[1])
+    this.breadcrumbService.setTitle('ساعت‌کاری')
+
+    this.salonService
+      .getForCombo()
+      .subscribe((data: []) => {
+        this.salons = data
+      })
   }
 
   getCloseTypes() {
@@ -38,14 +54,15 @@ export class WorkCalendarComponent implements OnInit {
   }
 
   getList() {
-    if (!this.yearId || !this.monthId) {
-      this.notificationService.error('لطفا سال و ماه را به درستی انتخاب کنید.')
+    if (!this.yearId || !this.monthId || !this.salonGuid) {
+      this.notificationService.error('لطفا سال و ماه و سالن را به درستی انتخاب کنید.')
       return
     }
 
     const searchModel = {
       yearId: this.yearId,
-      monthId: this.monthId
+      monthId: this.monthId,
+      salonGuid: this.salonGuid
     }
 
     this.workCalendarService

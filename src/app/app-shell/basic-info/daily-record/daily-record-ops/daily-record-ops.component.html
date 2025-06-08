@@ -34,6 +34,9 @@
 
                     <custom-input type="date" label="تاریخ فرم" formControlName="date" identity="date" size="col-6"
                         [required]="true" placeholder="روز / ماه / سال">
+                        <app-label-button label="روز قبل" className="primary mx-1"
+                            (clicked)="goPrevDay()"></app-label-button>
+                        <app-label-button label="روز بعد" (clicked)="goNextDay()"></app-label-button>
                     </custom-input>
 
                     <div class="col-6 mt-1">
@@ -67,109 +70,219 @@
     <div class="card-body p-0" style="overflow-x: auto; min-height: 400px;">
         <table class="table table-responsive table-bordered w-max-content">
 
-            <thead class="bg-soft-purple">
-                <tr>
-                    <th style="width: 180px">کدپرسنلی/نام اپراتور</th>
-                    <th style="width: 300px">کد پروژه / نام قطعه / نام سیم</th>
-                    <th style="width: 180px">فعالیت/توقف</th>
-                    <th style="width: 180px">کد فعالیت/توقف</th>
-                    <th style="width: 120px">ساعت شروع</th>
-                    <th style="width: 120px">ساعت پایان</th>
-                    <th style="width: 180px" *ngIf="salon?.hasWire">مصرف سیم</th>
-                    <th style="width: 180px" *ngIf="salon?.hasGas">نوع گاز</th>
-                    <th style="width: 120px" *ngIf="salon?.hasPowder">نوع پودر</th>
-                    <th style="width: 180px" *ngIf="salon?.hasWire">نوع سیم</th>
-                    <th style="width: 120px" *ngIf="salon?.hasWire">بچ سیم</th>
-                    <th>عملیات</th>
-                </tr>
-            </thead>
+            <ng-container *ngIf="salonType == 1">
+                <thead class="bg-soft-primary">
+                    <tr>
+                        <th style="width: 180px">فعالیت/توقف</th>
+                        <th style="width: 180px">کد فعالیت/توقف</th>
+                        <th style="width: 180px">کدپرسنلی/نام اپراتور</th>
+                        <th style="width: 180px">نوع سیم/سایز سیم</th>
+                        <th style="width: 120px">بچ سیم</th>
+                        <th style="width: 180px">مقدار سیم</th>
+                        <th style="width: 120px">ساعت شروع</th>
+                        <th style="width: 120px">ساعت پایان</th>
+                        <th style="width: 120px">مدت زمان (ساعت/دقیقه)</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <tr *ngFor="let detail of details">
-                    <td>
-                        <ng-select [items]="personnels" [(ngModel)]="detail.personnelGuid" id="personnelGuid"
-                            bindLabel="title" bindValue="guid" [required]="true">
-                        </ng-select>
-                    </td>
-                    <td>
-                        <ng-select [items]="projectDetails" [(ngModel)]="detail.projectDetailGuid"
-                            id="projectDetailGuid" bindLabel="title" bindValue="guid" [required]="true"
-                            (change)="onProjectDetailGuidChange(detail.guid)">
-                        </ng-select>
-                    </td>
-                    <td>
-                        <div class="d-grid gap-2">
-                            <button *ngIf="detail.activityType == 1" class="btn btn-soft-success fw-bolder"
-                                (click)="activityTypeChanged(detail.guid, 2)" (change)="calculateSummary()">
-                                فعالیت
-                            </button>
-                            <button *ngIf="detail.activityType == 2" class="btn btn-soft-danger fw-bolder"
-                                (click)="activityTypeChanged(detail.guid, 1)" (change)="calculateSummary()">
-                                توقف
-                            </button>
-                        </div>
-                    </td>
-                    <td>
-                        <ng-select [items]="detail.activities" [(ngModel)]="detail.activityGuid" id="activityGuid"
-                            bindLabel="title" bindValue="guid" [required]="true" (change)="calculateSummary()">
-                        </ng-select>
-                    </td>
-                    <td>
-                        <input type="text" [(ngModel)]="detail.startTime" id="startTime" class="form-control"
-                            mask="00:00" [showMaskTyped]="true" [keepCharacterPositions]="false"
-                            (change)="calculateSummary()">
-                    </td>
-                    <td>
-                        <input type="text" [(ngModel)]="detail.endTime" id="endTime" class="form-control" mask="00:00"
-                            [showMaskTyped]="true" [keepCharacterPositions]="false" (change)="calculateSummary()">
-                    </td>
-                    <ng-container *ngIf="detail.activityType == 1; else isStop">
-                        <td *ngIf="salon.hasWire">
+                <tbody>
+                    <tr *ngFor="let detail of details">
+                        <td>
+                            <div class="d-grid gap-2">
+                                <button *ngIf="detail.activityType == 1" class="btn btn-soft-success fw-bolder"
+                                    (click)="activityTypeChanged(detail.guid, 2)" (change)="calculateSummary()">
+                                    فعالیت
+                                </button>
+                                <button *ngIf="detail.activityType == 2" class="btn btn-soft-danger fw-bolder"
+                                    (click)="activityTypeChanged(detail.guid, 1)" (change)="calculateSummary()">
+                                    توقف
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-select [items]="detail.activities" [(ngModel)]="detail.activityGuid" id="activityGuid"
+                                bindLabel="title" bindValue="guid" [required]="true" (change)="calculateSummary()">
+                            </ng-select>
+                        </td>
+                        <td>
+                            <ng-select [items]="personnels" [(ngModel)]="detail.personnelGuid" id="personnelGuid"
+                                bindLabel="title" bindValue="guid" [required]="true">
+                            </ng-select>
+                        </td>
+                        <td>
+                            <ng-select [items]="wireTypes" [(ngModel)]="detail.producedWireTypeGuid"
+                                id="producedWireTypeGuid" bindLabel="title" bindValue="guid"
+                                [disabled]="detail.activityType == 2" (ngModelChange)="onWireTypeChange(detail.guid)">
+                            </ng-select>
+                        </td>
+                        <td>
+                            <input type="number" min="0" [(ngModel)]="detail.producedScrew" id="producedScrew"
+                                class="form-control" [disabled]="detail.activityType == 2">
+                        </td>
+                        <td>
                             <div class="align-items-stretch d-flex">
-                                <input type="text" [(ngModel)]="detail.wireConsumption" id="wireConsumption"
+                                <input type="number" min="0" [(ngModel)]="detail.producedWire" id="producedWire"
                                     class="form-control" [disabled]="detail.activityType == 2"
                                     (input)="calculateSummary()">
                                 <span class="badge badge-soft-dark fw-bold pt-2 ms-1">کیلوگرم</span>
                             </div>
                         </td>
-                        <td *ngIf="salon.hasGas">
-                            <ng-select [items]="gasTypes" [(ngModel)]="detail.gasTypeGuid" id="gasTypeGuid"
-                                bindLabel="title" bindValue="guid" [disabled]="detail.activityType == 2">
+                        <td>
+                            <input type="text" [(ngModel)]="detail.startTime" id="startTime" class="form-control"
+                                mask="00:00" [showMaskTyped]="true" [keepCharacterPositions]="false"
+                                (input)="calculateSummary()">
+                        </td>
+                        <td>
+                            <input type="text" [(ngModel)]="detail.endTime" id="endTime" class="form-control"
+                                mask="00:00" [showMaskTyped]="true" [keepCharacterPositions]="false"
+                                (input)="calculateSummary()">
+                        </td>
+                        <td class="font-16 text-center">
+                            <span *ngIf="detail.totalHours" class="badge badge-soft-primary"> {{ detail.totalHours }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="button-list">
+                                <app-icon-button icon="fa fa-trash" className="soft-danger btn-sm"
+                                    (clicked)="removeDetail(detail.guid)" label="حذف ردیف"></app-icon-button>
+                                <app-icon-button icon="fa fa-clone" className="soft-success btn-sm"
+                                    (clicked)="cloneDetail(detail.guid)" label="کپی ردیف"></app-icon-button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-container>
+
+            <ng-container *ngIf="salonType == 2">
+                <thead class="bg-soft-purple">
+                    <tr>
+                        <th style="width: 180px">فعالیت/توقف</th>
+                        <th style="width: 180px">کد فعالیت/توقف</th>
+                        <th style="width: 180px">کدپرسنلی/نام اپراتور</th>
+                        <th style="width: 300px">کد پروژه</th>
+                        <th style="width: 300px">گروه / نوع قطعه</th>
+                        <th style="width: 300px">کد قطعه</th>
+                        <!-- <th style="width: 300px">کد پروژه/کد قطعه/نام قطعه/نوع سیم</th> -->
+                        <th style="width: 120px">ساعت شروع</th>
+                        <th style="width: 120px">ساعت پایان</th>
+                        <th style="width: 120px">مدت زمان (ساعت/دقیقه)</th>
+                        <th style="width: 180px" *ngIf="salon?.hasWire">مصرف سیم</th>
+                        <th style="width: 180px" *ngIf="salon?.hasGas">نوع گاز</th>
+                        <th style="width: 120px" *ngIf="salon?.hasPowder">نوع پودر</th>
+                        <th style="width: 180px" *ngIf="salon?.hasWire">نوع سیم/سایز سیم</th>
+                        <th style="width: 120px" *ngIf="salon?.hasWire">بچ سیم</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let detail of details">
+                        <td>
+                            <div class="d-grid gap-2">
+                                <button *ngIf="detail.activityType == 1" class="btn btn-soft-success fw-bolder"
+                                    (click)="activityTypeChanged(detail.guid, 2)" (change)="calculateSummary()">
+                                    فعالیت
+                                </button>
+                                <button *ngIf="detail.activityType == 2" class="btn btn-soft-danger fw-bolder"
+                                    (click)="activityTypeChanged(detail.guid, 1)" (change)="calculateSummary()">
+                                    توقف
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-select [items]="detail.activities" [(ngModel)]="detail.activityGuid" id="activityGuid"
+                                bindLabel="title" bindValue="guid" [required]="true" (change)="calculateSummary()">
                             </ng-select>
                         </td>
-                        <td *ngIf="salon.hasPowder">
-                            <ng-select [items]="powderTypes" [(ngModel)]="detail.powderTypeGuid" id="powderTypeGuid"
-                                bindLabel="title" bindValue="guid" [disabled]="detail.activityType == 2">
-                            </ng-select>
-                        </td>
-                        <td *ngIf="salon.hasWire">
-                            <ng-select [items]="wireTypes" [(ngModel)]="detail.wireTypeGuid" id="wireTypeGuid"
-                                bindLabel="title" bindValue="guid" [disabled]="detail.activityType == 2">
-                            </ng-select>
-                        </td>
-                        <td *ngIf="salon.hasWire">
-                            <ng-select [items]="wireScrews" [(ngModel)]="detail.wireScrewGuid" id="wireScrewGuid"
+                        <td>
+                            <ng-select [items]="personnels" [(ngModel)]="detail.personnelGuid" id="personnelGuid"
                                 bindLabel="title" bindValue="guid" [required]="true">
                             </ng-select>
                         </td>
-                    </ng-container>
-                    <ng-template #isStop>
-                        <td class="bg-soft-secondary" *ngIf="salon.hasWire"></td>
-                        <td class="bg-soft-secondary" *ngIf="salon.hasGas"></td>
-                        <td class="bg-soft-secondary" *ngIf="salon.hasPowder"></td>
-                        <td class="bg-soft-secondary" *ngIf="salon.hasWire"></td>
-                        <td class="bg-soft-secondary" *ngIf="salon.hasWire"></td>
-                    </ng-template>
-                    <td>
-                        <div class="button-list">
-                            <app-icon-button icon="fa fa-trash" className="soft-danger btn-sm"
-                                (clicked)="removeDetail(detail.guid)" label="حذف ردیف"></app-icon-button>
-                            <app-icon-button icon="fa fa-clone" className="soft-success btn-sm"
-                                (clicked)="cloneDetail(detail.guid)" label="کپی ردیف"></app-icon-button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
+                        <td>
+                            <ng-select [items]="projects" [(ngModel)]="detail.projectGuid" id="projectGuid"
+                                bindLabel="title" bindValue="guid" [required]="true"
+                                (ngModelChange)="onProjectGuidChange(detail.guid)">
+                            </ng-select>
+                        </td>
+                        <td>
+                            <ng-select [items]="detail.partTypes" [(ngModel)]="detail.partGuid" id="partGuid"
+                                bindLabel="title" bindValue="guid" [required]="true"
+                                (change)="onPartTypeGuidChange(detail.guid)">
+                            </ng-select>
+                        </td>
+                        <td>
+                            <ng-select [items]="detail.partCodes" [(ngModel)]="detail.partCode" id="partCode"
+                                bindLabel="title" bindValue="title" [required]="true"
+                                (change)="onPartCodeChange(detail.guid)">
+                            </ng-select>
+                        </td>
+                        <td>
+                            <input type="text" [(ngModel)]="detail.startTime" id="startTime" class="form-control"
+                                mask="00:00" [showMaskTyped]="true" [keepCharacterPositions]="false"
+                                (input)="calculateSummary()">
+                        </td>
+                        <td>
+                            <input type="text" [(ngModel)]="detail.endTime" id="endTime" class="form-control"
+                                mask="00:00" [showMaskTyped]="true" [keepCharacterPositions]="false"
+                                (input)="calculateSummary()">
+                        </td>
+                        <td class="font-16 text-center">
+                            <span *ngIf="detail.totalHours" class="badge badge-soft-primary"> {{ detail.totalHours }}
+                            </span>
+                        </td>
+                        <ng-container *ngIf="detail.activityType == 1 && detail.activitySubType == 1; else isStop">
+                            <td *ngIf="salon?.hasWire">
+                                <div class="align-items-stretch d-flex">
+                                    <input type="number" min="0" [(ngModel)]="detail.wireConsumption"
+                                        id="wireConsumption" class="form-control" [disabled]="detail.activityType == 2"
+                                        (input)="calculateSummary()">
+                                    <span class="badge badge-soft-dark fw-bold pt-2 ms-1">کیلوگرم</span>
+                                </div>
+                            </td>
+                            <td *ngIf="salon?.hasGas">
+                                <ng-select [items]="gasTypes" [(ngModel)]="detail.gasTypeGuid" id="gasTypeGuid"
+                                    bindLabel="title" bindValue="guid" [disabled]="detail.activityType == 2">
+                                </ng-select>
+                            </td>
+                            <td *ngIf="salon?.hasPowder">
+                                <ng-select [items]="powderTypes" [(ngModel)]="detail.powderTypeGuid" id="powderTypeGuid"
+                                    bindLabel="title" bindValue="guid" [disabled]="detail.activityType == 2">
+                                </ng-select>
+                            </td>
+                            <td *ngIf="salon?.hasWire">
+                                <ng-select [items]="detail.projectDetails" [(ngModel)]="detail.projectDetailItemNo"
+                                    id="projectDetailItemNo" bindLabel="title" bindValue="itemNo"
+                                    [disabled]="detail.activityType == 2"
+                                    (ngModelChange)="onProjectDetailGuidChange(detail.guid)">
+                                </ng-select>
+                            </td>
+                            <td *ngIf="salon?.hasWire">
+                                <ng-select [items]="detail.wireScrews" [(ngModel)]="detail.wireScrewGuid"
+                                    id="wireScrewGuid" bindLabel="title" bindValue="guid" [required]="true">
+                                </ng-select>
+                            </td>
+                        </ng-container>
+                        <ng-template #isStop>
+                            <td class="bg-soft-secondary" *ngIf="salon?.hasWire"></td>
+                            <td class="bg-soft-secondary" *ngIf="salon?.hasGas"></td>
+                            <td class="bg-soft-secondary" *ngIf="salon?.hasPowder"></td>
+                            <td class="bg-soft-secondary" *ngIf="salon?.hasWire"></td>
+                            <td class="bg-soft-secondary" *ngIf="salon?.hasWire"></td>
+                        </ng-template>
+                        <td>
+                            <div class="button-list">
+                                <app-icon-button icon="fa fa-trash" className="soft-danger btn-sm"
+                                    (clicked)="removeDetail(detail.guid)" label="حذف ردیف"></app-icon-button>
+                                <app-icon-button icon="fa fa-clone" className="soft-success btn-sm"
+                                    (clicked)="cloneDetail(detail.guid)" label="کپی ردیف"></app-icon-button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-container>
+
         </table>
     </div>
 </div>
@@ -220,6 +333,8 @@
 <div class="card">
     <div class="card-body p-2">
         <div class="button-list">
+            <app-label-icon-button className="success" icon="fa fa-check" label="ذخیره"
+                (clicked)="submit(2)"></app-label-icon-button>
             <app-label-icon-button className="success" icon="fa fa-check" label="ذخیره و خروج"
                 (clicked)="submit(1)"></app-label-icon-button>
             <app-label-icon-button className="danger" icon="fas fa-times" label="انصراف"

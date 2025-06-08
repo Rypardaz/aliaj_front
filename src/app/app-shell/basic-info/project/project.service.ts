@@ -16,8 +16,18 @@ export class ProjectService extends ServiceBase {
     return this.httpService.getWithParams<any>(path, searchModel)
   }
 
-  detailsCombo(salonGuid) {
+  detailsCombo(projectGuid) {
     const path = `${this.baseUrl}/DetailsCombo`
+    return this.httpService.get<[]>(path, projectGuid)
+  }
+
+  getReplacements(salonGuid) {
+    const path = `${this.baseUrl}/GetReplacements`
     return this.httpService.get<[]>(path, salonGuid)
+  }
+
+  getProjectStep(searchModel) {
+    const path = `${this.baseUrl}/GetProjectStep`
+    return this.httpService.getWithParams(path, searchModel)
   }
 }

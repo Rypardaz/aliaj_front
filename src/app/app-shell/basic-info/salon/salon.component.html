@@ -32,8 +32,24 @@
     [isModalOpen]="isModalOpen">
     <form [formGroup]="form" id="submitForm" class="form-row">
 
+        <custom-input label="کد واحد" formControlName="code" identity="code" size="col-12" [required]="true">
+        </custom-input>
+
         <custom-input label="نام واحد" formControlName="name" identity="name" size="col-12" [required]="true">
         </custom-input>
+
+        <div class="mb-1 mt-1">
+            <label class="sr-only" for="typeGuid">نوع واحد</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">نوع واحد
+                        <span class="text-danger"> *</span>
+                    </div>
+                </div>
+                <ng-select [items]="types" formControlName="typeGuid" id="typeGuid" bindLabel="title" bindValue="guid">
+                </ng-select>
+            </div>
+        </div>
 
         <custom-checkbox label="استفاده از گاز" formControlName="hasGas" identity="hasGas" size="col-12"
             [required]="true">

@@ -329,6 +329,14 @@ body[data-layout-mode=two-column] .sidebar-icon-menu {
   font-family: "agGridMaterial" !important;
 }
 
+.ag-theme-balham .ag-icon {
+  font-family: "agGridBalham" !important;
+}
+
+.ag-theme-balham .ag-checkbox-input-wrapper {
+  font-family: "agGridBalham" !important;
+}
+
 .menu-arrow {
   font-family: "Material Design Icons" !important
 }
@@ -355,4 +363,11 @@ body[data-layout-mode=two-column] .sidebar-icon-menu {
   background-color: #fff;
   overflow-x: hidden;
   transition: 0.2s;
+}
+
+.apex-charts text,
+.apexcharts-tooltip-title,
+.apexcharts-tooltip-text,
+.apexcharts-legend-text {
+  font-family: IRANSansX !important;
 }

@@ -5,7 +5,6 @@ import { LoginComponent } from '../authentication/login/login.component';
 import { LogoutComponent } from '../authentication/logout/logout.component';
 import { AppShellComponent } from './app-shell.component';
 import { authGuard } from './framework-services/auth.guard.service';
-import { sessionGuard } from './framework-services/session.guard.service';
 import { ChallangeComponent } from '../authentication/challange/challange.component';
 
 const routes: Routes = [
@@ -14,11 +13,12 @@ const routes: Routes = [
     component: AppShellComponent,
     canActivate: [
       authGuard,
-      // sessionGuard
+      // sessionGuard 
     ],
     runGuardsAndResolvers: 'always',
     children: [
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard/:type', component: DashboardComponent },
       {
         path: 'basic-info',
         loadChildren: () =>

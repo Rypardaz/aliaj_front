@@ -1,0 +1,73 @@
+<div class="row" [formGroup]="form">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"> شروط گزارش </div>
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <ng-select formControlName="yearIds" class="mt-2" placeholder="انتخاب سال">
+                            <ng-option [value]="item.id" *ngFor="let item of years">{{item.name}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select formControlName="monthId" class="my-2" placeholder="انتخاب ماه">
+                            <ng-option [value]="item.id" *ngFor="let item of months">{{item.name}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select formControlName="weekId" class="my-2" placeholder="انتخاب هفته">
+                            <ng-option [value]="item.id" *ngFor="let item of weeks">{{item.name}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-3">
+                        <input class="form-control my-2" id="fromDate" formControlName="fromDate" autocomplete="off"
+                            appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
+                    </div>
+
+                    <div class="col-3">
+                        <input class="form-control my-2" id="toDate" formControlName="toDate" autocomplete="off" appDateMask
+                            [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select formControlName="activitySubType" class="my-2" placeholder="نوع فعالیت / توقف">
+                            <ng-option [value]="item.guid"
+                                *ngFor="let item of activitySubTypes">{{item.title}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select formControlName="activityGuid" class="my-2" placeholder="فعالیت / توقف">
+                            <ng-option [value]="item.guid" *ngFor="let item of activities">{{item.title}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button identifier="submitBtn" label="دریافت گزارش" icon="fas fa-redo-alt"
+                        (clicked)="getReport()">
+                    </app-label-icon-button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div dir="ltr">
+                    <div id="report" class="apex-charts" data-colors="#1abc9c,#e3eaef"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -6,6 +6,8 @@ import { ActivityService } from "./activity.service"
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
 import { activitySubTypes, activityTypes } from '../../framework-components/constants';
 import { ListItemService } from '../list-item/list-item.service';
+import { YesNoCellRenderer } from '../../framework-components/ag-grid/yes-no-label-cell';
+import { SalonService } from '../salon/salon.service';
 
 @Component({
   selector: 'app-activity',
@@ -15,14 +17,21 @@ export class ActivityComponent extends ModalFormBaseComponent<ActivityService, A
   activityTypes = activityTypes
   activitySubTypes = []
   sources = []
+  salons = []
 
   constructor(private readonly fb: FormBuilder,
     activityService: ActivityService,
-    private readonly listItemService: ListItemService) {
+    private readonly listItemService: ListItemService,
+    private readonly salonService: SalonService) {
     super('کد فعالیت/توقف', activityService, 'BasicInformation_MissionType')
 
     this.form = this.fb.group({
       guid: [''],
+      code: ['', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(20)
+      ]],
       name: ['', [
         Validators.required,
         Validators.minLength(1),
@@ -36,6 +45,9 @@ export class ActivityComponent extends ModalFormBaseComponent<ActivityService, A
       ]],
       sourceGuid: [null],
       isOther: [false],
+      withOutPersonnel: [false],
+      withOutProject: [false],
+      salonGuids: []
     })
 
     this.form
@@ -47,9 +59,15 @@ export class ActivityComponent extends ModalFormBaseComponent<ActivityService, A
         this.setFormValue(this.form, 'sourceGuid', null)
       })
 
+    this.salonService
+      .getForCombo()
+      .subscribe((data: any) => this.salons = data)
+
     this.afterReset
       .subscribe(reset => {
         this.setFormValue(this.form, "isOther", true)
+        this.setFormValue(this.form, "withOutPersonnel", true)
+        this.setFormValue(this.form, "withOutProject", true)
       })
   }
 
@@ -76,8 +94,13 @@ export class ActivityComponent extends ModalFormBaseComponent<ActivityService, A
         width: 200
       },
       {
+        field: 'code',
+        headerName: 'کد',
+        filter: 'agSetColumnFilter'
+      },
+      {
         field: 'name',
-        headerName: 'نام کد',
+        headerName: 'نام',
         filter: 'agSetColumnFilter'
       },
       {
@@ -93,6 +116,27 @@ export class ActivityComponent extends ModalFormBaseComponent<ActivityService, A
       {
         field: 'isOther',
         headerName: 'سایر فعالیت ها',
+        filter: 'agSetColumnFilter',
+        cellRenderer: YesNoCellRenderer
+      },
+      {
+        field: 'withOutPersonnel',
+        headerName: 'بدون احتساب پرسنل',
+        filter: 'agSetColumnFilter',
+      },
+      {
+        field: 'withOutProject',
+        headerName: 'بدون احتساب پروژه',
+        filter: 'agSetColumnFilter',
+      },
+      {
+        field: 'salons',
+        headerName: 'واحد های کاری',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'sourceTitle',
+        headerName: 'منشاء',
         filter: 'agSetColumnFilter'
       },
       {

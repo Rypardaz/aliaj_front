@@ -24,6 +24,7 @@ export class WireTypeComponent extends ModalFormBaseComponent<WireTypeService, W
       wireTypeGroupGuid: ['', [
         Validators.required,
       ]],
+      code: [''],
       name: ['', [
         Validators.required,
         Validators.minLength(1),
@@ -64,6 +65,11 @@ export class WireTypeComponent extends ModalFormBaseComponent<WireTypeService, W
         field: 'wireTypeGroup',
         headerName: 'گروه سیم',
         filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'code',
+        headerName: 'کد سیم',
+        filter: 'agSetColumnFilter',
       },
       {
         field: 'name',

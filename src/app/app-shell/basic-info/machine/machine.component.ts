@@ -38,9 +38,7 @@ export class MachineComponent extends ModalFormBaseComponent<MachineService, Mac
       headCount: ['', [
         Validators.required
       ]],
-      capacity: ['', [
-        Validators.required
-      ]],
+      ip: null,
       salonGuid: null,
       description: null,
     })
@@ -91,11 +89,6 @@ export class MachineComponent extends ModalFormBaseComponent<MachineService, Mac
         filter: 'agSetColumnFilter'
       },
       {
-        field: 'capacity',
-        headerName: 'ظرفیت دستگاه',
-        filter: 'agSetColumnFilter'
-      },
-      {
         field: 'description',
         headerName: 'توضیحات',
         filter: 'agSetColumnFilter'
@@ -123,5 +116,15 @@ export class MachineComponent extends ModalFormBaseComponent<MachineService, Mac
 
   override ngAfterViewInit(): void {
     super.ngAfterViewInit()
+  }
+
+  openMachineSetting() {
+    const ip = this.getFormValue(this.form, 'ip')
+    if (!ip) {
+      this.notificationService.error('آیپی دستگاه مشخص نشده است.')
+      return
+    }
+    
+    window.open(ip, "_blank")
   }
 }

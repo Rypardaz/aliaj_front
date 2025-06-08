@@ -1,0 +1,43 @@
+<div class="row" [formGroup]="form">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"> شروط گزارش </div>
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <div class="col-6">
+                        <input class="form-control" id="fromDate" formControlName="fromDate" autocomplete="off"
+                            appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
+                    </div>
+
+                    <div class="col-6">
+                        <input class="form-control" id="toDate" formControlName="toDate" autocomplete="off" appDateMask
+                            [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="button-list">
+                    <app-label-icon-button identifier="submitBtn" label="دریافت گزارش" icon="fas fa-redo-alt"
+                        (clicked)="getReport()">
+                    </app-label-icon-button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div dir="ltr">
+                    <div id="report" class="apex-charts" data-colors="#1abc9c,#e3eaef"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

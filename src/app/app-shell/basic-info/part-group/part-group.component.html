@@ -32,6 +32,20 @@
     [isModalOpen]="isModalOpen">
     <form [formGroup]="form" id="submitForm" class="form-row">
 
+        <div class="mb-1 mt-1">
+            <label class="sr-only" for="salonGuid">واحد</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">واحد
+                        <span class="text-danger"> *</span>
+                    </div>
+                </div>
+                <ng-select [items]="salons" formControlName="salonGuid" id="salonGuid" bindLabel="title"
+                    bindValue="guid">
+                </ng-select>
+            </div>
+        </div>
+
         <custom-input label="نام گروه" formControlName="name" identity="name" size="col-12" [required]="true">
         </custom-input>
 

@@ -17,7 +17,6 @@ import { ProjectTypeService } from '../../project-type/project-type.service';
 import { WireScrewService } from '../../wire-screw/wire-screw.service';
 import { ModalConfig } from 'src/app/app-shell/framework-components/modal/modal.config';
 import { ModalComponent } from 'src/app/app-shell/framework-components/modal/modal.component';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-ops',
@@ -40,8 +39,10 @@ export class ProjectOpsComponent implements OnInit {
   powderTypes = []
 
   countToAdd = 0
+  groupAddType = 0
 
   selectedSalon
+  isReadonly = false
   modalConfig = new ModalConfig()
   @ViewChild('addGroupDetailModal') private addGroupDetailModal: ModalComponent
 
@@ -78,6 +79,7 @@ export class ProjectOpsComponent implements OnInit {
       projectTypeGuid: ['', [Validators.required]],
       deliveryDate: ['', [Validators.required]],
       isActive: ['BAA012D7-6EC5-437F-95D8-160131D8BD71'],
+      replacementWireTypeGuids: [''],
       description: ['']
     })
   }
@@ -110,6 +112,10 @@ export class ProjectOpsComponent implements OnInit {
               .subscribe(salonGuid => {
                 this.selectedSalon = this.salons.find(x => x.guid == salonGuid)
 
+                this.partService
+                  .getForCombo<ComboBase[]>(salonGuid)
+                  .subscribe(data => this.parts = data)
+
                 this.projectTypeService
                   .getForCombo<ComboBase[]>(salonGuid)
                   .subscribe(data => {
@@ -118,10 +124,6 @@ export class ProjectOpsComponent implements OnInit {
               })
           })
       })
-
-    this.partService
-      .getForCombo<ComboBase[]>()
-      .subscribe(data => this.parts = data)
 
     this.gasTypeService
       .getForCombo<ComboBase[]>()
@@ -150,6 +152,7 @@ export class ProjectOpsComponent implements OnInit {
         this.selectedSalon = this.salons.find(x => x.guid == data.salonGuid)
         this.form.patchValue(data)
         this.details = data.details
+        this.isReadonly = this.projectStatuses.find(x => x.guid == data.isActive).code == 3
 
         this.details.forEach(detail => {
           detail.wireScrews = this.wireScrews.filter(x => x.wireTypeGuid == detail.wireTypeGuid)
@@ -157,7 +160,35 @@ export class ProjectOpsComponent implements OnInit {
       })
   }
 
+  detailsHasInvalidItem() {
+    let filter = this.getActiveDetails().filter(x => x.partGuid && x.partCode)
+
+    if (this.selectedSalon.hasGas)
+      filter = filter.filter(x => x.gasTypeGuid)
+
+    if (this.selectedSalon.hasPowder)
+      filter = filter.filter(x => x.powderTypeGuid && x.wireThickness && x.wireConsumption)
+
+    if (this.selectedSalon.hasWire)
+      filter = filter.filter(x => x.wireTypeGuid)
+
+    if (this.selectedSalon.hasWireScrew)
+      filter = filter.filter(x => x.wireScrewGuid)
+
+    const result = filter.length < this.getActiveDetails().length
+
+    if (result)
+      this.notificationService.error('لطفا ردیف های ناقص را کامل نمایید.')
+
+    return result
+  }
+
   addDetail() {
+    if (!this.selectedSalon) {
+      this.notificationService.error('لطفا ابتدا واحد کاری را مشخص کنید.')
+      return
+    }
+
     const record = {
       guid: createGuid()
     }
@@ -175,14 +206,30 @@ export class ProjectOpsComponent implements OnInit {
   }
 
   addGroupDetail() {
-    const firstDetail = this.details[0]
-    const countToAdd = parseInt(this.countToAdd.toString())
+    let pattern = this.details.find(x => x.checked)
 
-    for (let index = 1; index <= countToAdd; index++) {
-      const detail = JSON.parse(JSON.stringify(firstDetail))
+    if (!pattern)
+      pattern = this.details[0]
+
+    let countToAdd = parseInt(this.countToAdd.toString())
+    const split = pattern.partCode.split('.')
+
+    let startIndex = parseInt(split[1]) + 1
+    if (this.groupAddType) {
+      startIndex = parseInt(split[0]) + 1
+    }
+    countToAdd += startIndex
+
+    for (let index = startIndex; index < countToAdd; index++) {
+      const detail = JSON.parse(JSON.stringify(pattern))
       detail.id = 0
+      detail.checked = false
       detail.guid = createGuid()
-      detail.partCode = parseInt(firstDetail.partCode) + index
+
+      if (this.groupAddType)
+        detail.partCode = index
+      else
+        detail.partCode = `${split[0]}.${index}`
 
       this.details.push(detail)
     }
@@ -208,21 +255,10 @@ export class ProjectOpsComponent implements OnInit {
     const command = this.form.getRawValue()
     command.details = this.details
 
+    if (this.detailsHasInvalidItem()) return
+
     if (!this.details.length) {
       this.notificationService.error('امکان ذخیره رکورد بدون ردیف وجود ندارد.')
-      return
-    }
-
-    const errors = []
-    this.details.forEach(detail => {
-      if (this.details.find(x => x.partCode == detail.partCode && x.guid != detail.guid)) {
-        errors.push(detail.partCode)
-        return
-      }
-    })
-
-    if (errors.length) {
-      this.notificationService.error(`کد بعضی از قطعات تکراری وارد شده است.`)
       return
     }
 
@@ -230,24 +266,42 @@ export class ProjectOpsComponent implements OnInit {
       this.projectService
         .edit(command)
         .subscribe(data => {
-          this.handleSubmit()
+          this.handleSubmit(action, command.guid)
         })
     } else {
       this.projectService
         .create(command)
-        .subscribe(data => {
-          this.handleSubmit()
+        .subscribe(guid => {
+          this.handleSubmit(action, guid)
         })
     }
   }
 
-  handleSubmit() {
-    this.navigateToList()
+  handleSubmit(action, guid) {
     this.notificationService.succeded()
+    if (action == 1) {
+      this.navigateToList()
+    }
+    else {
+      if (this.guid) {
+        this.getForEdit()
+      } else {
+        this.router.navigateByUrl(`/basic-info/project-ops/${guid}`)
+      }
+    }
   }
 
   navigateToList() {
     this.router.navigateByUrl('basic-info/project')
+  }
+
+  cloneDetail(guid) {
+    const detail = JSON.parse(JSON.stringify(this.details.find(x => x.guid == guid)))
+    detail.id = 0
+    detail.guid = createGuid()
+    detail.wireThickness = ''
+    detail.wireConsumption = ''
+    this.details.push(detail)
   }
 
   onWireTypeChange(guid) {

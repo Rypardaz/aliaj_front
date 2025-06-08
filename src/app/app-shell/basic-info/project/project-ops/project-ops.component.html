@@ -1,12 +1,17 @@
-<div class="card">
-    <div class="card-body p-2">
+<form [formGroup]="form" id="submitForm">
+    <div class="card">
+        <div class="card-header">
+            اطلاعات پروژه
+        </div>
+        <div class="card-body p-2">
 
-        <form [formGroup]="form" id="submitForm">
             <div class="row">
-                <custom-input label="کد پروژه" formControlName="code" identity="code" size="col-4" [required]="true">
+                <custom-input label="کد پروژه" formControlName="code" identity="code" size="col-4" [required]="true"
+                    [isDisabled]="isReadonly">
                 </custom-input>
 
-                <custom-input label="عنوان پروژه" formControlName="name" identity="name" size="col-4" [required]="true">
+                <custom-input label="عنوان پروژه" formControlName="name" identity="name" size="col-4" [required]="true"
+                    [isDisabled]="isReadonly">
                 </custom-input>
 
                 <div class="col-4 mt-1">
@@ -18,7 +23,7 @@
                             </div>
                         </div>
                         <ng-select [items]="taskMasters" formControlName="taskMasterGuid" id="taskMasterGuid"
-                            bindLabel="title" bindValue="guid" [required]="true">
+                            bindLabel="title" bindValue="guid" [required]="true" [readonly]="isReadonly">
                         </ng-select>
                     </div>
                 </div>
@@ -32,7 +37,7 @@
                             </div>
                         </div>
                         <ng-select [items]="salons" formControlName="salonGuid" id="salonGuid" bindLabel="title"
-                            bindValue="guid" [required]="true">
+                            bindValue="guid" [required]="true" [readonly]="isReadonly">
                         </ng-select>
                     </div>
                 </div>
@@ -46,13 +51,13 @@
                             </div>
                         </div>
                         <ng-select [items]="projectTypes" formControlName="projectTypeGuid" id="projectTypeGuid"
-                            bindLabel="title" bindValue="guid" [required]="true">
+                            bindLabel="title" bindValue="guid" [required]="true" [readonly]="isReadonly">
                         </ng-select>
                     </div>
                 </div>
 
                 <custom-input type="date" label="تاریخ تحویل" formControlName="deliveryDate" identity="deliveryDate"
-                    size="col-4" [required]="true" placeholder="روز / ماه / سال">
+                    size="col-4" [required]="true" placeholder="روز / ماه / سال" [isDisabled]="isReadonly">
                 </custom-input>
 
                 <div class="col-4 mt-1" *ngIf="guid">
@@ -64,22 +69,33 @@
                             </div>
                         </div>
                         <ng-select [items]="projectStatuses" formControlName="isActive" id="isActive" bindLabel="title"
-                            bindValue="guid" [required]="true">
+                            bindValue="guid" [required]="true" [readonly]="isReadonly">
                         </ng-select>
                     </div>
                 </div>
 
                 <custom-input type="text-area" formControlName="description" identity="description" size="col-12"
-                    placeholder="توضیحات"></custom-input>
+                    placeholder="توضیحات" [isDisabled]="isReadonly"></custom-input>
 
             </div>
-        </form>
+
+        </div>
     </div>
-</div>
+
+    <div class="card">
+        <div class="card-header"> سیم های جایگزین </div>
+        <div class="card-body">
+            <ng-select [items]="wireTypes" formControlName="replacementWireTypeGuids" id="replacementWireTypeGuids"
+                bindLabel="title" bindValue="guid" [readonly]="isReadonly" [multiple]="true">
+            </ng-select>
+        </div>
+    </div>
+</form>
 
 <div class="card">
-    <div class="card-header p-2">
-        <div class="button-list">
+    <div class="card-header p-2 d-flex justify-content-between align-items-center">
+        لیست قطعات/تجهیزات
+        <div class="button-list" *ngIf="!isReadonly">
             <app-label-icon-button label="افزودن ردیف جدید" icon="fa fa-plus" (clicked)="addDetail()"
                 className="primary btn-sm"></app-label-icon-button>
             <app-label-icon-button label="افزودن گروهی ردیف" icon="fa fa-plus" (clicked)="openAddGroupDetailModal()"
@@ -94,15 +110,16 @@
             <thead class="bg-soft-purple">
                 <tr>
                     <th style="width: 5%;"> ردیف </th>
-                    <th style="width: 12%;">گروه/نوع قطعه</th>
-                    <th style="width: 12%;">کد قطعه</th>
+                    <th style="width: 15%;">گروه/نوع قطعه</th>
+                    <th style="width: 9%;">کد قطعه</th>
                     <th style="width: 12%;" *ngIf="selectedSalon?.hasGas">نوع گاز</th>
                     <th style="width: 12%;" *ngIf="selectedSalon?.hasPowder">نوع پودر</th>
                     <th style="width: 12%;" *ngIf="selectedSalon?.hasWire">نوع سیم</th>
                     <th style="width: 12%;" *ngIf="selectedSalon?.hasWireScrew">بچ سیم</th>
-                    <th style="width: 12%;" *ngIf="selectedSalon?.hasWire">ضخامت جوشکاری</th>
-                    <th style="width: 12%;" *ngIf="selectedSalon?.hasWire">مصرف سیم</th>
-                    <th style="width: 3%">عملیات</th>
+                    <th style="width: 8%;" *ngIf="selectedSalon?.hasWire">ضخامت جوشکاری</th>
+                    <th style="width: 8%;" *ngIf="selectedSalon?.hasWire">مصرف سیم</th>
+                    <th style="width: 12%;">شرح قطعه</th>
+                    <th style="width: 7%">عملیات</th>
                 </tr>
             </thead>
 
@@ -110,68 +127,92 @@
                 <tr *ngFor="let detail of getActiveDetails(); let index = index">
                     <td class="text-center">
                         <input class="form-check-input mx-1" type="checkbox" id="itemid" [(ngModel)]="detail.checked"
-                            [checked]="detail.checked">
+                            [checked]="detail.checked" *ngIf="!isReadonly">
                         {{ index + 1 }}
                     </td>
                     <td>
                         <ng-select [items]="parts" [(ngModel)]="detail.partGuid" id="partGuid" bindLabel="title"
-                            bindValue="guid" [required]="true">
+                            bindValue="guid" [required]="true" [disabled]="isReadonly" required>
                         </ng-select>
                     </td>
                     <td>
-                        <input type="text" [(ngModel)]="detail.partCode" id="partCode" class="form-control">
+                        <input type="text" step="any" [(ngModel)]="detail.partCode" id="partCode" class="form-control"
+                            [disabled]="isReadonly ? true : null" required>
                     </td>
                     <td *ngIf="selectedSalon?.hasGas">
                         <ng-select [items]="gasTypes" [(ngModel)]="detail.gasTypeGuid" id="gasTypeGuid"
-                            bindLabel="title" bindValue="guid" [required]="true">
+                            bindLabel="title" bindValue="guid" [required]="true" [disabled]="isReadonly"
+                            [required]="true">
                         </ng-select>
                     </td>
                     <td *ngIf="selectedSalon?.hasPowder">
                         <ng-select [items]="powderTypes" [(ngModel)]="detail.powderTypeGuid" id="powderTypeGuid"
-                            bindLabel="title" bindValue="guid" [required]="true">
+                            bindLabel="title" bindValue="guid" [required]="true" [disabled]="isReadonly"
+                            [required]="true">
                         </ng-select>
                     </td>
                     <td *ngIf="selectedSalon?.hasWire">
                         <ng-select [items]="wireTypes" [(ngModel)]="detail.wireTypeGuid" id="wireTypeGuid"
                             bindLabel="title" bindValue="guid" [required]="true"
-                            (change)="onWireTypeChange(detail.guid)">
+                            (change)="onWireTypeChange(detail.guid)" [disabled]="isReadonly" [required]="true">
                         </ng-select>
                     </td>
                     <td *ngIf="selectedSalon?.hasWireScrew">
                         <ng-select [items]="detail.wireScrews" [(ngModel)]="detail.wireScrewGuid" id="wireScrewGuid"
-                            bindLabel="title" bindValue="guid" [required]="true">
+                            bindLabel="title" bindValue="guid" [required]="true" [disabled]="isReadonly"
+                            [required]="true">
                         </ng-select>
                     </td>
                     <td *ngIf="selectedSalon?.hasWire">
                         <div class="align-items-stretch d-flex">
-                            <input type="text" [(ngModel)]="detail.wireThickness" id="wireThickness"
-                                class="form-control">
+                            <input type="number" step="any" min="0" [(ngModel)]="detail.wireThickness"
+                                id="wireThickness" class="form-control" [disabled]="isReadonly? true : null" required>
                             <span class="badge badge-soft-dark fw-bold pt-2 ms-1">میلی متر</span>
                         </div>
                     </td>
                     <td *ngIf="selectedSalon?.hasWire">
                         <div class="align-items-stretch d-flex">
-                            <input type="text" [(ngModel)]="detail.wireConsumption" id="wireConsumption"
-                                class="form-control">
+                            <input type="number" step="any" min="0" [(ngModel)]="detail.wireConsumption"
+                                id="wireConsumption" class="form-control" [disabled]="isReadonly? true : null" required>
                             <span class="badge badge-soft-dark fw-bold pt-2 ms-1">کیلوگرم</span>
                         </div>
                     </td>
                     <td>
-                        <app-icon-button icon="fa fa-trash" className="soft-danger btn-sm"
-                            (clicked)="removeDetail(detail.guid)" label="حذف ردیف"></app-icon-button>
+                        <input type="text" [(ngModel)]="detail.description" id="description" class="form-control"
+                            [disabled]="isReadonly ? true : null">
+                    </td>
+                    <td>
+                        <div class="button-list">
+                            <app-icon-button icon="fa fa-clone" className="soft-success btn-sm"
+                                (clicked)="cloneDetail(detail.guid)" label="کپی ردیف"></app-icon-button>
+                            <app-icon-button *ngIf="!isReadonly" icon="fa fa-trash" className="soft-danger btn-sm"
+                                (clicked)="removeDetail(detail.guid)" label="حذف ردیف"></app-icon-button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
 
         </table>
     </div>
+    <div class="card-header p-2 d-flex justify-content-end align-items-center">
+        <div class="button-list" *ngIf="!isReadonly">
+            <app-label-icon-button label="افزودن ردیف جدید" icon="fa fa-plus" (clicked)="addDetail()"
+                className="primary btn-sm"></app-label-icon-button>
+            <app-label-icon-button label="افزودن گروهی ردیف" icon="fa fa-plus" (clicked)="openAddGroupDetailModal()"
+                className="info btn-sm"></app-label-icon-button>
+            <app-label-icon-button label="حذف آیتم های انتخاب شده" icon="fa fa-trash" (clicked)="deleteSelected()"
+                className="danger btn-sm"></app-label-icon-button>
+        </div>
+    </div>
 </div>
 
 <div class="card">
     <div class="card-body p-2">
         <div class="button-list">
-            <app-label-icon-button className="success" icon="fa fa-check" label="ذخیره و خروج"
-                (clicked)="submit(1)"></app-label-icon-button>
+            <app-label-icon-button className="success" icon="fa fa-check" label="ذخیره" (clicked)="submit(2)"
+                *ngIf="!isReadonly"></app-label-icon-button>
+            <app-label-icon-button className="success" icon="fa fa-check-double" label="ذخیره و خروج"
+                (clicked)="submit(1)" *ngIf="!isReadonly"></app-label-icon-button>
             <app-label-icon-button className="danger" icon="fas fa-times" label="انصراف"
                 (clicked)="navigateToList()"></app-label-icon-button>
         </div>
@@ -179,6 +220,20 @@
 </div>
 
 <app-modal #addGroupDetailModal [modalConfig]="modalConfig" (submited)="addGroupDetail()">
+    <div class="mb-1 mt-1">
+        <label class="sr-only" for="partGroupGuid">گروه قطعه</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">گروه قطعه
+                    <span class="text-danger"> *</span>
+                </div>
+            </div>
+            <ng-select [(ngModel)]="groupAddType" id="groupAddType">
+                <ng-option [value]="0">عدد اعشاری</ng-option>
+                <ng-option [value]="1">عدد صحیح</ng-option>
+            </ng-select>
+        </div>
+    </div>
     <custom-input type="number" label="تعداد" [(ngModel)]="countToAdd" identity="count" size="col-12" [required]="true">
     </custom-input>
 </app-modal>

@@ -6,6 +6,7 @@ import { ProjectTypeService } from "./project-type.service"
 import { ComboBase } from '../../framework-components/combo-base';
 import { SalonService } from '../salon/salon.service';
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
+import { BreadcrumbService } from '../../framework-services/breadcrumb.service';
 
 @Component({
   selector: 'app-project-type',

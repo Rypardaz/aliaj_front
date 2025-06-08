@@ -4,7 +4,7 @@
             <div class="card-header">
                 <div class="button-list">
                     <app-label-icon-button identifier="submitBtn" label="افزودن" icon="fa fa-plus" className="success"
-                        (clicked)="openOpsModal()" permission="BasicInformation_MissionType_New">
+                        (clicked)="openOpsModal()">
                     </app-label-icon-button>
                     <app-label-icon-button identifier="submitBtn" label="بازخوانی" icon="fas fa-redo-alt"
                         (clicked)="getList()">
@@ -31,6 +31,9 @@
 <app-modal #opsModal [modalConfig]="modalConfig" (submited)="submit($event)" (onModalHide)="modalClosed()"
     [isModalOpen]="isModalOpen">
     <form [formGroup]="form" id="submitForm" class="form-row">
+
+        <custom-input label="کد" formControlName="code" identity="code" size="col-12" [required]="true">
+        </custom-input>
 
         <div class="mb-1 mt-1">
             <label class="sr-only" for="type">نوع</label>
@@ -59,6 +62,19 @@
             </div>
         </div>
 
+        <div class="mb-1 mt-1">
+            <label class="sr-only" for="salonGuids">انتخاب واحدهای کاری</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"> واحدهای کاری
+                        <span class="text-danger"> *</span>
+                    </div>
+                </div>
+                <ng-select formControlName="salonGuids" placeholder="انتخاب واحدهای کاری" [multiple]="true">
+                    <ng-option [value]="item.guid" *ngFor="let item of salons">{{item.title}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
 
         <div class="mb-1 mt-1" *ngIf="type == 2">
             <label class="sr-only" for="sourceGuid">منشاء</label>
@@ -72,12 +88,19 @@
             </div>
         </div>
 
-        <custom-input label="نام کد" formControlName="name" identity="name" size="col-12" [required]="true">
+        <custom-input label="نام" formControlName="name" identity="name" size="col-12" [required]="true">
         </custom-input>
 
         <custom-checkbox label="سایر فعالیت ها" formControlName="isOther" identity="isOther" size="col-12"
             [required]="true">
         </custom-checkbox>
+        <custom-checkbox label="بدون احتساب پرسنل ها" formControlName="withOutPersonnel" identity="withOutPersonnel"
+            size="col-12" [required]="true">
+        </custom-checkbox>
+        <custom-checkbox label="بدون احتساب پروژه ها" formControlName="withOutProject" identity="withOutProject"
+            size="col-12" [required]="true">
+        </custom-checkbox>
+
 
     </form>
 </app-modal>

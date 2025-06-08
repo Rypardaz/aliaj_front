@@ -4,6 +4,7 @@ import { ComboBase } from '../framework-components/combo-base';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../framework-services/local.storage.service';
 import { SALON_GUID_NAME } from '../framework-services/configuration';
+import { ListItemService } from '../basic-info/list-item/list-item.service';
 declare var $: any
 
 @Component({
@@ -12,18 +13,31 @@ declare var $: any
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
 
-  salons = []
+  salonTypes = []
+  weldingSalons = []
+  productionSalons = []
 
   constructor(
     private readonly router: Router,
-    private readonly localStorageService: LocalStorageService,
-    private readonly salonService: SalonService) {
+    private readonly salonService: SalonService,
+    private readonly listItemService: ListItemService,
+    private readonly localStorageService: LocalStorageService) {
   }
 
   ngOnInit(): void {
     this.salonService
-      .getForCombo<ComboBase[]>()
-      .subscribe(data => this.salons = data)
+      .getForComboBySalonType(1)
+      .subscribe(data => this.productionSalons = data)
+
+    this.salonService
+      .getForComboBySalonType(2)
+      .subscribe(data => this.weldingSalons = data)
+
+    this.listItemService
+      .getForCombo("14")
+      .subscribe((data: any) => {
+        this.salonTypes = data
+      })
   }
 
   ngAfterViewInit(): void {
@@ -113,6 +127,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.localStorageService.setItem(SALON_GUID_NAME, guid)
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigateByUrl(`basic-info/daily-record/${this.localStorageService.getItem(SALON_GUID_NAME)}`)
+    })
+  }
+
+  onDashboardClicked(guid) {
+    this.localStorageService.setItem(SALON_GUID_NAME, guid)
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(`dashboard/${guid}`)
     })
   }
 }

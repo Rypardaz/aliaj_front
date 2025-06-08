@@ -9,31 +9,36 @@
         </a>
         <nav class="nav flex-column" id="two-col-sidenav-main">
 
-          <a class="nav-link active" href="#dashboard" title="میز کار">
+          <a class="nav-link active" href="#dashboard" title="میزکار" *hasPermission="['Monitoring_dashboard']">
             <i class="ri-home-4-line"></i>
           </a>
 
-          <a class="nav-link" href="#reports" title="گزارشات">
-            <i class="ri-bar-chart-fill"></i>
+          <a class="nav-link" href="#reports" title="گزارشات" *hasPermission="['Monitoring_reports']">
+            <i class="ri-table-line"></i>
           </a>
 
-          <a class="nav-link" href="#project-info" title="پروژه">
+          <a class="nav-link" href="#charts" title="نمودار" *hasPermission="['Monitoring_reports_chart']">
+            <i class="ri-bar-chart-line"></i>
+          </a>
+
+          <a class="nav-link" href="#project-info" title="پروژه" *hasPermission="['Monitoring_project-info']">
             <i class="ri-folders-line"></i>
           </a>
 
-          <a class="nav-link" href="#daily-record-info" title="اطلاعات روزانه">
+          <a class="nav-link" href="#daily-record-info" title="اطلاعات روزانه"
+            *hasPermission="['Monitoring_daily-record-info']">
             <i class="ri-todo-line"></i>
           </a>
 
-          <a class="nav-link" href="#basic-info" title="اطلاعات پایه">
+          <a class="nav-link" href="#basic-info" title="اطلاعات پایه" *hasPermission="['Monitoring_basic-info']">
             <i class="ri-database-2-line"></i>
           </a>
 
-          <a class="nav-link" href="#messages" title="پیام ها">
+          <a class="nav-link" href="#messages" title="پیام ها" *hasPermission="['Monitoring_messages']">
             <i class="ri-message-3-line"></i>
           </a>
 
-          <a class="nav-link" href="#system-management" title="مدیریت امنیت">
+          <a class="nav-link" href="#system-management" title="مدیریت امنیت" *hasPermission="['SystemManagement']">
             <i class="ri-lock-2-line"></i>
           </a>
 
@@ -42,191 +47,430 @@
       <div class="sidebar-main-menu">
         <div id="two-col-menu" class="h-100" data-simplebar>
 
-          <div class="twocolumn-menu-item d-block" id="dashboard">
+          <div class="twocolumn-menu-item d-block" id="dashboard" *hasPermission="['Monitoring_dashboard']">
             <div class="title-box">
-              <h5 class="menu-title">میز کار</h5>
+              <h5 class="menu-title">میزکار</h5>
               <ul class="nav flex-column">
                 <li class="nav-item">
-                  <a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active">داشبورد</a>
+                  <ng-container *ngFor="let item of salonTypes">
+                    <a class="nav-link" routerLinkActive="router-link-active" (click)="onDashboardClicked(item.guid)"
+                      style="cursor: pointer;">
+                      واحدهای {{item.title}}
+                    </a>
+                  </ng-container>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div class="twocolumn-menu-item" id="reports">
+          <div class="twocolumn-menu-item" id="reports" *hasPermission="['Monitoring_reports']">
             <div class="title-box">
-              <h5 class="menu-title">گزارشات</h5>
+              <h5 class="menu-title">گزارشات واحد جوشکاری</h5>
               <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/basic-info/daily-record-report">خلاصه گزارش روزانه</a>
+                <li class="nav-item" *hasPermission="['Monitoring_reports_daily-record']">
+                  <a href="#report-summary" data-bs-toggle="collapse" class="nav-link">
+                    <span> خلاصه گزارش </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="report-summary">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-record-report1']">
+                        <a class="nav-link" routerLink="/basic-info/daily-record-report/1">روزانه</a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-record-report2']">
+                        <a class="nav-link" routerLink="/basic-info/weekly-record-report/2">هفتگی</a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-record-report3']">
+                        <a class="nav-link" routerLink="/basic-info/monthly-record-report/3">ماهانه</a>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/basic-info/wire-type-consumption-report">گزارش سیم مصرفی</a>
+                <li class="nav-item" *hasPermission="['Monitoring_reports_daily-wire-type-consumption']">
+                  <a href="#wire-consumption" data-bs-toggle="collapse" class="nav-link">
+                    <span> مصرف سیم </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="wire-consumption">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-wire-type-consumption-report1']">
+                        <a class="nav-link" routerLink="/basic-info/daily-wire-type-consumption-report/1">روزانه</a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-wire-type-consumption-report2']">
+                        <a class="nav-link" routerLink="/basic-info/weekly-wire-type-consumption-report/2">هفتگی</a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-wire-type-consumption-report3']">
+                        <a class="nav-link" routerLink="/basic-info/monthly-wire-type-consumption-report/3">ماهانه</a>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/basic-info/activity-report">گزارش فعالیت</a>
+                <li class="nav-item" *hasPermission="['Monitoring_reports_activity-report']">
+                  <a class="nav-link" routerLink="/basic-info/activity-report">فعالیت ها / توقفات</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/basic-info/by-part-report">گزارش به تفکیک قطعات</a>
+                <!-- <li class="nav-item" *hasPermission="['Monitoring_reports_activity-report']">
+                  <a href="#Activities" data-bs-toggle="collapse" class="nav-link">
+                    <span> فعالیت ها / توقفات </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="Activities">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_activity-report']">
+                        <a class="nav-link" routerLink="/basic-info/activity-report">هفتگی</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li> -->
+
+                <li class="nav-item" *hasPermission="['Monitoring_reports_by-part-report']">
+                  <a class="nav-link" routerLink="/basic-info/by-part-report">عملکرد قطعات</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/basic-info/project-report">گزارش عملکرد پروژه</a>
+                <!-- <li class="nav-item" *hasPermission="['Monitoring_reports_by-part-report']">
+                  <a href="#byPart" data-bs-toggle="collapse" class="nav-link">
+                    <span> عملکرد قطعات </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="byPart">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_by-part-report']">
+                        <a class="nav-link" routerLink="/basic-info/by-part-report">هفتگی</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li> -->
+
+                <li class="nav-item" *hasPermission="['Monitoring_reports_project-report']">
+                  <a class="nav-link" routerLink="/basic-info/project-report">عملکرد پروژه</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/basic-info/personnel-report">گزارش عملکرد پرسنل</a>
+
+                <li class="nav-item" *hasPermission="['Monitoring_reports_personnel-report']">
+                  <a class="nav-link" routerLink="/basic-info/personnel-report">عملکرد پرسنل</a>
                 </li>
+                <!-- 
+                <li class="nav-item" *hasPermission="['Monitoring_reports_personnel-report']">
+                  <a href="#personnel" data-bs-toggle="collapse" class="nav-link">
+                    <span> عملکرد پرسنل </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="personnel">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_personnel-report']">
+                        <a class="nav-link" routerLink="/basic-info/personnel-report">هفتگی</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li> -->
+
+                <li class="nav-item" *hasPermission="['Monitoring_reports_machine-report']">
+                  <a class="nav-link" routerLink="/basic-info/machine-report">عملکرد ماشین آلات</a>
+                </li>
+
+                <li class="nav-item" *hasPermission="['FinalCardProject_Reports']">
+                  <a class="nav-link" routerLink="/basic-info/final-card-project-report">کارت پروژه</a>
+                </li>
+
+                <li class="nav-item" *hasPermission="['DailyRecordListReport']">
+                  <a class="nav-link" routerLink="/basic-info/daily-record-list-report">اطلاعات فرم روزانه</a>
+                </li>
+
+                <li class="nav-item" *hasPermission="['Monitoring_reports_BachReportNnDate']">
+                  <a class="nav-link" routerLink="/basic-info/bachreportondate">گزارش بچ سیم و دستگاه</a>
+                </li>
+
+
+                <li class="nav-item" *hasPermission="['Monitoring_reports_data-logger']">
+                  <a href="#data-logger" data-bs-toggle="collapse" class="nav-link">
+                    <span> عملکرد دیتالاگر </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="data-logger">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-data-logger-report1']">
+                        <a class="nav-link" routerLink="/basic-info/daily-data-logger-report/2">زمان جوشکاری روزانه</a>
+                      </li>
+                      <!-- <li class="nav-item" *hasPermission="['Monitoring_reports_daily-data-logger-report2']">
+                        <a class="nav-link" routerLink="/basic-info/monthly-data-logger-report/3">زمان جوشکاری
+                          ماهانه</a>
+                      </li> -->
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_daily-data-logger-report3']">
+                        <a class="nav-link" routerLink="/basic-info/value-data-logger-report/1">مقادیر داده</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
+                <h5 class="menu-title">گزارشات واحد تولیدی</h5>
+                <li class="nav-item" *hasPermission="['Monitoring_reports_DailyRecordListProductunits']">
+                  <a class="nav-link" routerLink="/basic-info/dailyrecordlistproductunits">اطلاعات فرم روزانه</a>
+                </li>
+
               </ul>
             </div>
           </div>
 
-          <div class="twocolumn-menu-item" id="project-info">
+          <div class="twocolumn-menu-item" id="charts" *hasPermission="['Monitoring_reports_chart']">
+            <div class="title-box">
+              <h5 class="menu-title">نمودارهای واحد جوشکاری</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption']">
+                  <a href="#wire-consumption-chart" data-bs-toggle="collapse" class="nav-link">
+                    <span> مصرف سیم </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="wire-consumption-chart">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption1']">
+                        <a class="nav-link" routerLink="/basic-info/daily-wire-consumption-chart/1"> روزانه </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption2']">
+                        <a class="nav-link" routerLink="/basic-info/weekly-wire-consumption-chart/2"> هفتگی </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption3']">
+                        <a class="nav-link" routerLink="/basic-info/monthly-wire-consumption-chart/3"> ماهانه </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption10']">
+                        <a class="nav-link" routerLink="/basic-info/party-wire-consumption-chart/10"> گروه قطعه </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption7']">
+                        <a class="nav-link" routerLink="/basic-info/personnel-wire-consumption-chart/7"> پرسنل </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption5']">
+                        <a class="nav-link" routerLink="/basic-info/machine-wire-consumption-chart/5"> ماشین آلات </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item" *hasPermission="['Monitoring_reports_chart_welding-time']">
+                  <a href="#welding-chart" data-bs-toggle="collapse" class="nav-link">
+                    <span> زمان جوشکاری </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="welding-chart">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_welding-time']">
+                        <a class="nav-link" routerLink="/basic-info/welding-time-chart/5"> ماشین آلات </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_welding-time']">
+                        <a class="nav-link" routerLink=""> دیتالاگر </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item" *hasPermission="['Monitoring_reports_chart_randeman']">
+                  <a href="#randeman-chart" data-bs-toggle="collapse" class="nav-link">
+                    <span> راندمان </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="randeman-chart">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_randeman1']">
+                        <a class="nav-link" routerLink="/basic-info/weekly-randeman-chart/2"> هفتگی </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_randeman2']">
+                        <a class="nav-link" routerLink="/basic-info/monthly-randeman-chart/3"> ماهانه </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <!-- <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption-to-standard']">
+                  <a href="#wire-consumption-to-standard-chart" data-bs-toggle="collapse" class="nav-link">
+                    <span> مصرف سیم / تولید استاندارد </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="wire-consumption-to-standard-chart">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption-to-standard1']">
+                        <a class="nav-link" routerLink="/basic-info/weekly-wire-consumption-to-standard-chart/2"> هفتگی
+                        </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_wire-consumption-to-standard2']">
+                        <a class="nav-link" routerLink="/basic-info/monthly-wire-consumption-to-standard-chart/3">
+                          ماهانه </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li> -->
+                <li class="nav-item" *hasPermission="['Monitoring_reports_chart_activity-stop']">
+                  <a href="#activity-stop-chart" data-bs-toggle="collapse" class="nav-link">
+                    <span> فعالیت ها و توقفات </span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <div class="collapse" id="activity-stop-chart">
+                    <ul class="nav-second-level">
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_activity-stop2']">
+                        <a class="nav-link" routerLink="/basic-info/daily-activity-chart/2"> روزانه </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_activity-stop3']">
+                        <a class="nav-link" routerLink="/basic-info/weekly-activity-chart/3"> هفتگی </a>
+                      </li>
+                      <li class="nav-item" *hasPermission="['Monitoring_reports_chart_activity-stop4']">
+                        <a class="nav-link" routerLink="/basic-info/monthly-activity-chart/4"> ماهانه </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <!-- <li class="nav-item" *hasPermission="['Monitoring_reports_project-report']">
+                  <a class="nav-link" routerLink="/basic-info/project-chart">عملکرد پروژه</a>
+                </li> -->
+
+              </ul>
+            </div>
+          </div>
+
+          <div class="twocolumn-menu-item" id="project-info" *hasPermission="['Monitoring_project-info']">
             <h5 class="menu-title">پروژه</h5>
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link" routerLink="/basic-info/project">پروژه ها</a>
+                <a class="nav-link" routerLink="/basic-info/project">پروژه‌ها</a>
               </li>
             </ul>
           </div>
 
-          <div class="twocolumn-menu-item" id="daily-record-info">
-            <h5 class="menu-title">اطلاعات روزانه</h5>
+          <div class="twocolumn-menu-item" id="daily-record-info" *hasPermission="['Monitoring_daily-record-info']">
+            <h5 class="menu-title">اطلاعات روزانه واحدهای جوشکاری</h5>
             <ul class="nav flex-column">
-              <li class="nav-item" *ngFor="let item of salons">
+              <li class="nav-item" *ngFor="let item of weldingSalons">
+                <a class="nav-link" href="javascript:void(0)" (click)="navigateToForm(item.guid)">{{item.title}}</a>
+              </li>
+            </ul>
+            <h5 class="menu-title">اطلاعات روزانه واحدهای تولیدی</h5>
+            <ul class="nav flex-column">
+              <li class="nav-item" *ngFor="let item of productionSalons">
                 <a class="nav-link" href="javascript:void(0)" (click)="navigateToForm(item.guid)">{{item.title}}</a>
               </li>
             </ul>
           </div>
 
-          <div class="twocolumn-menu-item" id="basic-info">
+          <div class="twocolumn-menu-item" id="basic-info" *hasPermission="['Monitoring_basic-info']">
             <h5 class="menu-title">اطلاعات پایه</h5>
             <ul class="nav flex-column">
 
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_Wire']">
                 <a href="#sidebarWire" data-bs-toggle="collapse" class="nav-link">
                   <span> سیم جوشکاری </span>
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarWire">
                   <ul class="nav-second-level">
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_wireTypeGroup']">
                       <a class="nav-link" routerLink="/basic-info/wireTypeGroup">گروه سیم</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_wireType']">
                       <a class="nav-link" routerLink="/basic-info/wireType">نوع سیم</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_wireScrew']">
                       <a class="nav-link" routerLink="/basic-info/wireScrew">موجودی سیم جوش</a>
                     </li>
                   </ul>
                 </div>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_Powder']">
                 <a href="#sidebarPowder" data-bs-toggle="collapse" class="nav-link">
                   <span> پودر جوشکاری</span>
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarPowder">
                   <ul class="nav-second-level">
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_powderTypeGroup']">
                       <a class="nav-link" routerLink="/basic-info/powderTypeGroup">گروه پودر</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_powderType']">
                       <a class="nav-link" routerLink="/basic-info/powderType">نوع پودر</a>
                     </li>
                   </ul>
                 </div>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_Gas']">
                 <a href="#sidebarGas" data-bs-toggle="collapse" class="nav-link">
                   <span> گاز جوشکاری</span>
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarGas">
                   <ul class="nav-second-level">
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_GasTypeGroup']">
                       <a class="nav-link" routerLink="/basic-info/gasTypeGroup">گروه گاز</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_GasType']">
                       <a class="nav-link" routerLink="/basic-info/gasType">نوع گاز</a>
                     </li>
                   </ul>
                 </div>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_part']">
                 <a href="#sidebarpart" data-bs-toggle="collapse" class="nav-link">
                   <span>قطعات / تجهیزات</span>
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarpart">
                   <ul class="nav-second-level">
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_partGroup']">
                       <a class="nav-link" routerLink="/basic-info/partGroup">گروه قطعه</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *hasPermission="['Monitoring_basic-info_part']">
                       <a class="nav-link" routerLink="/basic-info/part">نوع قطعه</a>
                     </li>
                   </ul>
                 </div>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link" routerLink="/basic-info/salon">واحدهای تولید</a>
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_salon']">
+                <a class="nav-link" routerLink="/basic-info/salon">واحدها</a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_projectType']">
                 <a class="nav-link" routerLink="/basic-info/projectType">دسته‌بندی پروژه</a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link" routerLink="/basic-info/machine">ماشین آلات</a>
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_machine']">
+                <a class="nav-link" routerLink="/basic-info/machine">ماشین‌آلات</a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_personnel']">
                 <a class="nav-link" routerLink="/basic-info/personnel">پرسنل</a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_taskMaster']">
                 <a class="nav-link" routerLink="/basic-info/taskMaster">کارفرمایان</a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_activity']">
                 <a class="nav-link" routerLink="/basic-info/activity">کد فعالیت/توقف</a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link" routerLink="/basic-info/work-calendar">ساعات کاری</a>
+              <li class="nav-item" *hasPermission="['Monitoring_basic-info_work-calendar']">
+                <a class="nav-link" routerLink="/basic-info/work-calendar">ساعت‌کاری</a>
               </li>
 
             </ul>
           </div>
 
-          <div class="twocolumn-menu-item" id="messages">
+          <div class="twocolumn-menu-item" id="messages" *hasPermission="['Monitoring_messages']">
             <div class="title-box">
               <h5 class="menu-title">پیام ها</h5>
               <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link" href="javascript:void(0)"> ارسال پیام</a>
+                <li class="nav-item" *hasPermission="['Monitoring_messages_send-message']">
+                  <a class="nav-link" routerLink="/basic-info/ticket"> ارسال پیام</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="javascript:void(0)"> صندوق پیام</a>
+                <li class="nav-item" *hasPermission="['Monitoring_messages-message-box']">
+                  <a class="nav-link" routerLink="/basic-info/inbox"> صندوق پیام</a>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div class="twocolumn-menu-item" id="system-management">
+          <div class="twocolumn-menu-item" id="system-management" *hasPermission="['SystemManagement']">
             <div class="title-box">
               <h5 class="menu-title">مدیریت کاربران</h5>
               <ul class="nav flex-column">
-                <li class="nav-item">
+                <li class="nav-item" *hasPermission="['SystemManagement_User']">
                   <a class="nav-link" routerLink="/user-management/user/list" href="javascript:void(0)">مدیریت
                     کاربران</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *hasPermission="['SystemManagement_UserGroup']">
                   <a class="nav-link" routerLink="/user-management/user-group/list" href="javascript:void(0)">مدیریت
                     گروه کاربران</a>
                 </li>

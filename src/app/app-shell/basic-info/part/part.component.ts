@@ -30,7 +30,7 @@ export class PartComponent extends ModalFormBaseComponent<PartService, PartModel
         Validators.minLength(1),
         Validators.maxLength(100)
       ]],
-      standardWireConsumption: null
+      standardWireConsumption: [0, [Validators.required]]
     })
 
     this.afterListFetch

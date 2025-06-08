@@ -16,10 +16,7 @@
                 <tr>
                     <th scope="col">نام کاربری</th>
                     <th scope="col">نام کامل</th>
-                    <th scope="col">گروه کاربری</th>
                     <th scope="col">کد کارمندی</th>
-                    <th scope="col">شرکت</th>
-                    <th scope="col">واحد سازمانی</th>
                     <th scope="col">ایجاد کننده</th>
                     <th scope="col">تاریخ ایجاد</th>
                     <th scope="col">وضعیت</th>
@@ -31,10 +28,7 @@
                 <tr *ngFor="let item of records; let index = index">
                     <td>{{item.username}}</td>
                     <td>{{item.fullname}}</td>
-                    <td>{{item.userGroupName}}</td>
                     <td>{{item.employeeCode}}</td>
-                    <td>{{item.companyTitle}}</td>
-                    <td>{{item.organizationChartTitle}}</td>
                     <td>{{item.createdBy}}</td>
                     <td>{{item.created}}</td>
                     <td>
@@ -46,6 +40,9 @@
                             <app-icon-button identifier="submitBtn" label="ویرایش" icon="fa fa-pen"
                                 className="soft-primary btn-sm" (clicked)="navigateToEdit(item.guid)">
                             </app-icon-button>
+                            <app-icon-button identifier="submitBtn" label="حذف" icon="fa fa-trash-alt"
+                                className="soft-danger btn-sm" (click)="delete(item.guid)">
+                            </app-icon-button>
                             <app-icon-button *ngIf="item.isLocked == 2" identifier="submitBtn" label="فعال سازی"
                                 icon="fa fa-check" className="soft-success btn-sm" (clicked)="activate(item.guid)">
                             </app-icon-button>
@@ -55,9 +52,6 @@
                             <!-- <app-icon-button identifier="submitBtn" label="بستن نشست" icon="logout-dark"
                                 className="warning btn-sm" (clicked)="closeSession(item.guid)">
                             </app-icon-button> -->
-                            <app-icon-button identifier="submitBtn" label="حذف" icon="fa fa-pen"
-                                className="soft-danger btn-sm" (click)="delete(item.guid)">
-                            </app-icon-button>
                         </div>
                     </td>
                 </tr>

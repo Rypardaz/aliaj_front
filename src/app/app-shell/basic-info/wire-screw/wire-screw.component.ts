@@ -31,6 +31,7 @@ export class WireScrewComponent extends ModalFormBaseComponent<WireScrewService,
         Validators.required,
         Validators.min(0.1)
       ]],
+      isAuto: [false]
     })
 
     this.afterListFetch
@@ -38,6 +39,11 @@ export class WireScrewComponent extends ModalFormBaseComponent<WireScrewService,
         this.wireTypeService
           .getForCombo<ComboBase[]>()
           .subscribe(data => this.wireTypes = data)
+      })
+
+    this.afterEntityFetch
+      .subscribe(data => {
+        this.modalConfig.hideSubmitButton = data.isAuto
       })
   }
 
@@ -77,6 +83,16 @@ export class WireScrewComponent extends ModalFormBaseComponent<WireScrewService,
       {
         field: 'qty',
         headerName: 'مقدار (kg)',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'wireConsumption',
+        headerName: 'مصرف (kg)',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'diff',
+        headerName: 'باقی مانده (kg)',
         filter: 'agSetColumnFilter'
       },
       {
