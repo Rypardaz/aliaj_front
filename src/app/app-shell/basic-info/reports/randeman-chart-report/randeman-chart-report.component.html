@@ -6,7 +6,7 @@
 
                 <div class="form-group row">
                     <div class="col-3">
-                        <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب سالن" [multiple]="true">
+                        <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب سالن">
                             <ng-option [value]="item.guid" *ngFor="let item of salons">{{item.title}}</ng-option>
                         </ng-select>
                     </div>
@@ -15,7 +15,7 @@
                             <ng-option [value]="item.id" *ngFor="let item of years">{{item.name}}</ng-option>
                         </ng-select>
                     </div>
-
+                    <!-- 
                     <div class="col-3">
                         <ng-select formControlName="weekId" class="my-2" placeholder="انتخاب هفته">
                             <ng-option [value]="item.id" *ngFor="let item of weeks">{{item.name}}</ng-option>
@@ -30,7 +30,7 @@
                     <div class="col-3">
                         <input class="form-control my-2" id="toDate" formControlName="toDate" autocomplete="off"
                             appDateMask [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>

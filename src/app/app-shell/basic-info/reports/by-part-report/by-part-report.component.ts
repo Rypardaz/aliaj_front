@@ -37,7 +37,7 @@ export class ByPartReportComponent extends AgGridBaseComponent implements OnInit
     this.form = fb.group({
       salonGuid: [],
       yearIds: [[year]],
-      weekIds: [],
+      weekIds: [[]],
       monthIds: [[month]],
       fromDate: [],
       toDate: []

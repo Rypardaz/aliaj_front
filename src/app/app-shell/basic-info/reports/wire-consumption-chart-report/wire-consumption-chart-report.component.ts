@@ -55,9 +55,9 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
       type: [],
       fromDate: [],
       toDate: [],
-      weekId: [],
+      weekIds: [[]],
       yearIds: [year],
-      monthId: [month],
+      monthIds: [[]],
       wireTypeGuid: [],
       machineGuid: [],
       salonGuid: [],
@@ -77,7 +77,7 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
         break;
       case '2':
         this.typeName = 'هفتگی'
-        this.setFormValue(this.form, 'monthId', null);
+        this.setFormValue(this.form, 'monthIds', null);
         break;
       case '3':
         this.typeName = 'ماهانه'
@@ -148,7 +148,7 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
       return
     }
 
-    if (this.type == 1 && !searchModel.monthId) {
+    if (this.type == 1 && !searchModel.monthIds.length) {
       this.notificationService.error('لطفا برای دریافت گزارش ماه را انتخاب نمایید.')
       return
     }
@@ -259,12 +259,12 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
               color: '#000000'
             },
           },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: '25%'
-            },
-          },
+          // plotOptions: {
+          //   bar: {
+          //     horizontal: false,
+          //     columnWidth: '25%'
+          //   },
+          // },
           dataLabels: {
             enabled: true
           },

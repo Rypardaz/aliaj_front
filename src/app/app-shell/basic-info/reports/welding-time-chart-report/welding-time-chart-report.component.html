@@ -6,7 +6,7 @@
 
                 <div class="row">
                     <div class="col-3">
-                        <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب واحد" [multiple]="true">
+                        <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب واحد">
                             <ng-option [value]="item.guid" *ngFor="let item of salons">{{item.title}}</ng-option>
                         </ng-select>
                     </div>
@@ -18,13 +18,13 @@
                     </div>
 
                     <div class="col-3">
-                        <ng-select formControlName="monthId" class="my-2" placeholder="انتخاب ماه">
+                        <ng-select formControlName="monthIds" class="my-2" placeholder="انتخاب ماه" [multiple]="true">
                             <ng-option [value]="item.id" *ngFor="let item of months">{{item.name}}</ng-option>
                         </ng-select>
                     </div>
 
                     <div class="col-3">
-                        <ng-select formControlName="weekId" class="my-2" placeholder="انتخاب هفته">
+                        <ng-select formControlName="weekIds" class="my-2" placeholder="انتخاب هفته" [multiple]="true">
                             <ng-option [value]="item.id" *ngFor="let item of weeks">{{item.name}}</ng-option>
                         </ng-select>
                     </div>
@@ -44,11 +44,11 @@
                         </ng-select>
                     </div> -->
 
-                    <div class="col-3">
+                    <!-- <div class="col-3">
                         <ng-select formControlName="shiftGuid" class="my-2" placeholder="انتخاب شیفت کاری">
                             <ng-option [value]="item.guid" *ngFor="let item of shifts">{{item.title}}</ng-option>
                         </ng-select>
-                    </div>
+                    </div> -->
 
                     <!-- <div class="col-3">
                         <ng-select formControlName="personnelGuid" class="my-2" placeholder="انتخاب اپراتور"
@@ -66,7 +66,7 @@
                         </ng-select>
                     </div>
                 </div>
-
+                <!-- 
                 <div class="form-group row">
                     <div class="col-6">
                         <input class="form-control" id="fromDate" formControlName="fromDate" autocomplete="off"
@@ -77,7 +77,7 @@
                         <input class="form-control" id="toDate" formControlName="toDate" autocomplete="off" appDateMask
                             [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>

@@ -82,47 +82,47 @@ export class WireTypeConsumptionReportComponent extends AgGridBaseComponent impl
 
     this.breadCrumbService.setTitle(title)
 
-    this.columnDefs = [
-      {
-        field: 'year',
-        headerName: 'سال',
-        filter: 'agSetColumnFilter',
-        hide: true
-      },
-      {
-        field: 'month',
-        headerName: 'ماه',
-        filter: 'agSetColumnFilter',
-        hide: true
-      },
-      {
-        field: 'title',
-        headerName: header,
-        filter: 'agSetColumnFilter',
-      },
-      {
-        field: 'day',
-        headerName: 'روز',
-        filter: 'agSetColumnFilter',
-        hide: true
-      },
-      {
-        field: 'shiftTitle',
-        headerName: 'شیفت',
-        filter: 'agSetColumnFilter',
-        hide: true
-      },
-      {
-        field: 'wireType',
-        headerName: 'نوع سیم',
-        filter: 'agSetColumnFilter'
-      },
-      {
-        field: 'wireConsumption',
-        headerName: 'مصرف سیم (kg)',
-        filter: 'agSetColumnFilter'
-      }
-    ]
+    // this.columnDefs = [
+    //   {
+    //     field: 'year',
+    //     headerName: 'سال',
+    //     filter: 'agSetColumnFilter',
+    //     hide: true
+    //   },
+    //   {
+    //     field: 'month',
+    //     headerName: 'ماه',
+    //     filter: 'agSetColumnFilter',
+    //     hide: true
+    //   },
+    //   {
+    //     field: 'title',
+    //     headerName: header,
+    //     filter: 'agSetColumnFilter',
+    //   },
+    //   {
+    //     field: 'day',
+    //     headerName: 'روز',
+    //     filter: 'agSetColumnFilter',
+    //     hide: true
+    //   },
+    //   {
+    //     field: 'shiftTitle',
+    //     headerName: 'شیفت',
+    //     filter: 'agSetColumnFilter',
+    //     hide: true
+    //   },
+    //   {
+    //     field: 'wireType',
+    //     headerName: 'نوع سیم',
+    //     filter: 'agSetColumnFilter'
+    //   },
+    //   {
+    //     field: 'wireConsumption',
+    //     headerName: 'مصرف سیم (kg)',
+    //     filter: 'agSetColumnFilter'
+    //   }
+    // ]
   }
 
   getSalons() {
@@ -162,6 +162,20 @@ export class WireTypeConsumptionReportComponent extends AgGridBaseComponent impl
         this.wireTypes = _(data).groupBy('wireType')
           .map((value, key) => ({ wireType: key, value: value }))
           .value()
+
+        this.columnDefs = [
+          {
+            field: 'title',
+            headerName: 'عنوان',
+          }
+        ]
+
+        this.wireTypes.forEach(item => {
+          this.columnDefs.push({
+            field: item.wireType,
+            headerName: item.wireType,
+          })
+        })
       })
   }
 

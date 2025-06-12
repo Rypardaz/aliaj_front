@@ -46,7 +46,7 @@ export class DailyRecordListReportComponent extends AgGridBaseComponent implemen
   }
 
   override ngOnInit(): void {
-    this.breadCrumbService.setTitle('گزارش اطلاعات فرم روزانه')
+    this.breadCrumbService.setTitle('اطلاعات فرم روزانه جوشکاری')
     this.getSalons()
   }
 

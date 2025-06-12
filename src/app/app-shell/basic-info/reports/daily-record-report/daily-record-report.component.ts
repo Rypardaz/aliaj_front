@@ -67,7 +67,7 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
         break;
       case '2':
         this.breadCrumbService.setTitle('خلاصه گزارش هفتگی')
-        this.setFormValue(this.form, 'weekIds', [moment().jWeek()]);
+        this.setFormValue(this.form, 'weekIds', [moment().jWeek() - 1]);
         break;
       case '3':
         this.breadCrumbService.setTitle('خلاصه گزارش ماهانه')

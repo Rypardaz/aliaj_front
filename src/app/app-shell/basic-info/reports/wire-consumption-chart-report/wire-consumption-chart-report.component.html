@@ -7,7 +7,7 @@
                 <div class="row">
 
                     <div class="col-3">
-                        <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب واحد" [multiple]="true">
+                        <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب واحد">
                             <ng-option [value]="item.guid" *ngFor="let item of salons">{{item.title}}</ng-option>
                         </ng-select>
                     </div>
@@ -19,21 +19,22 @@
                     </div>
 
                     <div class="col-3" *ngIf="type != 2">
-                        <ng-select formControlName="monthId" class="my-2" placeholder="انتخاب ماه">
+                        <ng-select formControlName="monthIds" class="my-2" placeholder="انتخاب ماه" [multiple]="true">
                             <ng-option [value]="item.id" *ngFor="let item of months">{{item.name}}</ng-option>
                         </ng-select>
                     </div>
 
-                    <ng-container *ngIf="type!=3">
+                    <ng-container *ngIf="type!=1 && type!=3">
                         <div class="col-3">
-                            <ng-select formControlName="weekId" class="my-2" placeholder="انتخاب هفته">
+                            <ng-select formControlName="weekIds" class="my-2" placeholder="انتخاب هفته"
+                                [multiple]="true">
                                 <ng-option [value]="item.id" *ngFor="let item of weeks">{{item.name}}</ng-option>
                             </ng-select>
                         </div>
                     </ng-container>
 
 
-                    <ng-container *ngIf="type!=5 && type!=10">
+                    <ng-container *ngIf="type!=5 && type!=7 && type!=10">
                         <div class="col-3">
                             <ng-select formControlName="wireTypeGuid" class="my-2" placeholder="انتخاب نوع سیم"
                                 [multiple]="true">
@@ -42,27 +43,34 @@
                         </div>
                     </ng-container>
 
-                    <div class="col-3">
-                        <ng-select formControlName="machineGuid" class="my-2" placeholder="انتخاب دستگاه"
-                            [multiple]="true">
-                            <ng-option [value]="item.guid" *ngFor="let item of machines">{{item.name}}</ng-option>
-                        </ng-select>
-                    </div>
+                    <ng-container *ngIf="type!=5 && type!=7">
+                        <div class="col-3">
+                            <ng-select formControlName="machineGuid" class="my-2" placeholder="انتخاب دستگاه"
+                                [multiple]="true">
+                                <ng-option [value]="item.guid" *ngFor="let item of machines">{{item.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </ng-container>
 
-                    <div class="col-3">
-                        <ng-select formControlName="shiftGuid" class="my-2" placeholder="انتخاب شیفت کاری">
-                            <ng-option [value]="item.guid" *ngFor="let item of shifts">{{item.title}}</ng-option>
-                        </ng-select>
-                    </div>
+                    <!-- 
+                    <ng-container *ngIf="type!=1 && type!=2 && type!=3 && type!=5 && type!=7 && type!=10">
+                        <div class="col-3">
+                            <ng-select formControlName="shiftGuid" class="my-2" placeholder="انتخاب شیفت کاری">
+                                <ng-option [value]="item.guid" *ngFor="let item of shifts">{{item.title}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </ng-container> -->
 
-                    <div class="col-3">
-                        <ng-select formControlName="personnelGuid" class="my-2" placeholder="انتخاب اپراتور"
-                            [multiple]="true">
-                            <ng-option [value]="item.guid" *ngFor=" let item of personnel">
-                               ({{item.code}}) - {{item.name}} {{item.family}}
-                            </ng-option>
-                        </ng-select>
-                    </div>
+                    <ng-container *ngIf="type!=5">
+                        <div class="col-3">
+                            <ng-select formControlName="personnelGuid" class="my-2" placeholder="انتخاب اپراتور"
+                                [multiple]="true">
+                                <ng-option [value]="item.guid" *ngFor=" let item of personnel">
+                                    ({{item.code}}) - {{item.name}} {{item.family}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                    </ng-container>
 
                     <div class="col-3">
                         <ng-select formControlName="showShift" class="my-2" placeholder="نمایش به تفکیک شیفت">
@@ -72,20 +80,19 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <ng-container *ngIf="type!=2 && type!=3">
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="form-control" id="fromDate" formControlName="fromDate" autocomplete="off"
+                                appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
+                        </div>
 
-                    <div class="col-6">
-                        <input class="form-control" id="fromDate" formControlName="fromDate" autocomplete="off"
-                            appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
+                        <div class="col-6">
+                            <input class="form-control" id="toDate" formControlName="toDate" autocomplete="off"
+                                appDateMask [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
+                        </div>
                     </div>
-
-                    <div class="col-6">
-                        <input class="form-control" id="toDate" formControlName="toDate" autocomplete="off" appDateMask
-                            [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
-                    </div>
-
-                </div>
-
+                </ng-container>
             </div>
 
         </div>

@@ -7,12 +7,12 @@ import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-g
 import { PersonnelService } from '../../personnel/personnel.service'
 import { WireTypeService } from '../../wire-type/wire-type.service'
 import { ChartService } from '../chart.service'
-import { years, months, weeks } from 'src/app/app-shell/framework-components/constants'
+import { years, months, weeks, getCurrentYear } from 'src/app/app-shell/framework-components/constants'
 import { ActivatedRoute } from '@angular/router'
 import { ListItemService } from '../../list-item/list-item.service'
-import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
-import * as _ from 'lodash'
+import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
 declare var ApexCharts: any
+import * as _ from 'lodash'
 
 @Component({
   selector: 'app-welding-time-chart-report',
@@ -48,13 +48,15 @@ export class WeldingTimeChartReportComponent extends AgGridBaseComponent impleme
     private readonly listItemService: ListItemService) {
     super(false)
 
+    const year = getCurrentYear()
+
     this.form = fb.group({
       type: [],
       fromDate: [],
       toDate: [],
-      weekId: [],
-      yearIds: [],
-      monthId: [],
+      weekIds: [[]],
+      yearIds: [year],
+      monthIds: [[]],
       wireTypeGuid: [],
       machineGuid: [],
       salonGuid: [],
@@ -222,12 +224,12 @@ export class WeldingTimeChartReportComponent extends AgGridBaseComponent impleme
               color: '#000000'
             },
           },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: '25%'
-            },
-          },
+          // plotOptions: {
+          //   bar: {
+          //     horizontal: false,
+          //     columnWidth: '25%'
+          //   },
+          // },
           dataLabels: {
             enabled: true
           },
@@ -257,7 +259,7 @@ export class WeldingTimeChartReportComponent extends AgGridBaseComponent impleme
           yaxis: {
             labels: {
               formatter: function (val) {
-                return val + "(kg)"
+                return val + "(h)"
               },
               offsetX: -15
             }

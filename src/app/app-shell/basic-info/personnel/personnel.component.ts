@@ -37,6 +37,7 @@ export class PersonnelComponent extends ModalFormBaseComponent<PersonnelService,
         Validators.minLength(1),
         Validators.maxLength(100)
       ]],
+      nationalCode: [''],
       salonGuid: null,
     })
 
@@ -79,6 +80,11 @@ export class PersonnelComponent extends ModalFormBaseComponent<PersonnelService,
       {
         field: 'family',
         headerName: 'نام خانوادگی',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'nationalCode',
+        headerName: 'کدملی',
         filter: 'agSetColumnFilter'
       },
       {

@@ -52,6 +52,16 @@ export class PersonnelReportComponent extends AgGridBaseComponent implements OnI
 
     this.columnDefs = [
       {
+        field: 'fullname',
+        headerName: 'نام و نام خانوادگی',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'nationalCode',
+        headerName: 'کدملی',
+        filter: 'agSetColumnFilter'
+      },
+      {
         field: 'projectCode',
         headerName: 'کد پروژه',
         filter: 'agSetColumnFilter'
@@ -112,10 +122,10 @@ export class PersonnelReportComponent extends AgGridBaseComponent implements OnI
   getReport() {
     const searchModel = this.form.value
 
-    // if (!searchModel.salonGuid) {
-    //   this.notificationService.error('لطفا برای دریافت گزارش سالن را انتخاب نمایید.')
-    //   return
-    // }
+    if (!searchModel.salonGuid) {
+      this.notificationService.error('لطفا برای دریافت گزارش سالن را انتخاب نمایید.')
+      return
+    }
 
     // if (!searchModel.personnelGuid) {
     //   this.notificationService.error('لطفا برای دریافت گزارش پرسنل را انتخاب نمایید.')

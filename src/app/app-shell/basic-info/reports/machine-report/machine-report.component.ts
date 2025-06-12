@@ -36,6 +36,8 @@ export class MachineReportComponent extends AgGridBaseComponent implements OnIni
     const month = getCurrentMonth()
     const year = getCurrentYear()
     const week = moment().jWeek()
+    
+    console.log(week)
 
     this.form = fb.group({
       salonGuid: [],

@@ -39,6 +39,7 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
     private readonly salonService: SalonService,
     private readonly breadCrumbService: BreadcrumbService,
     private readonly chartService: ChartService,
+    private readonly notificationService: NotificationService,
     private readonly activatedRoute: ActivatedRoute) {
     super(false)
 
@@ -70,7 +71,7 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
 
     this.breadCrumbService.setTitle(this.title)
 
-    this.getReport()
+    //this.getReport()
     this.getSalons()
   }
 
@@ -83,7 +84,15 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
   getReport() {
     const searchModel = this.form.value
 
+    if (!searchModel.salonGuid) {
+      this.notificationService.error('لطفا برای دریافت گزارش سالن را انتخاب نمایید.')
+      return
+    }
 
+    if (!searchModel.yearIds) {
+      this.notificationService.error('لطفا برای دریافت گزارش سال را انتخاب نمایید.')
+      return
+    }
 
     this.chartService
       .getWireConsumptionChart(searchModel)
@@ -156,12 +165,36 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
           },
           colors: colors,
           xaxis: {
+            title: {
+              text: "ماه",
+              rotate: -90,
+              offsetX: 0,
+              offsetY: 0,
+              style: {
+                color: undefined,
+                fontSize: '12px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 600
+              }
+            },
             categories: categories,
             axisBorder: {
               show: false
             },
           },
           yaxis: {
+            title: {
+              text: 'درصد راندمان',
+              rotate: -90,
+              offsetX: 0,
+              offsetY: 0,
+              style: {
+                color: undefined,
+                fontSize: '12px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 600
+              }
+            },
             labels: {
               formatter: function (val) {
                 return val + "%"

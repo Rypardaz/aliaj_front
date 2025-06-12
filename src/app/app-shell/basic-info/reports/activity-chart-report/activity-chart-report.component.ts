@@ -7,6 +7,7 @@ import { activitySubTypes, getCurrentMonth, getCurrentYear, months, weeks, years
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component'
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
+import { SalonService } from '../../salon/salon.service'
 declare var ApexCharts: any
 
 @Component({
@@ -17,7 +18,10 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
 
   type
   title
+  xTitle
+  yTitle
   chart
+  salons = []
   activities = []
   activitySubTypes = activitySubTypes
   records = []
@@ -31,20 +35,21 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
     private readonly chartService: ChartService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly activityService: ActivityService,
+    private readonly salonService: SalonService,
     private readonly notificationService: NotificationService) {
     super(false)
 
-    const month = getCurrentMonth()
     const year = getCurrentYear()
 
     this.form = fb.group({
       type: [],
       fromDate: [],
       toDate: [],
-      weekId: [],
+      weekIds: [[]],
       yearIds: [year],
-      monthId: [month],
+      monthIds: [[]],
       activityGuid: [],
+      salonGuid: [],
       activitySubType: []
     })
   }
@@ -53,22 +58,33 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
     this.type = this.activatedRoute.snapshot.paramMap.get('type')
     this.setFormValue(this.form, 'type', this.type)
 
+    this.yTitle = 'زمان فعالیت و توقت'
     switch (this.type) {
       case '2':
-        this.title = 'نمودار زمان فعالیت توقف'
+        this.title = 'نمودار زمان فعالیت توقف به تفکیک تاریخ'
+        this.xTitle = 'تاریخ'
         break;
       case '3':
-        this.title = 'نمودار زمان فعالیت توقف'
+        this.title = 'نمودار زمان فعالیت توقف به تفکیک شماره هفته'
+        this.xTitle = 'شماره هفته'
         break;
       case '4':
-        this.title = 'نمودار زمان فعالیت توقف'
+        this.title = 'نمودار زمان فعالیت توقف به تفکیک ماه'
+        this.xTitle = 'ماه'
         break;
     }
 
     this.breadCrumbService.setTitle(this.title)
 
-    this.getReport()
+    // this.getReport()
     this.getActivities()
+    this.getSalons()
+  }
+
+  getSalons() {
+    this.salonService
+      .getForComboBySalonType(2)
+      .subscribe(data => this.salons = data)
   }
 
   getActivities() {
@@ -80,12 +96,17 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
   getReport() {
     const searchModel = this.form.value
 
+    if (!searchModel.salonGuid) {
+      this.notificationService.error('لطفا برای دریافت گزارش سالن را انتخاب نمایید.')
+      return
+    }
+
     if (!searchModel.yearIds) {
       this.notificationService.error('لطفا برای دریافت گزارش سال را انتخاب نمایید.')
       return
     }
 
-    if (this.type == 1 && !searchModel.monthId) {
+    if (this.type == 1 && !searchModel.monthIds.length) {
       this.notificationService.error('لطفا برای دریافت گزارش ماه را انتخاب نمایید.')
       return
     }
@@ -161,12 +182,40 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
           },
           colors: colors,
           xaxis: {
+            title: {
+              text: this.xTitle,
+              align: 'center',
+              margin: 10,
+              offsetX: 0,
+              offsetY: 0,
+              floating: false,
+              style: {
+                fontSize: '20px',
+                fontWeight: 'bold',
+                fontFamily: 'IRANSansX',
+                color: '#000000'
+              },
+            },
             categories: categories,
             axisBorder: {
               show: false
             },
           },
           yaxis: {
+            title: {
+              text: this.yTitle,
+              align: 'center',
+              margin: 10,
+              offsetX: 0,
+              offsetY: 0,
+              floating: false,
+              style: {
+                fontSize: '20px',
+                fontWeight: 'bold',
+                fontFamily: 'IRANSansX',
+                color: '#000000'
+              },
+            },
             labels: {
               formatter: function (val) {
                 return val + "(h)"
