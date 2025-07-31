@@ -166,7 +166,7 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
           colors: colors,
           xaxis: {
             title: {
-              text: "ماه",
+              // text: "ماه",
               rotate: -90,
               offsetX: 0,
               offsetY: 0,

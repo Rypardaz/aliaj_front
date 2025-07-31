@@ -21,6 +21,8 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
   records = []
   columns = []
   projects = []
+  partTypes = []
+  partCodes = []
   years = years
   weeks = weeks
   months = months
@@ -34,7 +36,9 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
     super(false)
 
     this.form = fb.group({
-      projectGuid: ''
+      projectGuid: null,
+      partGuid: null,
+      partCode: null
     })
   }
 
@@ -118,6 +122,49 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
       .subscribe((data: []) => {
         this.records = data
       })
-
   }
+
+  onProjectGuidChange() {
+    const projectGuid = this.getFormValue(this.form, "projectGuid");
+    if (!projectGuid) {
+      this.partTypes = [];
+      this.partCodes = [];
+      return
+    }
+
+    const searchModel = {
+      projectGuid: projectGuid
+    }
+
+    this.projectService
+      .getProjectStep(searchModel)
+      .subscribe((data: []) => {
+        this.partTypes = data
+      })
+  }
+
+  onPartTypeGuidChange() {
+    const projectGuid = this.getFormValue(this.form, "projectGuid");
+    const partGuid = this.getFormValue(this.form, "partGuid");
+
+    if (!partGuid) {
+      this.partCodes = [];
+      return
+    }
+
+    const searchModel = {
+      projectGuid: projectGuid,
+      partGuid: partGuid
+    }
+
+    if (searchModel.projectGuid == "00000000-0000-0000-0000-000000000000"
+    ) return;
+
+    this.projectService
+      .getProjectStep(searchModel)
+      .subscribe((data: []) => {
+        this.partCodes = data
+      })
+  }
+
 }

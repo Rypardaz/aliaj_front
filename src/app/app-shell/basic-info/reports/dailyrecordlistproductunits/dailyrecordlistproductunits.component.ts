@@ -50,7 +50,7 @@ export class DailyrecordlistproductunitsComponent extends AgGridBaseComponent im
 
   getSalons() {
     this.salonService
-      .getForComboBySalonType(2)
+      .getForComboBySalonType(1)
       .subscribe(data => this.salons = data)
   }
 

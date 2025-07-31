@@ -5,10 +5,25 @@
             <div class="card-body">
                 <div class="form-group row" [formGroup]="form">
                     <div class="col-4">
-                        <ng-select formControlName="projectGuid" class="mt-1" placeholder="انتخاب پروژه">
+                        <ng-select (ngModelChange)="onProjectGuidChange()" formControlName="projectGuid" class="mt-1"
+                            placeholder="انتخاب پروژه">
                             <ng-option [value]="item.guid" *ngFor="let item of projects">{{item.title}}</ng-option>
                         </ng-select>
                     </div>
+
+                    <div class="col-4">
+                        <ng-select (ngModelChange)="onPartTypeGuidChange()" formControlName="partGuid" class="mt-1"
+                            placeholder="انتخاب گروه/نوع قطعه">
+                            <ng-option [value]="item.guid" *ngFor="let item of partTypes">{{item.title}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-4">
+                        <ng-select formControlName="partCode" class="mt-1" placeholder="انتخاب کد قطعه">
+                            <ng-option [value]="item.title" *ngFor="let item of partCodes">{{item.title}}</ng-option>
+                        </ng-select>
+                    </div>
+
                 </div>
             </div>
         </div>

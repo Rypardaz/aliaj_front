@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit {
 
   salonTypeGuid
   salons = []
-  salonId
+  salon
 
   stopChartResult = []
   stopChart: any
@@ -47,8 +47,8 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  onSalonClicked(salonId) {
-    this.salonId = salonId
+  onSalonClicked(salon) {
+    this.salon = salon
 
     this.getStopChart()
     this.getWireConsumptionChart()
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
     let searchModel = {
       type: 2,
       period,
-      salonId: this.salonId
+      salonId: this.salon.id
     }
 
     this.reportService
@@ -132,7 +132,7 @@ export class DashboardComponent implements OnInit {
     const searchModel = {
       type: 3,
       period,
-      salonId: this.salonId
+      salonId: this.salon.id
     }
 
     this.reportService
@@ -257,7 +257,7 @@ export class DashboardComponent implements OnInit {
     const searchModel = {
       type: 4,
       period,
-      salonId: this.salonId
+      salonId: this.salon.id
     }
 
     this.reportService
@@ -325,12 +325,18 @@ export class DashboardComponent implements OnInit {
           },
           colors: colors,
           xaxis: {
+            title: {
+              text: 'نام دستگاه',
+            },
             categories: labels,
             axisBorder: {
               show: false
             },
           },
           yaxis: {
+            title: {
+              text: 'زمان (h)'
+            },
             labels: {
               formatter: function (val) {
                 return val
@@ -344,7 +350,7 @@ export class DashboardComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function (val) {
-                return val + "kg"
+                return val + " (h)"
               }
             },
           },
@@ -362,7 +368,7 @@ export class DashboardComponent implements OnInit {
   getActiveProjects() {
     const searchModel = {
       type: 5,
-      salonId: this.salonId
+      salonId: this.salon.id
     }
 
     this.reportService
@@ -372,10 +378,11 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  getProductCategory() {
+  getProductCategory(period = 3) {
     const searchModel = {
       type: 6,
-      salonId: this.salonId
+      period,
+      salonId: this.salon.id
     }
 
     this.reportService
