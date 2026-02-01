@@ -142,6 +142,9 @@ export class DashboardComponent implements OnInit {
         const serie1 = []
         const serie2 = []
 
+        if (this.wireConsumptionChart)
+          this.wireConsumptionChart.destroy()
+
         data.forEach(item => {
           labels.push(item.x)
           serie1.push(parseFloat(item.y1))
@@ -149,100 +152,103 @@ export class DashboardComponent implements OnInit {
         })
 
         var colors = ['#3bafda', '#1abc9c', "#f672a7"];
-        var dataColors = $("#wire-consumption").data('colors');
+        var dataColors = $("#wire-consumption123").data('colors');
         if (dataColors) {
           colors = dataColors.split(",");
         }
-        const options = {
+
+        var xtitle = ""
+        switch (period) {
+          case 1:
+            xtitle = "هقته"
+            break;
+          case 2:
+            xtitle = "ماه"
+            break;
+          case 3:
+            xtitle = "سال"
+            break;
+
+          default:
+            xtitle = "سال"
+        }
+
+
+        const options: any = {
           chart: {
             height: 265,
-            type: 'line',
-            padding: {
-              right: 0,
-              left: 0
-            },
-            stacked: false,
+            type: 'area',
+            stacked: true,
             toolbar: {
               show: false
             }
           },
-          stroke: {
-            width: [1, 2],
-            curve: 'smooth'
-          },
           plotOptions: {
             bar: {
-              columnWidth: '50%'
-            }
-          },
-          colors: colors,
-          series: [
-            {
-              name: 'Desktops',
-              type: 'area',
-              data: serie1
+              horizontal: false,
+              columnWidth: '25%'
             },
-            {
-              name: 'Laptops',
-              type: 'area',
-              data: serie2
-            }
-          ],
-          fill: {
-            opacity: [0.25, 0.25],
-            gradient: {
-              inverseColors: false,
-              shade: 'light',
-              type: "vertical",
-              opacityFrom: 0.85,
-              opacityTo: 0.55,
-              stops: [0, 100, 100, 100]
-            }
           },
-          labels: labels,
-          markers: {
-            size: 0
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+          },
+          series: [{
+            name: 'مصرف واقعی',
+            type: 'bar',
+            data: serie1
+          },
+          {
+            name: 'مصرف استاندارد',
+            type: 'area',
+            data: serie2
+          },
+          ],
+          zoom: {
+            enabled: false
           },
           legend: {
-            offsetY: 5,
+            show: false
           },
+          colors: colors,
           xaxis: {
-            type: 'datetime'
+            title: {
+              text: xtitle,
+            },
+            categories: labels,
+            axisBorder: {
+              show: false
+            },
           },
           yaxis: {
             title: {
-              text: 'مصرف سیم'
+              text: 'مقدار (Kg)'
             },
             labels: {
               formatter: function (val) {
-                return val + "k"
+                return val
               },
-              offsetX: -10
+              offsetX: -15
             }
+          },
+          fill: {
+            opacity: 1
           },
           tooltip: {
-            shared: true,
-            intersect: false,
             y: {
-              formatter: function (y) {
-                if (typeof y !== "undefined") {
-                  return y.toFixed(0) + " Dollars";
-                }
-                return y;
-
+              formatter: function (val) {
+                return val + " (Kg)"
               }
-            }
+            },
           },
-          grid: {
-            borderColor: '#f1f3fa',
-            padding: {
-              bottom: 10
-            }
-          }
         }
 
         this.wireConsumptionChart = new ApexCharts(
-          document.querySelector("#wire-consumption"),
+          document.querySelector("#wire-consumption123"),
           options
         )
 
@@ -281,7 +287,7 @@ export class DashboardComponent implements OnInit {
           colors = dataColors.split(",");
         }
 
-        var options: any = {
+        const options: any = {
           chart: {
             height: 265,
             type: 'bar',

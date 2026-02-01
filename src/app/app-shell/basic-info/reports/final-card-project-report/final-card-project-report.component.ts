@@ -36,10 +36,24 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
     super(false)
 
     this.form = fb.group({
-      projectGuid: null,
-      partGuid: null,
-      partCode: null
+      projectGuid: [],
+      partGuid: [],
+      partCode: []
     })
+
+    this.form
+      .get('projectGuid')
+      .valueChanges
+      .subscribe(projectGuid => {
+        this.onProjectGuidChange()
+      })
+
+    this.form
+      .get('partGuid')
+      .valueChanges
+      .subscribe(partGuid => {
+        this.onPartTypeGuidChange()
+      })
   }
 
   override ngOnInit(): void {
@@ -125,12 +139,14 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
   }
 
   onProjectGuidChange() {
+    this.partTypes = [];
+    this.partCodes = [];
+
+    this.setFormValue(this.form, "partGuid", null);
+    this.setFormValue(this.form, "partCode", null);
+
     const projectGuid = this.getFormValue(this.form, "projectGuid");
-    if (!projectGuid) {
-      this.partTypes = [];
-      this.partCodes = [];
-      return
-    }
+    if (!projectGuid) return
 
     const searchModel = {
       projectGuid: projectGuid
@@ -144,13 +160,12 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
   }
 
   onPartTypeGuidChange() {
+    this.partCodes = [];
+    this.setFormValue(this.form, "partCode", null);
+
     const projectGuid = this.getFormValue(this.form, "projectGuid");
     const partGuid = this.getFormValue(this.form, "partGuid");
-
-    if (!partGuid) {
-      this.partCodes = [];
-      return
-    }
+    if (!partGuid) return
 
     const searchModel = {
       projectGuid: projectGuid,
