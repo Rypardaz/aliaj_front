@@ -62,6 +62,8 @@ export class DailyRecordOpsComponent implements OnInit {
   salonType
   selectedMachineHeadCount = 1
 
+  productionWireScrews = []
+
   constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
@@ -113,6 +115,12 @@ export class DailyRecordOpsComponent implements OnInit {
               this.wireTypes = data
             })
         }
+      })
+
+    this.wireScrewService
+      .getProductionWireScrews({ guid: this.guid })
+      .subscribe((data: []) => {
+        this.productionWireScrews = data
       })
 
     this.activityService

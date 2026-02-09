@@ -117,8 +117,12 @@
                             </ng-select>
                         </td>
                         <td>
-                            <input type="number" min="0" [(ngModel)]="detail.producedScrew" id="producedScrew"
-                                class="form-control" [disabled]="detail.activityType == 2">
+                            <ng-select [items]="productionWireScrews" [(ngModel)]="detail.producedScrew"
+                                id="producedScrew" bindLabel="wireScrewId" bindValue="wireScrewId"
+                                [disabled]="detail.activityType == 2">
+                            </ng-select>
+                            <!-- <input type="number" min="0" [(ngModel)]="detail.producedScrew" id="producedScrew"
+                                class="form-control" [disabled]="detail.activityType == 2"> -->
                         </td>
                         <td>
                             <div class="align-items-stretch d-flex">

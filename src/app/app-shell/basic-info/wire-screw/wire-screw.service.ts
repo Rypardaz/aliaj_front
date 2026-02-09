@@ -10,4 +10,9 @@ export class WireScrewService extends ServiceBase {
   constructor(httpService: HttpService) {
     super("WireScrew", httpService)
   }
+
+  getProductionWireScrews(searchModel) {
+    const path = `${this.baseUrl}/GetProductionWireScrews`
+    return this.httpService.put(path, searchModel)
+  }
 }

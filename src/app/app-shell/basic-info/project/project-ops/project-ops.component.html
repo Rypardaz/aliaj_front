@@ -110,15 +110,16 @@
             <thead class="bg-soft-purple">
                 <tr>
                     <th style="width: 5%;"> ردیف </th>
-                    <th style="width: 15%;">گروه/نوع قطعه</th>
-                    <th style="width: 9%;">کد قطعه</th>
+                    <th style="width: 15%;" *ngIf="!selectedSalon?.hasWireScrew">گروه/نوع قطعه</th>
+                    <th style="width: 9%;" *ngIf="!selectedSalon?.hasWireScrew">کد قطعه</th>
                     <th style="width: 12%;" *ngIf="selectedSalon?.hasGas">نوع گاز</th>
                     <th style="width: 12%;" *ngIf="selectedSalon?.hasPowder">نوع پودر</th>
-                    <th style="width: 12%;" *ngIf="selectedSalon?.hasWire">نوع سیم</th>
+                    <th style="width: 12%;" *ngIf="selectedSalon?.hasWire || selectedSalon?.hasWireScrew">نوع سیم</th>
                     <th style="width: 12%;" *ngIf="selectedSalon?.hasWireScrew">بچ سیم</th>
+                    <th style="width: 12%;" *ngIf="selectedSalon?.hasWireScrew">مقدار تولید</th>
                     <th style="width: 8%;" *ngIf="selectedSalon?.hasWire">ضخامت جوشکاری</th>
                     <th style="width: 8%;" *ngIf="selectedSalon?.hasWire">مصرف سیم</th>
-                    <th style="width: 12%;">شرح قطعه</th>
+                    <th style="width: 12%;">شرح</th>
                     <th style="width: 7%">عملیات</th>
                 </tr>
             </thead>
@@ -130,12 +131,12 @@
                             [checked]="detail.checked" *ngIf="!isReadonly">
                         {{ index + 1 }}
                     </td>
-                    <td>
+                    <td *ngIf="!selectedSalon?.hasWireScrew">
                         <ng-select [items]="parts" [(ngModel)]="detail.partGuid" id="partGuid" bindLabel="title"
                             bindValue="guid" [required]="true" [disabled]="isReadonly" required>
                         </ng-select>
                     </td>
-                    <td>
+                    <td *ngIf="!selectedSalon?.hasWireScrew">
                         <input type="text" step="any" [(ngModel)]="detail.partCode" id="partCode" class="form-control"
                             [disabled]="isReadonly ? true : null" required>
                     </td>
@@ -151,17 +152,27 @@
                             [required]="true">
                         </ng-select>
                     </td>
-                    <td *ngIf="selectedSalon?.hasWire">
+                    <td *ngIf="selectedSalon?.hasWire || selectedSalon?.hasWireScrew">
                         <ng-select [items]="wireTypes" [(ngModel)]="detail.wireTypeGuid" id="wireTypeGuid"
                             bindLabel="title" bindValue="guid" [required]="true"
                             (change)="onWireTypeChange(detail.guid)" [disabled]="isReadonly" [required]="true">
                         </ng-select>
                     </td>
                     <td *ngIf="selectedSalon?.hasWireScrew">
-                        <ng-select [items]="detail.wireScrews" [(ngModel)]="detail.wireScrewGuid" id="wireScrewGuid"
+                        <!-- <ng-select [items]="detail.wireScrews" [(ngModel)]="detail.wireScrewGuid" id="wireScrewGuid"
                             bindLabel="title" bindValue="guid" [required]="true" [disabled]="isReadonly"
                             [required]="true">
-                        </ng-select>
+                        </ng-select> -->
+                        <div class="align-items-stretch d-flex">
+                            <input type="text" [(ngModel)]="detail.wireScrewGuid" id="wireScrewGuid"
+                                class="form-control" [disabled]="isReadonly? true : null" required>
+                        </div>
+                    </td>
+                    <td *ngIf="selectedSalon?.hasWireScrew">
+                        <div class="align-items-stretch d-flex">
+                            <input type="number" step="any" min="0" [(ngModel)]="detail.productionQty"
+                                id="productionQty" class="form-control" [disabled]="isReadonly? true : null" required>
+                        </div>
                     </td>
                     <td *ngIf="selectedSalon?.hasWire">
                         <div class="align-items-stretch d-flex">

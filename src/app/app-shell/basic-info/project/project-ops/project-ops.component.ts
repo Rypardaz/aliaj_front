@@ -161,7 +161,10 @@ export class ProjectOpsComponent implements OnInit {
   }
 
   detailsHasInvalidItem() {
-    let filter = this.getActiveDetails().filter(x => x.partGuid && x.partCode)
+    let filter = this.getActiveDetails()
+
+    if (!this.selectedSalon.hasWireScrew)
+      filter = filter.filter(x => x.partGuid && x.partCode)
 
     if (this.selectedSalon.hasGas)
       filter = filter.filter(x => x.gasTypeGuid)

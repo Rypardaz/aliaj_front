@@ -1,8 +1,8 @@
 const ssoAuthenticationFlow: 'code' | 'password' = 'code'
-let serviceEndpoint = "http://192.168.2.21:8080";
-let userManagementEndpoint = "http://192.168.2.21:8081";
-let identityEndpoint = "http://192.168.2.21:8082";
-let selfEndpoint = 'http://192.168.2.21:8083'
+let serviceEndpoint = "http://192.168.2.22:8080";
+let userManagementEndpoint = "http://192.168.2.22:8081";
+let identityEndpoint = "http://192.168.2.22:8082";
+let selfEndpoint = 'http://192.168.2.22:8083'
 
 export function getServiceUrl() {
     return `${serviceEndpoint}/api/`;

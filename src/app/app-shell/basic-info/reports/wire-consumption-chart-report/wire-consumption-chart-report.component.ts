@@ -20,7 +20,7 @@ declare var ApexCharts: any
 })
 export class WireConsumptionChartReportComponent extends AgGridBaseComponent implements OnInit {
 
-  title = 'نمودار مصرف سیم /'
+  title = 'نمودار مصرف سیم'
   salons = []
   machines = []
   personnel = []
@@ -93,7 +93,8 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
         break;
     }
 
-    this.title += this.typeName
+    if (this.type != 1)
+      this.title += ` / ${this.typeName}`
 
     this.breadCrumbService.setTitle(this.title)
 
@@ -185,7 +186,7 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
         if (this.chart)
           this.chart.destroy();
 
-        var colors = ["#727cf5", "#D6863A"];
+        var colors = ["#414ee1ff", "#d6c43aff"];
         var dataColors = $("#report").data('colors');
         if (dataColors) {
           colors = dataColors.split(",");
@@ -266,7 +267,7 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
           //   },
           // },
           dataLabels: {
-            enabled: true
+            enabled: false
           },
           stroke: {
             show: true,

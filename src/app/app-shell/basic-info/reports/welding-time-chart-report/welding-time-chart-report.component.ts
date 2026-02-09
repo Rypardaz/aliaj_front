@@ -231,7 +231,7 @@ export class WeldingTimeChartReportComponent extends AgGridBaseComponent impleme
           //   },
           // },
           dataLabels: {
-            enabled: true
+            enabled: false
           },
           stroke: {
             show: true,
