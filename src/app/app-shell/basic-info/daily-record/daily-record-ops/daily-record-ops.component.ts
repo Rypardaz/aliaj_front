@@ -102,6 +102,8 @@ export class DailyRecordOpsComponent implements OnInit {
 
   ngOnInit(): void {
     this.guid = this.activatedRoute.snapshot.paramMap.get('guid')
+    const onlyActive = this.guid ? false : true
+
     this.salonGuid = this.localStorageService.getItem(SALON_GUID_NAME)
     this.salonService
       .getForEdit(this.salonGuid)
@@ -134,7 +136,7 @@ export class DailyRecordOpsComponent implements OnInit {
             this.wireScrews = data
 
             this.projectService
-              .getForCombo()
+              .getForComboBy({ onlyActive })
               .subscribe((data: []) => {
                 this.projects = data
 
@@ -165,7 +167,7 @@ export class DailyRecordOpsComponent implements OnInit {
                   .subscribe(data => this.shifts = data)
 
                 this.personnelService
-                  .getForCombo<ComboBase[]>(this.salonGuid)
+                  .getForComboBy<ComboBase[]>({ salonGuid: this.salonGuid, onlyActive })
                   .subscribe(data => this.personnels = data)
 
                 this.gasTypeService

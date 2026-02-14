@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ModalFormBaseComponent } from '../../framework-components/modal/modal-form-base.component'
 import { FormBuilder, Validators } from '@angular/forms'
 import { ComboBase } from '../../framework-components/combo-base';
@@ -9,6 +9,7 @@ import { LocalStorageService } from '../../framework-services/local.storage.serv
 import { SALON_GUID_NAME } from '../../framework-services/configuration';
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
 import { ProjectService } from '../project/project.service';
+import { AgGridToolsComponent } from '../../framework-components/ag-grid-tools/ag-grid-tools.component';
 
 @Component({
   selector: 'app-daily-record',
@@ -18,6 +19,8 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
   salonGuid
   salons: ComboBase[];
   searchModel: any
+
+  @ViewChild(AgGridToolsComponent) agGridTools: AgGridToolsComponent
 
   constructor(private readonly fb: FormBuilder,
     dailyRecordService: DailyRecordService,
@@ -42,6 +45,16 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
       deliveryDate: null,
       description: null
     })
+
+    this.afterListFetch
+      .subscribe(_ => {
+        this.salonService
+          .getForCombo<ComboBase[]>()
+          .subscribe(data => {
+            this.salons = data
+            this.agGridTools.restoreState()
+          })
+      })
   }
 
   override ngOnInit(): void {

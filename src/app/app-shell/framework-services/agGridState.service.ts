@@ -10,37 +10,50 @@ export class AgGridStateService {
   constructor(private readonly localStorageService: LocalStorageService,
     private readonly notificationService: NotificationService) { }
 
-  private makeStorageName(name: string): string {
+  private makeStorageName(name) {
     return `${name}_colState`;
   }
 
-  saveState(gridColumnApi: any, name: string): void {
-    const colState = JSON.stringify(gridColumnApi.getColumnState());
+  saveState(gridApi, gridColumnApi, name) {
     const storageName = this.makeStorageName(name);
-    this.localStorageService.setItem(storageName, colState);
+
+    const state = {
+      columns: gridColumnApi.getColumnState(),
+      filter: gridApi.getFilterModel()
+    };
+
+    this.localStorageService.setItem(storageName, JSON.stringify(state));
     this.notificationService.succeded("حالت جدول با موفقیت ذخیره شد.");
   }
 
-  restoreState(gridColumnApi: any, name: string): boolean {
-    const storageName = this.makeStorageName(name);
-    const colState = JSON.parse(this.localStorageService.getItem(storageName));
-    if (!colState) {
+  restoreState(gridApi, gridColumnApi, name) {
+    const storageName = this.makeStorageName(name)
+    const saved = localStorage.getItem(storageName)
+    const state = JSON.parse(saved)
+
+    if (!state) {
       return false;
     }
 
+    // Columns
     gridColumnApi.applyColumnState({
-      state: colState,
-      applyOrder: true,
+      state: state.columns,
+      applyOrder: true
     });
 
-    return true;
+    // Filtering
+    gridApi.setFilterModel(state.filter);
+
+    return true
   }
 
-  resetState(gridColumnApi: any, name: string): void {
-    gridColumnApi.resetColumnState();
-    const storageName = this.makeStorageName(name);
+  resetState(gridApi, gridColumnApi, name) {
+    gridColumnApi.resetColumnState()
+    gridApi.setFilterModel(null)
+
+    const storageName = this.makeStorageName(name)
     if (this.localStorageService.exists(storageName)) {
-      this.localStorageService.removeItem(storageName);
+      this.localStorageService.removeItem(storageName)
     }
 
     this.notificationService.succeded("برگشت جدول به حالت پیش فرض با موفقیت انجام شد.");

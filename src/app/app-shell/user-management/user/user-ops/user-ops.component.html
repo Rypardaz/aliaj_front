@@ -5,7 +5,7 @@
         <div class="card-body row">
 
           <div class="mb-1 mt-1">
-            <label class="sr-only" for="roleGuids">نوع</label>
+            <label class="sr-only" for="roleGuids">گروه کاربری</label>
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">گروه کاربری
@@ -14,6 +14,20 @@
               </div>
               <ng-select [items]="userGroups" formControlName="roleGuids" id="roleGuids" bindLabel="title"
                 bindValue="guid" [multiple]="true">
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="mb-1 mt-1">
+            <label class="sr-only" for="roleGuids">واحدها</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">واحدها
+                  <span class="text-danger"> *</span>
+                </div>
+              </div>
+              <ng-select [items]="salons" formControlName="salonIds" id="salonIds" bindLabel="title"
+                bindValue="id" [multiple]="true">
               </ng-select>
             </div>
           </div>

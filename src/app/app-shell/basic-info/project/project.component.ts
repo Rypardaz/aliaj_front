@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ModalFormBaseComponent } from '../../framework-components/modal/modal-form-base.component'
 import { FormBuilder, Validators } from '@angular/forms'
 import { ProjectService } from "./project.service"
@@ -6,6 +6,7 @@ import { ProjectModel } from './project-model';
 import { ComboBase } from '../../framework-components/combo-base';
 import { SalonService } from '../salon/salon.service';
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
+import { AgGridToolsComponent } from '../../framework-components/ag-grid-tools/ag-grid-tools.component';
 
 @Component({
   selector: 'app-project',
@@ -14,6 +15,8 @@ import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-
 export class ProjectComponent extends ModalFormBaseComponent<ProjectService, ProjectModel> implements AfterViewInit {
   salons: ComboBase[];
   searchModel
+
+  @ViewChild(AgGridToolsComponent) agGridTools: AgGridToolsComponent
 
   constructor(private readonly fb: FormBuilder,
     ProjectService: ProjectService,
@@ -43,7 +46,10 @@ export class ProjectComponent extends ModalFormBaseComponent<ProjectService, Pro
       .subscribe(_ => {
         this.salonService
           .getForCombo<ComboBase[]>()
-          .subscribe(data => this.salons = data)
+          .subscribe(data => {
+            this.salons = data
+            this.agGridTools.restoreState()
+          })
       })
   }
 

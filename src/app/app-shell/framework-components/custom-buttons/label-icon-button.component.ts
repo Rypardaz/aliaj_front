@@ -1,8 +1,7 @@
 import {
-  Component, EventEmitter,
+  Component, 
   Input,
-  OnInit, Output
-} from '@angular/core';
+  OnInit} from '@angular/core';
 import { BaseButtonComponent } from './base-button.component';
 
 @Component({

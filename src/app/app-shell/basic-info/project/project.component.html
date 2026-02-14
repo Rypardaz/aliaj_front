@@ -12,10 +12,11 @@
                     <app-label-icon-button btnType="button" identifier="submitBtn" label="حذف جستجو"
                         className="btn btn-outline-danger" icon="fas fa-eye-slash" (clicked)="removeAllFilters()">
                     </app-label-icon-button>
-                    <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
-                        className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
-                    </app-label-icon-button>
                     <grid-search-panel (search)="searchList($event)"></grid-search-panel>
+
+                    <ag-grid-tools [name]="'project'" [gridApi]="gridApi"
+                        [gridColumnApi]="gridColumnApi"></ag-grid-tools>
+
                 </div>
             </div>
             <div class="card-body">

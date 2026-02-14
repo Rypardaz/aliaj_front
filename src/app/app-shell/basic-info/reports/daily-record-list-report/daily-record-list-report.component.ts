@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportService } from '../report.service';
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service';
@@ -7,6 +7,7 @@ import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcru
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component';
 import { getCurrentMonth, getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants';
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
+import { AgGridToolsComponent } from 'src/app/app-shell/framework-components/ag-grid-tools/ag-grid-tools.component';
 
 @Component({
   selector: 'app-daily-record-list-report',

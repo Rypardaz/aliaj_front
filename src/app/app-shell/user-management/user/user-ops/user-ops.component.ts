@@ -13,6 +13,7 @@ import { JsTreeComponent } from 'src/app/app-shell/framework-components/js-tree-
 import { ModalComponent } from 'src/app/app-shell/framework-components/modal/modal.component'
 import { ClassificationLevelService } from '../../services/classification-level.service'
 import { ComboBase } from 'src/app/app-shell/framework-components/combo-base'
+import { SalonService } from 'src/app/app-shell/basic-info/salon/salon.service'
 declare var $: any
 
 @Component({
@@ -24,6 +25,7 @@ export class UserOpsComponent implements OnInit, AfterViewChecked {
   title = "ایجاد کاربر"
   guid: string
   userGroups: ComboBase[] = []
+  salons = []
   passwordStrength = 0
 
   classificationLevels: ComboBase[];
@@ -36,6 +38,7 @@ export class UserOpsComponent implements OnInit, AfterViewChecked {
   userOpsFrm = new FormGroup({
     guid: new FormControl(),
     roleGuids: new FormControl(),
+    salonIds: new FormControl(),
     // companyGuid: new FormControl(),
     // organizationChartGuid: new FormControl(),
     // organizationChartTitle: new FormControl(),
@@ -58,6 +61,7 @@ export class UserOpsComponent implements OnInit, AfterViewChecked {
     private readonly notificationService: NotificationService,
     private readonly companyService: CompanyService,
     private readonly router: Router,
+    private readonly salonService: SalonService,
     private readonly organizationChartService: OrganizationChartService,
     private readonly classificationLevelService: ClassificationLevelService) {
   }
@@ -85,6 +89,10 @@ export class UserOpsComponent implements OnInit, AfterViewChecked {
         next: data => this.userGroups = data,
         // complete: () => this.getCompanies()
       })
+
+    this.salonService
+      .getForCombo()
+      .subscribe((data: []) => this.salons = data)
   }
 
   // getCompanies() {
