@@ -26,6 +26,7 @@ export class ChallangeComponent implements OnInit {
         this.localStorageService.setItem(USER_ID_NAME, this.codeFlowService.user.profile['id'])
         this.localStorageService.setItem(ROLE_TOKEN_NAME, this.codeFlowService.user.profile['role'])
         this.localStorageService.setItem(ACCESS_TOKEN_NAME, this.codeFlowService.user.access_token)
+
         this.getFeatures()
       })
   }
@@ -62,7 +63,9 @@ export class ChallangeComponent implements OnInit {
           //     })
           // })
         },
-        error: () => this.codeFlowService.logout(),
+        error: () => {
+          // this.codeFlowService.logout()
+        }
       })
   }
 }

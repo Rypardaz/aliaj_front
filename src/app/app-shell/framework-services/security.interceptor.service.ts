@@ -41,6 +41,7 @@ export class SecurityInterceptor implements HttpInterceptor {
           if (event instanceof HttpResponse) { }
         },
         error: err => {
+          debugger
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401 ||
               err.status === 402 ||

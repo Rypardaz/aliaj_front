@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkCalendarService } from './work-calendar.service';
-import { getTodayDate, months } from '../../framework-components/constants';
+import { getTodayDate, months, years } from '../../framework-components/constants';
 import { ListItemService } from '../list-item/list-item.service';
 import { NotificationService } from '../../framework-services/notification.service';
 import { BreadcrumbService } from '../../framework-services/breadcrumb.service';
@@ -13,11 +13,7 @@ import { SalonService } from '../salon/salon.service';
 export class WorkCalendarComponent implements OnInit {
 
   records = []
-  years = [
-    { guid: 1402, title: 1402 },
-    { guid: 1403, title: 1403 },
-    { guid: 1404, title: 1404 },
-  ]
+  years = years
   months = months
   closeTypes = []
   yearId: number
