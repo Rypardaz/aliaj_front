@@ -7,10 +7,10 @@ import { ModalComponent } from './modal.component'
 import { ModalConfig } from './modal.config'
 import { BreadcrumbService } from '../../framework-services/breadcrumb.service'
 import { formGroupToFormData } from '../constants'
-import { FeatureService } from '../../user-management/services/feature.service'
 import { USER_CLASSIFICATION_LEVEL_ID_NAME } from '../../framework-services/configuration'
 import { Router } from '@angular/router'
 import { DatatableService } from '../../framework-services/datatable.service'
+import { FeatureService } from '../../basic-info/feature/feature.service'
 declare var $: any
 
 @Component({

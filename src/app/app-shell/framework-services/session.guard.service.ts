@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { UserService } from '../user-management/services/user.service';
+import { UserService } from '../user-management/user/user.service';
 import { environment } from 'src/environment/environment';
 import { CodeFlowService } from './code-flow.service';
 import { PasswordFlowService } from './password-flow.service';

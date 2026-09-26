@@ -1,6 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { PasswordFlowService } from '../framework-services/password-flow.service';
-import { UserService } from '../user-management/services/user.service';
 import { LocalStorageService } from '../framework-services/local.storage.service';
 import { USER_CLASSIFICATION_LEVEL_ID_NAME, USER_COMPANY_ID_NAME, USER_ORGANIZATION_CHART_ID_NAME } from '../framework-services/configuration';
 import { ModalComponent } from '../framework-components/modal/modal.component';
@@ -11,6 +10,7 @@ import { ModalConfig } from '../framework-components/modal/modal.config';
 import { CodeFlowService } from '../framework-services/code-flow.service';
 import { environment } from 'src/environment/environment';
 import { getTodayDate } from '../framework-components/constants';
+import { UserService } from '../basic-info/user/user.service';
 declare var $: any
 
 @Component({

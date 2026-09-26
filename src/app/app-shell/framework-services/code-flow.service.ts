@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import { LocalStorageService } from './local.storage.service';
-import { UserService } from '../user-management/services/user.service';
 import { BreadcrumbService } from './breadcrumb.service';
 import { environment } from 'src/environment/environment';
 import { ACCESS_TOKEN_NAME, USER_ID_NAME, ROLE_TOKEN_NAME, PERMISSIONS_NAME, SETTINGS_NAME, DATABASAE_NAME, USER_COMPANY_ID_NAME, USER_ORGANIZATION_CHART_ID_NAME } from './configuration';
+import { UserService } from '../basic-info/user/user.service';
 
 @Injectable({
     providedIn: 'root'

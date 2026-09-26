@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { TicketModel } from '../ticket.model';
 import { TicketService } from '../ticket.service';
-import { UserService } from 'src/app/app-shell/user-management/services/user.service';
 import { EditDeleteCellRenderer } from 'src/app/app-shell/framework-components/ag-grid/edit-delete-cell-btn';
 import { ModalFormBaseComponent } from 'src/app/app-shell/framework-components/modal/modal-form-base.component';
 

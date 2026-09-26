@@ -6,9 +6,9 @@ import { ACCESS_TOKEN_NAME, DATABASAE_NAME, PERMISSIONS_NAME, ROLE_TOKEN_NAME, S
 import { LocalStorageService } from './local.storage.service'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { getLoginUrl } from 'src/environment/environment'
-import { UserService } from '../user-management/services/user.service'
 import { BreadcrumbService } from './breadcrumb.service'
 import { CodeFlowService } from './code-flow.service'
+import { UserService } from '../basic-info/user/user.service'
 
 @Injectable()
 export class PasswordFlowService {

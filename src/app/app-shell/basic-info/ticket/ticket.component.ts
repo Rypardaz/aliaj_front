@@ -5,7 +5,7 @@ import { AfterViewInit, Component } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { TicketService } from './ticket.service'
 import { TicketModel } from './ticket.model'
-import { UserService } from '../../user-management/services/user.service'
+import { UserService } from '../user/user.service'
 
 @Component({
   selector: 'app-ticket',

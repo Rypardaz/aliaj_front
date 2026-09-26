@@ -48,6 +48,11 @@ import { FinalCardProjectReportComponent } from './reports/final-card-project-re
 import { DailyRecordListReportComponent } from './reports/daily-record-list-report/daily-record-list-report.component';
 import { BachreportondateComponent } from './reports/bachreportondate/bachreportondate.component';
 import { DailyrecordlistproductunitsComponent } from './reports/dailyrecordlistproductunits/dailyrecordlistproductunits.component';
+import { UserGroupListComponent } from './user-group/user-group-list/user-group-list.component';
+import { UserGroupOpsComponent } from './user-group/user-group-ops/user-group-ops.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserOpsComponent } from './user/user-ops/user-ops.component';
+import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 
 @NgModule({
   imports: [
@@ -59,7 +64,8 @@ import { DailyrecordlistproductunitsComponent } from './reports/dailyrecordlistp
     DataTablesModule,
     NgSelectModule,
     AgGridModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    PasswordStrengthMeterModule
   ],
   declarations: [
     BasicInfoComponent,
@@ -111,7 +117,13 @@ import { DailyrecordlistproductunitsComponent } from './reports/dailyrecordlistp
     FinalCardProjectReportComponent,
     DailyRecordListReportComponent,
     BachreportondateComponent,
-    DailyrecordlistproductunitsComponent
+    DailyrecordlistproductunitsComponent,
+
+    UserGroupListComponent,
+    UserGroupOpsComponent,
+
+    UserListComponent,
+    UserOpsComponent,
   ],
 })
 export class BasicInfoModule { }

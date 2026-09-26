@@ -41,6 +41,10 @@ import { FinalCardProjectReportComponent } from './reports/final-card-project-re
 import { DailyRecordListReportComponent } from './reports/daily-record-list-report/daily-record-list-report.component'
 import { BachreportondateComponent } from './reports/bachreportondate/bachreportondate.component'
 import { DailyrecordlistproductunitsComponent } from './reports/dailyrecordlistproductunits/dailyrecordlistproductunits.component'
+import { UserGroupListComponent } from './user-group/user-group-list/user-group-list.component'
+import { UserGroupOpsComponent } from './user-group/user-group-ops/user-group-ops.component'
+import { UserListComponent } from './user/user-list/user-list.component'
+import { UserOpsComponent } from './user/user-ops/user-ops.component'
 
 const routes: Routes = [
   {
@@ -122,6 +126,15 @@ const routes: Routes = [
 
       { path: 'ticket', component: TicketComponent },
       { path: 'inbox', component: InboxComponent },
+
+      { path: 'user-group/list', component: UserGroupListComponent },
+      { path: 'user-group/create', component: UserGroupOpsComponent },
+      { path: 'user-group/edit/:guid', component: UserGroupOpsComponent },
+
+      { path: 'user/list', component: UserListComponent },
+      { path: 'user/create', component: UserOpsComponent },
+      { path: 'user/edit/:guid', component: UserOpsComponent },
+
     ]
   }
 ]

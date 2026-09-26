@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { SalonService } from '../basic-info/salon/salon.service';
-import { ComboBase } from '../framework-components/combo-base';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../framework-services/local.storage.service';
 import { SALON_GUID_NAME } from '../framework-services/configuration';

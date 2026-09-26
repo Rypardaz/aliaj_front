@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '../authentication/login/login.component';
-import { LogoutComponent } from '../authentication/logout/logout.component';
+import { LoginComponent } from '../login/login.component';
 import { AppShellComponent } from './app-shell.component';
 import { authGuard } from './framework-services/auth.guard.service';
-import { ChallangeComponent } from '../authentication/challange/challange.component';
 
 const routes: Routes = [
   {
@@ -24,26 +22,12 @@ const routes: Routes = [
         loadChildren: () =>
           import('./basic-info/basic-info.module')
             .then(x => x.BasicInfoModule)
-      },
-      {
-        path: 'user-management',
-        loadChildren: () =>
-          import('./user-management/user-management.module')
-            .then(x => x.UserManagementModule)
-      },
+      }
     ]
   },
   {
     path: 'login',
     component: LoginComponent
-  },
-  {
-    path: 'logout',
-    component: LogoutComponent
-  },
-  {
-    path: 'challange',
-    component: ChallangeComponent
   },
   {
     path: '',
