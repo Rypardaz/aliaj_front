@@ -1,3 +1,4 @@
+@import './app/app-shell/login/login.component.css';
 @import 'ag-grid-enterprise/dist/styles/ag-grid.css';
 @import 'ag-grid-enterprise/dist/styles/ag-theme-material.css';
 @import 'ag-grid-enterprise/dist/styles/ag-theme-alpine.css';

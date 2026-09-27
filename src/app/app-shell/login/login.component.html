@@ -1,64 +1,117 @@
-<div class="auth-fluid">
+<main class="login-page" dir="rtl">
+  <section class="login-panel" aria-labelledby="login-title">
+    <div class="login-panel-inner">
+      <header class="login-header">
+        <img class="login-logo" src="assets/images/logo.jpeg" alt="آلیاژ جوش آریا">
+        <span class="login-system-name">سامانه کنترل تولید</span>
+      </header>
 
-  <div class="auth-fluid-form-box">
-    <div class="align-items-center d-flex h-100">
-      <div class="card-body">
-
-        <div class="auth-brand text-center text-lg-start">
-          <div class="auth-logo">
-            <a href="index.html" class="logo logo-dark text-center">
-              <span class="logo-lg">
-                <img src="../assets/images/logo.jpeg">
-              </span>
-            </a>
-
-            <a href="index.html" class="logo logo-light text-center">
-              <span class="logo-lg">
-                <img src="../assets/images/logo.jpeg">
-              </span>
-            </a>
-          </div>
+      <div class="login-content">
+        <div class="login-intro">
+          <span class="login-eyebrow">ورود به حساب کاربری</span>
+          <h1 id="login-title">خوش آمدید</h1>
+          <p>برای ادامه، اطلاعات حساب خود را وارد کنید.</p>
         </div>
 
-        <h4 class="mt-0">ورود به سیستم</h4>
-        <p class="text-muted mb-4">لطفا برای ورود به سیستم کالیبراسیون اطلاعات زیر را وارد نمایید</p>
-
-        <form [formGroup]="loginForm" (submit)="submit()">
-
-          <div class="mb-2">
-            <label for="username" class="form-label">نام کاربری</label>
-            <input class="form-control" formControlName="username" id="username" autocomplete="off">
-          </div>
-
-          <div class="mb-2">
-            <label for="password" class="form-label">رمز عبور</label>
-            <div class="input-group input-group-merge">
-              <input formControlName="password" type="password" id="password" class="form-control" autocomplete="off">
-            </div>
-          </div>
-
-          <div class="d-grid text-center">
-            @if (isLoading$ | async) {
-            <span class="indicator-progress" [style.display]="'block'">لطفا منتظر بمانید...
-              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-            } @else {
-            <button class="btn btn-primary" type="submit">ورود به سیستم </button>
+        <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+          <div class="login-field">
+            <label for="username">نام کاربری</label>
+            <input id="username" type="text" formControlName="username" autocomplete="username"
+              autocapitalize="none" spellcheck="false" placeholder="نام کاربری خود را وارد کنید"
+              [attr.aria-invalid]="f['username'].touched && f['username'].invalid"
+              aria-describedby="username-error">
+            @if (f['username'].touched && f['username'].invalid) {
+              <p class="field-error" id="username-error" role="alert">
+                @if (f['username'].hasError('required')) {
+                  نام کاربری را وارد کنید.
+                } @else {
+                  نام کاربری باید حداقل ۳ نویسه باشد.
+                }
+              </p>
             }
-
-
           </div>
 
+          <div class="login-field">
+            <label for="password">رمز عبور</label>
+            <div class="password-control">
+              <input id="password" formControlName="password" [type]="showPassword ? 'text' : 'password'"
+                autocomplete="current-password" placeholder="رمز عبور خود را وارد کنید"
+                [attr.aria-invalid]="f['password'].touched && f['password'].invalid"
+                aria-describedby="password-error">
+              <button type="button" class="password-toggle" (click)="showPassword = !showPassword"
+                [attr.aria-label]="showPassword ? 'پنهان کردن رمز عبور' : 'نمایش رمز عبور'"
+                [attr.aria-pressed]="showPassword">
+                {{ showPassword ? 'پنهان' : 'نمایش' }}
+              </button>
+            </div>
+            @if (f['password'].touched && f['password'].invalid) {
+              <p class="field-error" id="password-error" role="alert">
+                @if (f['password'].hasError('required')) {
+                  رمز عبور را وارد کنید.
+                } @else {
+                  رمز عبور باید حداقل ۳ نویسه باشد.
+                }
+              </p>
+            }
+          </div>
+
+          <div class="login-field">
+            <label for="captcha">کد امنیتی</label>
+            <div class="captcha-row">
+              <input id="captcha" type="text" formControlName="captcha" maxlength="5"
+                autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr"
+                placeholder="کد را وارد کنید" (input)="captchaError = false"
+                [attr.aria-invalid]="(f['captcha'].touched && f['captcha'].invalid) || captchaError"
+                aria-describedby="captcha-help captcha-error">
+              <div class="captcha-challenge" dir="ltr" [attr.aria-label]="'کد امنیتی: ' + captchaText">
+                {{ captchaText }}
+              </div>
+              <button class="captcha-refresh" type="button" (click)="generateCaptcha()"
+                aria-label="دریافت کد امنیتی جدید" title="کد جدید">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 11a8 8 0 1 1-2.5-5.8"></path>
+                  <path d="M20 4v6h-6"></path>
+                </svg>
+              </button>
+            </div>
+            <p class="field-hint" id="captcha-help">حروف و اعداد نمایش داده شده را وارد کنید.</p>
+            @if ((f['captcha'].touched && f['captcha'].invalid) || captchaError) {
+              <p class="field-error" id="captcha-error" role="alert">
+                @if (captchaError) {
+                  کد وارد شده درست نبود. کد جدید را وارد کنید.
+                } @else {
+                  کد امنیتی پنج نویسه‌ای را وارد کنید.
+                }
+              </p>
+            }
+          </div>
+
+          <button class="login-submit" type="submit" [disabled]="isLoading$ | async">
+            @if (isLoading$ | async) {
+              <span class="login-spinner" aria-hidden="true"></span>
+              در حال ورود...
+            } @else {
+              ورود به سامانه
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path><path d="m11 18-6-6 6-6"></path>
+              </svg>
+            }
+          </button>
         </form>
-
       </div>
-    </div>
-  </div>
 
-  <div class="auth-fluid-right"
-    style="background-repeat: no-repeat; background-size: cover; background-image: url('../../../assets/wallpapers/{{welcome}}.jpg');">
-    <div class="auth-user-testimonial">
+      <footer class="login-footer">شرکت آلیاژ جوش آریا</footer>
     </div>
-  </div>
+  </section>
 
-</div>
+  <aside class="login-visual" aria-label="سامانه کنترل تولید شرکت آلیاژ جوش آریا">
+    <div class="visual-content">
+      <span class="visual-line"></span>
+      <p>آلیاژ جوش آریا</p>
+      <h2>سامانه کنترل تولید</h2>
+      <span>دسترسی یکپارچه به اطلاعات و فرایندهای تولید</span>
+    </div>
+  </aside>
+</main>
