@@ -1,14 +1,17 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { SalonService } from '../basic-info/salon/salon.service';
-import { Router } from '@angular/router';
+import { Router, RouterLinkActive, RouterLink } from '@angular/router';
 import { LocalStorageService } from '../framework-services/local.storage.service';
 import { SALON_GUID_NAME } from '../framework-services/configuration';
 import { ListItemService } from '../basic-info/list-item/list-item.service';
+
+import { HasPermissionDirective } from '../framework-components/directives/has-permission.directive';
 declare var $: any
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html'
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    imports: [HasPermissionDirective, RouterLinkActive, RouterLink]
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
 

@@ -4,8 +4,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 
 @Component({
-  selector: 'app-voice-player',
-  templateUrl: './voice-player.component.html'
+    selector: 'app-voice-player',
+    templateUrl: './voice-player.component.html',
+    standalone: true
 })
 export class VoicePlayerComponent implements OnInit {
 

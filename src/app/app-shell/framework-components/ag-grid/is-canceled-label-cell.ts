@@ -1,13 +1,17 @@
 import { Component } from "@angular/core";
 import { ICellRendererAngularComp } from "ag-grid-angular";
+
 declare var $: any;
 
 @Component({
     selector: 'is-canceled-cell-renderer',
     template: `
-    <span *ngIf="isCanceled == 'باطل شده'">
+    @if (isCanceled == 'باطل شده') {
+      <span>
         <span class="bg-soft-danger text-danger" style="padding: 3px">باطل شده</span>
-    </span>`,
+      </span>
+    }`,
+    imports: []
 })
 export class IsCanceledCellRenderer implements ICellRendererAngularComp {
     params: any;

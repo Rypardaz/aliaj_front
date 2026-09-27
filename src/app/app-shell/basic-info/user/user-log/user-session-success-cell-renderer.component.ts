@@ -1,7 +1,10 @@
+import { NgSwitch, NgSwitchCase } from '@angular/common';
 import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 @Component({
+  standalone: true,
+  imports: [NgSwitch, NgSwitchCase],
   selector: 'app-user-session-success-cell-renderer',
   template: `
     <ng-container [ngSwitch]="isSuccessful">

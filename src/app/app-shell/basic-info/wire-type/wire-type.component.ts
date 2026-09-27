@@ -1,15 +1,21 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ModalFormBaseComponent } from '../../framework-components/modal/modal-form-base.component'
-import { FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { WireTypeModel } from './wire-type-model'
 import { WireTypeService } from "./wire-type.service"
 import { WireTypeGroupService } from '../wire-type-group/wire-type-group.service';
 import { ComboBase } from '../../framework-components/combo-base';
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
+import { CustomInputComponent } from '../../framework-components/custom-controls/custom-input/custom-input.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalComponent } from '../../framework-components/modal/modal.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-  selector: 'app-wire-type',
-  templateUrl: './wire-type.component.html'
+    selector: 'app-wire-type',
+    templateUrl: './wire-type.component.html',
+    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
 })
 export class WireTypeComponent extends ModalFormBaseComponent<WireTypeService, WireTypeModel> implements AfterViewInit {
   wireTypeGroups: ComboBase[];

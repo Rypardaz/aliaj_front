@@ -3,8 +3,9 @@ import { createGuid } from '../constants';
 declare var $: any;
 
 @Component({
-  selector: 'app-js-tree',
-  templateUrl: './js-tree.component.html'
+    selector: 'app-js-tree',
+    templateUrl: './js-tree.component.html',
+    standalone: true
 })
 export class JsTreeComponent implements OnInit {
 

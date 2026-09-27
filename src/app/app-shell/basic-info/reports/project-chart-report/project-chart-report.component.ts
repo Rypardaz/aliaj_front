@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component'
 import { ChartService } from '../chart.service'
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
 declare var ApexCharts: any
 
 @Component({
-  selector: 'app-project-chart-report',
-  templateUrl: './project-chart-report.component.html'
+    selector: 'app-project-chart-report',
+    templateUrl: './project-chart-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, DateMaskDirective, LabelIconButtonComponent]
 })
 export class ProjectChartReportComponent extends AgGridBaseComponent implements OnInit {
 

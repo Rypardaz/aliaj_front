@@ -5,7 +5,8 @@ declare var $: any;
 
 @Directive({
     selector: '[appDatatable]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class DatatableDirective implements AfterViewInit {
     datatable: any;

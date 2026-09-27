@@ -1,7 +1,6 @@
 import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, ParamMap } from '@angular/router'
-import { UserGroupService } from '../../user-group/user-group.service'
 import { UserService } from '../user.service'
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
 import { operationSuccessful } from 'src/app/app-shell/framework-components/app-messages'
@@ -10,11 +9,18 @@ import { JsTreeComponent } from 'src/app/app-shell/framework-components/js-tree-
 import { ModalComponent } from 'src/app/app-shell/framework-components/modal/modal.component'
 import { ComboBase } from 'src/app/app-shell/framework-components/combo-base'
 import { SalonService } from 'src/app/app-shell/basic-info/salon/salon.service'
+import { JsTreeComponent as JsTreeComponent_1 } from '../../../framework-components/js-tree-component/js-tree.component';
+import { ModalComponent as ModalComponent_1 } from '../../../framework-components/modal/modal.component';
+import { PasswordStrengthMeterComponent } from '../../../framework-components/password-strength-meter/password-strength-meter.component';
+import { CustomInputComponent } from '../../../framework-components/custom-controls/custom-input/custom-input.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { RoleService } from '../../role/role.service'
 declare var $: any
 
 @Component({
   selector: 'app-user-ops',
-  templateUrl: './user-ops.component.html'
+  templateUrl: './user-ops.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent, PasswordStrengthMeterComponent, ModalComponent_1, JsTreeComponent_1]
 })
 export class UserOpsComponent implements OnInit, AfterViewChecked {
 
@@ -48,7 +54,7 @@ export class UserOpsComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private readonly userService: UserService,
-    private readonly userGroupService: UserGroupService,
+    private readonly roleService: RoleService,
     private readonly route: ActivatedRoute,
     private readonly notificationService: NotificationService,
     private readonly router: Router,
@@ -72,7 +78,7 @@ export class UserOpsComponent implements OnInit, AfterViewChecked {
       }
     })
 
-    this.userGroupService
+    this.roleService
       .getForCombo<ComboBase[]>()
       .subscribe({
         next: data => this.userGroups = data,

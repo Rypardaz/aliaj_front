@@ -2,14 +2,20 @@ import { ModalFormBaseComponent } from '../../framework-components/modal/modal-f
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn'
 import { activityTypes } from '../../framework-components/constants'
 import { AfterViewInit, Component } from '@angular/core'
-import { FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TicketService } from './ticket.service'
 import { TicketModel } from './ticket.model'
 import { UserService } from '../user/user.service'
+import { CustomInputComponent } from '../../framework-components/custom-controls/custom-input/custom-input.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalComponent } from '../../framework-components/modal/modal.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-  selector: 'app-ticket',
-  templateUrl: './ticket.component.html'
+    selector: 'app-ticket',
+    templateUrl: './ticket.component.html',
+    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
 })
 export class TicketComponent extends ModalFormBaseComponent<TicketService, TicketModel> implements AfterViewInit {
 

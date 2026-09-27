@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../report.service';
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component';
@@ -7,10 +7,15 @@ import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcru
 import { getCurrentMonth, getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants';
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
 import * as moment from 'jalali-moment';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-by-part-report',
-  templateUrl: './by-part-report.component.html'
+    selector: 'app-by-part-report',
+    templateUrl: './by-part-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent, AgGridModule]
 })
 export class ByPartReportComponent extends AgGridBaseComponent implements OnInit {
 

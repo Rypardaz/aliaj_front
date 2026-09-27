@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service'
 import { MachineService } from '../../machine/machine.service'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
@@ -12,11 +12,16 @@ import { ActivatedRoute } from '@angular/router'
 import { ListItemService } from '../../list-item/list-item.service'
 import * as _ from 'lodash'
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 declare var ApexCharts: any
 
 @Component({
-  selector: 'app-wire-consumption-chart-report',
-  templateUrl: './wire-consumption-chart-report.component.html'
+    selector: 'app-wire-consumption-chart-report',
+    templateUrl: './wire-consumption-chart-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent]
 })
 export class WireConsumptionChartReportComponent extends AgGridBaseComponent implements OnInit {
 

@@ -14,6 +14,7 @@ import { FeatureService } from '../../basic-info/feature/feature.service'
 declare var $: any
 
 @Component({
+  standalone: true,
   selector: 'app-modal-form-base',
   template: ''
 })

@@ -2,7 +2,8 @@ import { Directive, OnInit, TemplateRef, ViewContainerRef, Input } from '@angula
 import { AuthorizationService } from '../../framework-services/authorization.service';
 
 @Directive({
-  selector: '[hasPermission]'
+    selector: '[hasPermission]',
+    standalone: true
 })
 export class HasPermissionDirective implements OnInit {
   private neededPermission: string;

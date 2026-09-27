@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ReportService } from '../report.service'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service'
 import { MachineService } from '../../machine/machine.service'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
@@ -11,11 +11,15 @@ import { ChartService } from '../chart.service'
 import { getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants'
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
 import { ActivatedRoute } from '@angular/router'
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 declare var ApexCharts: any
 
 @Component({
-  selector: 'app-randeman-chart-report',
-  templateUrl: './randeman-chart-report.component.html'
+    selector: 'app-randeman-chart-report',
+    templateUrl: './randeman-chart-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent]
 })
 export class RandemanChartReportComponent extends AgGridBaseComponent implements OnInit {
 

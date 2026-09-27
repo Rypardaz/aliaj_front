@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskMasterService } from '../../task-master/task-master.service';
 import { ComboBase } from 'src/app/app-shell/framework-components/combo-base';
 import { SalonService } from '../../salon/salon.service';
@@ -17,10 +17,17 @@ import { ProjectTypeService } from '../../project-type/project-type.service';
 import { WireScrewService } from '../../wire-screw/wire-screw.service';
 import { ModalConfig } from 'src/app/app-shell/framework-components/modal/modal.config';
 import { ModalComponent } from 'src/app/app-shell/framework-components/modal/modal.component';
+import { ModalComponent as ModalComponent_1 } from '../../../framework-components/modal/modal.component';
+import { IconButtonComponent } from '../../../framework-components/custom-buttons/icon-button.component';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CustomInputComponent } from '../../../framework-components/custom-controls/custom-input/custom-input.component';
 
 @Component({
-  selector: 'app-project-ops',
-  templateUrl: './project-ops.component.html'
+    selector: 'app-project-ops',
+    templateUrl: './project-ops.component.html',
+    imports: [FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule, LabelIconButtonComponent, IconButtonComponent, ModalComponent_1]
 })
 export class ProjectOpsComponent implements OnInit {
 

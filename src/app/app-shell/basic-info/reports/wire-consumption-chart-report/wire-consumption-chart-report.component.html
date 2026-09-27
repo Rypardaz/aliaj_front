@@ -1,122 +1,137 @@
 <div class="row" [formGroup]="form">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header"> شروط گزارش </div>
-            <div class="card-body">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header"> شروط گزارش </div>
+      <div class="card-body">
 
-                <div class="row">
+        <div class="row">
 
-                    <div class="col-3">
-                        <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب واحد">
-                            <ng-option [value]="item.guid" *ngFor="let item of salons">{{item.title}}</ng-option>
-                        </ng-select>
-                    </div>
+          <div class="col-3">
+            <ng-select formControlName="salonGuid" class="my-2" placeholder="انتخاب واحد">
+              @for (item of salons; track item) {
+                <ng-option [value]="item.guid">{{item.title}}</ng-option>
+              }
+            </ng-select>
+          </div>
 
-                    <div class="col-3">
-                        <ng-select formControlName="yearIds" class="mt-2" placeholder="انتخاب سال">
-                            <ng-option [value]="item.id" *ngFor="let item of years">{{item.name}}</ng-option>
-                        </ng-select>
-                    </div>
+          <div class="col-3">
+            <ng-select formControlName="yearIds" class="mt-2" placeholder="انتخاب سال">
+              @for (item of years; track item) {
+                <ng-option [value]="item.id">{{item.name}}</ng-option>
+              }
+            </ng-select>
+          </div>
 
-                    <div class="col-3" *ngIf="type != 2">
-                        <ng-select formControlName="monthIds" class="my-2" placeholder="انتخاب ماه" [multiple]="true">
-                            <ng-option [value]="item.id" *ngFor="let item of months">{{item.name}}</ng-option>
-                        </ng-select>
-                    </div>
-
-                    <ng-container *ngIf="type!=1 && type!=3">
-                        <div class="col-3">
-                            <ng-select formControlName="weekIds" class="my-2" placeholder="انتخاب هفته"
-                                [multiple]="true">
-                                <ng-option [value]="item.id" *ngFor="let item of weeks">{{item.name}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </ng-container>
-
-
-                    <ng-container *ngIf="type!=5 && type!=7 && type!=10">
-                        <div class="col-3">
-                            <ng-select formControlName="wireTypeGuid" class="my-2" placeholder="انتخاب نوع سیم"
-                                [multiple]="true">
-                                <ng-option [value]="item.guid" *ngFor="let item of wireTypes">{{item.title}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </ng-container>
-
-                    <ng-container *ngIf="type!=5 && type!=7">
-                        <div class="col-3">
-                            <ng-select formControlName="machineGuid" class="my-2" placeholder="انتخاب دستگاه"
-                                [multiple]="true">
-                                <ng-option [value]="item.guid" *ngFor="let item of machines">{{item.name}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </ng-container>
-
-                    <!-- 
-                    <ng-container *ngIf="type!=1 && type!=2 && type!=3 && type!=5 && type!=7 && type!=10">
-                        <div class="col-3">
-                            <ng-select formControlName="shiftGuid" class="my-2" placeholder="انتخاب شیفت کاری">
-                                <ng-option [value]="item.guid" *ngFor="let item of shifts">{{item.title}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </ng-container> -->
-
-                    <ng-container *ngIf="type!=5">
-                        <div class="col-3">
-                            <ng-select formControlName="personnelGuid" class="my-2" placeholder="انتخاب اپراتور"
-                                [multiple]="true">
-                                <ng-option [value]="item.guid" *ngFor=" let item of personnel">
-                                    ({{item.code}}) - {{item.name}} {{item.family}}
-                                </ng-option>
-                            </ng-select>
-                        </div>
-                    </ng-container>
-
-                    <div class="col-3">
-                        <ng-select formControlName="showShift" class="my-2" placeholder="نمایش به تفکیک شیفت">
-                            <ng-option [value]="false"> نمایش کل روز </ng-option>
-                            <ng-option [value]="true"> نمایش به تفکیک شیفت </ng-option>
-                        </ng-select>
-                    </div>
-                </div>
-
-                <ng-container *ngIf="type!=2 && type!=3">
-                    <div class="row">
-                        <div class="col-6">
-                            <input class="form-control" id="fromDate" formControlName="fromDate" autocomplete="off"
-                                appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
-                        </div>
-
-                        <div class="col-6">
-                            <input class="form-control" id="toDate" formControlName="toDate" autocomplete="off"
-                                appDateMask [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
-                        </div>
-                    </div>
-                </ng-container>
+          @if (type != 2) {
+            <div class="col-3">
+              <ng-select formControlName="monthIds" class="my-2" placeholder="انتخاب ماه" [multiple]="true">
+                @for (item of months; track item) {
+                  <ng-option [value]="item.id">{{item.name}}</ng-option>
+                }
+              </ng-select>
             </div>
+          }
+
+          @if (type!=1 && type!=3) {
+            <div class="col-3">
+              <ng-select formControlName="weekIds" class="my-2" placeholder="انتخاب هفته"
+                [multiple]="true">
+                @for (item of weeks; track item) {
+                  <ng-option [value]="item.id">{{item.name}}</ng-option>
+                }
+              </ng-select>
+            </div>
+          }
+
+
+          @if (type!=5 && type!=7 && type!=10) {
+            <div class="col-3">
+              <ng-select formControlName="wireTypeGuid" class="my-2" placeholder="انتخاب نوع سیم"
+                [multiple]="true">
+                @for (item of wireTypes; track item) {
+                  <ng-option [value]="item.guid">{{item.title}}</ng-option>
+                }
+              </ng-select>
+            </div>
+          }
+
+          @if (type!=5 && type!=7) {
+            <div class="col-3">
+              <ng-select formControlName="machineGuid" class="my-2" placeholder="انتخاب دستگاه"
+                [multiple]="true">
+                @for (item of machines; track item) {
+                  <ng-option [value]="item.guid">{{item.name}}</ng-option>
+                }
+              </ng-select>
+            </div>
+          }
+
+          <!--
+          <ng-container *ngIf="type!=1 && type!=2 && type!=3 && type!=5 && type!=7 && type!=10">
+            <div class="col-3">
+              <ng-select formControlName="shiftGuid" class="my-2" placeholder="انتخاب شیفت کاری">
+                <ng-option [value]="item.guid" *ngFor="let item of shifts">{{item.title}}</ng-option>
+              </ng-select>
+            </div>
+          </ng-container> -->
+
+          @if (type!=5) {
+            <div class="col-3">
+              <ng-select formControlName="personnelGuid" class="my-2" placeholder="انتخاب اپراتور"
+                [multiple]="true">
+                @for ( item of personnel; track  item) {
+                  <ng-option [value]="item.guid">
+                    ({{item.code}}) - {{item.name}} {{item.family}}
+                  </ng-option>
+                }
+              </ng-select>
+            </div>
+          }
+
+          <div class="col-3">
+            <ng-select formControlName="showShift" class="my-2" placeholder="نمایش به تفکیک شیفت">
+              <ng-option [value]="false"> نمایش کل روز </ng-option>
+              <ng-option [value]="true"> نمایش به تفکیک شیفت </ng-option>
+            </ng-select>
+          </div>
+        </div>
+
+        @if (type!=2 && type!=3) {
+          <div class="row">
+            <div class="col-6">
+              <input class="form-control" id="fromDate" formControlName="fromDate" autocomplete="off"
+                appDateMask [input]="getFormValue(form, 'fromDate')" placeholder="از تاریخ" data-date>
+              </div>
+              <div class="col-6">
+                <input class="form-control" id="toDate" formControlName="toDate" autocomplete="off"
+                  appDateMask [input]="getFormValue(form, 'toDate')" placeholder="تا تاریخ" data-date>
+                </div>
+              </div>
+            }
+          </div>
 
         </div>
+      </div>
     </div>
-</div>
 
 
-<div class="row">
-    <div class="col-12">
+    <div class="row">
+      <div class="col-12">
         <div class="card" style="min-height: 500px;">
-            <div class="card-header">
-                <div class="button-list">
-                    <app-label-icon-button identifier="submitBtn" label="دریافت گزارش" icon="fas fa-redo-alt"
-                        (clicked)="getReport()">
-                    </app-label-icon-button>
-                </div>
+          <div class="card-header">
+            <div class="button-list">
+              <app-label-icon-button identifier="submitBtn" label="دریافت گزارش" icon="fas fa-redo-alt"
+                (clicked)="getReport()">
+              </app-label-icon-button>
             </div>
+          </div>
 
-            <div class="card-body">
-                <div dir="ltr">
-                    <div id="report" class="apex-charts"></div>
-                </div>
+          <div class="card-body">
+            <div dir="ltr">
+              <div id="report" class="apex-charts"></div>
             </div>
+          </div>
 
         </div>
+      </div>
     </div>
-</div>

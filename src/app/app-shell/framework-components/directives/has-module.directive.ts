@@ -8,7 +8,8 @@ import {
 import { PasswordFlowService } from '../../framework-services/password-flow.service';
 
 @Directive({
-  selector: '[hasModule]'
+    selector: '[hasModule]',
+    standalone: true
 })
 export class HasModuleDirective implements OnInit {
   private neededModule;

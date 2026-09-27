@@ -12,7 +12,8 @@ import {
 
 @Directive({
     selector: '[appDateMask]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class DateMaskDirective implements OnChanges {
     @Output()

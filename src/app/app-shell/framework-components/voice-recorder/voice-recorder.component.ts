@@ -4,8 +4,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 
 @Component({
-  selector: 'app-voice-recorder',
-  templateUrl: './voice-recorder.component.html'
+    selector: 'app-voice-recorder',
+    templateUrl: './voice-recorder.component.html',
+    standalone: true
 })
 export class VoiceRecorderComponent implements OnInit {
 

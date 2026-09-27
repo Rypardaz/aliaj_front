@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service'
 import { MachineService } from '../../machine/machine.service'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
@@ -13,10 +13,14 @@ import { ListItemService } from '../../list-item/list-item.service'
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
 declare var ApexCharts: any
 import * as _ from 'lodash'
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-welding-time-chart-report',
-  templateUrl: './welding-time-chart-report.component.html'
+    selector: 'app-welding-time-chart-report',
+    templateUrl: './welding-time-chart-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent]
 })
 export class WeldingTimeChartReportComponent extends AgGridBaseComponent implements OnInit {
 

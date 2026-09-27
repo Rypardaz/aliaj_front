@@ -1,16 +1,22 @@
 import { Component } from "@angular/core";
 import { ICellRendererAngularComp } from "ag-grid-angular";
+
 declare var $: any;
 
 @Component({
     selector: 'confirmation-state-cell-renderer',
     template: `
-    <span *ngIf="state == 'ثبت شده'">
+    @if (state == 'ثبت شده') {
+      <span>
         <span class="bg-soft-primary text-primary" style="padding: 3px">ثبت نهایی شده</span>
-    </span>
-    <span *ngIf="state == 'ثبت نشده'">
+      </span>
+    }
+    @if (state == 'ثبت نشده') {
+      <span>
         <span class="bg-soft-warning text-warning" style="padding: 3px">ثبت نشده</span>
-    </span>`,
+      </span>
+    }`,
+    imports: []
 })
 export class ConfirmationStateCellRenderer implements ICellRendererAngularComp {
     params: any;

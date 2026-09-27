@@ -1,9 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { datePickerConfig } from '../constants'
+import { DateMaskDirective } from '../directives/date-mask.directive';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-select-date',
-  templateUrl: './select-date.component.html'
+    selector: 'app-select-date',
+    templateUrl: './select-date.component.html',
+    imports: [FormsModule, DateMaskDirective, NgClass]
 })
 export class SelectDateComponent implements OnInit {
 

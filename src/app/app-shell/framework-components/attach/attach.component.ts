@@ -1,16 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AttachService } from '../../framework-services/attach.service';
 import { PasswordFlowService } from '../../framework-services/password-flow.service';
 import { USER_ID_NAME } from '../../framework-services/configuration';
 import { LocalStorageService } from '../../framework-services/local.storage.service';
 import { SwalService } from '../../framework-services/swal.service';
 import { getServiceUrl } from 'src/environment/environment';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 declare var $: any;
 
 @Component({
-  selector: 'app-attach',
-  templateUrl: './attach.component.html'
+    selector: 'app-attach',
+    templateUrl: './attach.component.html',
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgIf, NgFor, NgClass]
 })
 export class AttachComponent implements OnInit {
 

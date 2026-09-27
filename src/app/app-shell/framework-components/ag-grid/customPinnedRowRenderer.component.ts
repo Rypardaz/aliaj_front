@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 @Component({
+  standalone: true,
     selector: 'floating-cell',
     template: `
     <!-- <span [ngStyle]="style">{{ params.value }}</span> -->

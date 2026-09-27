@@ -1,13 +1,18 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ModalFormBaseComponent } from '../../framework-components/modal/modal-form-base.component'
-import { FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { PowderTypeGroupModel } from './powder-type-group-model'
 import { PowderTypeGroupService } from "./powder-type-group.service"
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
+import { CustomInputComponent } from '../../framework-components/custom-controls/custom-input/custom-input.component';
+import { ModalComponent } from '../../framework-components/modal/modal.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-  selector: 'app-powder-type-group',
-  templateUrl: './powder-type-group.component.html'
+    selector: 'app-powder-type-group',
+    templateUrl: './powder-type-group.component.html',
+    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent]
 })
 export class PowderTypeGroupComponent extends ModalFormBaseComponent<PowderTypeGroupService, PowderTypeGroupModel> implements AfterViewInit {
 

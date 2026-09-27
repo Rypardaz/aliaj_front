@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../report.service';
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component';
@@ -9,10 +9,16 @@ import { NotificationService } from 'src/app/app-shell/framework-services/notifi
 import { ActivatedRoute } from '@angular/router';
 import { getCurrentMonth, getCurrentYear, getTodayDate, months, weeks, years } from 'src/app/app-shell/framework-components/constants';
 import * as moment from 'jalali-moment';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-daily-record-report',
-  templateUrl: './daily-record-report.component.html'
+    selector: 'app-daily-record-report',
+    templateUrl: './daily-record-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class DailyRecordReportComponent extends AgGridBaseComponent implements OnInit {
 

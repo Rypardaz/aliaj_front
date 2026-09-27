@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../report.service';
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service';
 import { ListItemService } from '../../list-item/list-item.service';
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service';
@@ -8,10 +8,15 @@ import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-g
 import { getCurrentMonth, getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants';
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
 import { ProjectService } from '../../project/project.service';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-final-card-project-report',
-  templateUrl: './final-card-project-report.component.html'
+    selector: 'app-final-card-project-report',
+    templateUrl: './final-card-project-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent, AgGridModule]
 })
 export class FinalCardProjectReportComponent extends AgGridBaseComponent implements OnInit {
 

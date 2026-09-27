@@ -1,16 +1,22 @@
 import { Component } from "@angular/core";
 import { ICellRendererAngularComp } from "ag-grid-angular";
+
 declare var $: any;
 
 @Component({
     selector: 'yes-no-cell-renderer',
     template: `
-    <span *ngIf="isOther">
+    @if (isOther) {
+      <span>
         <span class="" style="padding: 3px">بلی</span>
-    </span>
-    <span *ngIf="!isOther">
+      </span>
+    }
+    @if (!isOther) {
+      <span>
         <span class="" style="padding: 3px">خیر</span>
-    </span>`,
+      </span>
+    }`,
+    imports: []
 })
 export class YesNoCellRenderer implements ICellRendererAngularComp {
     params: any;

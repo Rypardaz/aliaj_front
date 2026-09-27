@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ModalFormBaseComponent } from '../../framework-components/modal/modal-form-base.component'
-import { FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ActivityModel } from './activity-model'
 import { ActivityService } from "./activity.service"
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
@@ -8,10 +8,18 @@ import { activitySubTypes, activityTypes } from '../../framework-components/cons
 import { ListItemService } from '../list-item/list-item.service';
 import { YesNoCellRenderer } from '../../framework-components/ag-grid/yes-no-label-cell';
 import { SalonService } from '../salon/salon.service';
+import { CustomCheckboxComponent } from '../../framework-components/custom-controls/custom-checkbox/custom-checkbox.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CustomInputComponent } from '../../framework-components/custom-controls/custom-input/custom-input.component';
+import { ModalComponent } from '../../framework-components/modal/modal.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-  selector: 'app-activity',
-  templateUrl: './activity.component.html'
+    selector: 'app-activity',
+    templateUrl: './activity.component.html',
+    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule, CustomCheckboxComponent]
 })
 export class ActivityComponent extends ModalFormBaseComponent<ActivityService, ActivityModel> implements AfterViewInit {
   activityTypes = activityTypes

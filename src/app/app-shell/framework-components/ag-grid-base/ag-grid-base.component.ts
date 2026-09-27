@@ -14,6 +14,7 @@ import { RowNode } from 'ag-grid-community';
 declare var Swal: any;
 
 @Component({
+  standalone: true,
   selector: 'app-ag-grid-base',
   template: ''
 })

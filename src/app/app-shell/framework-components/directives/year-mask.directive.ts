@@ -4,7 +4,8 @@ import { ChangeDetectorRef } from '@angular/core';
 
 @Directive({
     selector: '[appYearMask]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class YearMaskDirective {
     @Output()

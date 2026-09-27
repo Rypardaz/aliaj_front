@@ -10,10 +10,14 @@ import { SALON_GUID_NAME } from '../../framework-services/configuration';
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
 import { ProjectService } from '../project/project.service';
 import { AgGridToolsComponent } from '../../framework-components/ag-grid-tools/ag-grid-tools.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { GridSearchPanelComponent } from '../../framework-components/grid-search-panel/grid-search-panel.component';
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-  selector: 'app-daily-record',
-  templateUrl: './daily-record.component.html'
+    selector: 'app-daily-record',
+    templateUrl: './daily-record.component.html',
+    imports: [LabelIconButtonComponent, GridSearchPanelComponent, AgGridToolsComponent, AgGridModule]
 })
 export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordService, DailyRecordModel> implements AfterViewInit {
   salonGuid

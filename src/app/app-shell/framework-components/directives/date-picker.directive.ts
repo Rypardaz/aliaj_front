@@ -4,6 +4,7 @@ import { NgControl } from '@angular/forms';
 declare var $: any;
 
 @Directive({
+  standalone: true,
     selector: '[appDatePicker]'
 })
 export class DatePickerDirective implements AfterViewInit, OnChanges {

@@ -3,10 +3,12 @@ import { TicketModel } from '../ticket.model';
 import { TicketService } from '../ticket.service';
 import { EditDeleteCellRenderer } from 'src/app/app-shell/framework-components/ag-grid/edit-delete-cell-btn';
 import { ModalFormBaseComponent } from 'src/app/app-shell/framework-components/modal/modal-form-base.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 @Component({
-  selector: 'app-inbox',
-  templateUrl: './inbox.component.html'
+    selector: 'app-inbox',
+    templateUrl: './inbox.component.html',
+    imports: [AgGridModule]
 })
 export class InboxComponent extends ModalFormBaseComponent<TicketService, TicketModel> {
 

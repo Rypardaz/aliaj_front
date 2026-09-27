@@ -10,6 +10,7 @@ import {
 declare var $: any;
 
 @Component({
+  standalone: true,
   selector: 'app-tab',
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.css'],

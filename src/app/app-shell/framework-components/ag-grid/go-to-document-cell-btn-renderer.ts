@@ -3,6 +3,7 @@ import { ICellRendererAngularComp } from "ag-grid-angular";
 declare var $: any;
 
 @Component({
+  standalone: true,
     selector: 'go-to-document-cell-btn-renderer',
     template: `
         <div class="btn-group">

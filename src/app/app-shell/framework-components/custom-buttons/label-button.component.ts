@@ -6,12 +6,13 @@ import {
 import { BaseButtonComponent } from './base-button.component';
 
 @Component({
-  selector: 'app-label-button',
-  template: `
+    selector: 'app-label-button',
+    template: `
     <button [id]="identifier" [type]="btnType" className="btn btn-{{className}} waves-effect waves-light" (click)="onClick()" [disabled]="disable">
       {{label}}
     </button>
-  `
+  `,
+    standalone: true
 })
 export class LabelButtonComponent extends BaseButtonComponent implements OnInit {
   @Input() label = 'Button'

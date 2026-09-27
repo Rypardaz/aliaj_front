@@ -2,11 +2,14 @@ import { NgControl } from '@angular/forms';
 import { CustomControlComponent } from '../custom-control.component';
 import { Component, EventEmitter, HostBinding, Input, OnInit, Optional, Output, Self } from '@angular/core';
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
+import { DateMaskDirective } from '../../directives/date-mask.directive';
+
 declare var $: any;
 
 @Component({
-  selector: 'custom-input',
-  templateUrl: './custom-input.component.html'
+    selector: 'custom-input',
+    templateUrl: './custom-input.component.html',
+    imports: [DateMaskDirective]
 })
 export class CustomInputComponent extends CustomControlComponent implements OnInit {
 

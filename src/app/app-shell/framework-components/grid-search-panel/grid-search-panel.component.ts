@@ -3,11 +3,14 @@ import { LocalStorageService } from '../../framework-services/local.storage.serv
 import { SettingService } from '../../framework-services/setting.service'
 import { getCurrentMonth, months, sessions } from '../constants'
 import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { SelectDateComponent } from '../select-date/select-date.component';
+
 declare var $: any
 
 @Component({
-  selector: 'grid-search-panel',
-  templateUrl: './grid-search-panel.component.html'
+    selector: 'grid-search-panel',
+    templateUrl: './grid-search-panel.component.html',
+    imports: [SelectDateComponent]
 })
 export class GridSearchPanelComponent implements OnInit {
 

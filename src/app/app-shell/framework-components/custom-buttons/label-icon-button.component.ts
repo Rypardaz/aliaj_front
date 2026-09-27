@@ -5,14 +5,15 @@ import {
 import { BaseButtonComponent } from './base-button.component';
 
 @Component({
-  selector: 'app-label-icon-button',
-  template: `
+    selector: 'app-label-icon-button',
+    template: `
     <button [id]="identifier" [type]="btnType" className="btn btn-{{className}} waves-effect waves-light" (click)="onClick()" [disabled]="disable">
       <span class="btn-label">
         <i [class]="icon"></i>
       </span> {{label}}
     </button>
-  `
+  `,
+    standalone: true
 })
 export class LabelIconButtonComponent extends BaseButtonComponent implements OnInit {
   @Input() label = 'Button'

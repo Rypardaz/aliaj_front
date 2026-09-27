@@ -5,7 +5,17 @@
   "projects": {
     "task-list": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": true
+        },
+        "@schematics/angular:pipe": {
+          "standalone": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -74,10 +84,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "task-list:build:production"
+              "buildTarget": "task-list:build:production"
             },
             "development": {
-              "browserTarget": "task-list:build:development"
+              "buildTarget": "task-list:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -85,7 +95,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "task-list:build"
+            "buildTarget": "task-list:build"
           }
         },
         "test": {
@@ -114,5 +124,31 @@
     "schematicCollections": [
       "@angular-eslint/schematics"
     ]
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }

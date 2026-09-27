@@ -1,16 +1,21 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { createGuid } from '../constants';
 import { USER_ID_NAME } from '../../framework-services/configuration';
 import { LocalStorageService } from '../../framework-services/local.storage.service';
 import { NotificationService } from '../../framework-services/notification.service';
 import { SwalService } from '../../framework-services/swal.service';
 import { VoiceService } from '../../framework-services/voice.service';
+import { VoiceRecorderComponent } from '../voice-recorder/voice-recorder.component';
+import { VoicePlayerComponent } from '../voice-player/voice-player.component';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 declare var $: any;
 
 @Component({
-  selector: 'app-voice',
-  templateUrl: './voice.component.html'
+    selector: 'app-voice',
+    templateUrl: './voice.component.html',
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgIf, NgFor, VoicePlayerComponent, NgClass, VoiceRecorderComponent]
 })
 export class VoiceComponent implements OnInit {
 

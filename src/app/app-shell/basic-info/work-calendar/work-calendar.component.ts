@@ -5,10 +5,16 @@ import { ListItemService } from '../list-item/list-item.service';
 import { NotificationService } from '../../framework-services/notification.service';
 import { BreadcrumbService } from '../../framework-services/breadcrumb.service';
 import { SalonService } from '../salon/salon.service';
+import { NgxMaskDirective } from 'ngx-mask';
+
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-work-calendar',
-  templateUrl: './work-calendar.component.html'
+    selector: 'app-work-calendar',
+    templateUrl: './work-calendar.component.html',
+    imports: [NgSelectModule, FormsModule, LabelIconButtonComponent, NgxMaskDirective]
 })
 export class WorkCalendarComponent implements OnInit {
 

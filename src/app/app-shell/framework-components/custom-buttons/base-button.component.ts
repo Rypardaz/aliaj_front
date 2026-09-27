@@ -6,6 +6,7 @@ import {
 import { createGuid } from '../constants';
 
 @Component({
+  standalone: true,
   selector: 'app-base-button',
   template: ``
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportService } from '../report.service';
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service';
 import { ListItemService } from '../../list-item/list-item.service';
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service';
@@ -8,10 +8,16 @@ import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-g
 import { getCurrentMonth, getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants';
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
 import { AgGridToolsComponent } from 'src/app/app-shell/framework-components/ag-grid-tools/ag-grid-tools.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-daily-record-list-report',
-  templateUrl: './daily-record-list-report.component.html'
+    selector: 'app-daily-record-list-report',
+    templateUrl: './daily-record-list-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class DailyRecordListReportComponent extends AgGridBaseComponent implements OnInit {
 

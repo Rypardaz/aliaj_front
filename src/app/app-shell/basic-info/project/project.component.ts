@@ -7,10 +7,14 @@ import { ComboBase } from '../../framework-components/combo-base';
 import { SalonService } from '../salon/salon.service';
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
 import { AgGridToolsComponent } from '../../framework-components/ag-grid-tools/ag-grid-tools.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { GridSearchPanelComponent } from '../../framework-components/grid-search-panel/grid-search-panel.component';
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html'
+    selector: 'app-project',
+    templateUrl: './project.component.html',
+    imports: [LabelIconButtonComponent, GridSearchPanelComponent, AgGridToolsComponent, AgGridModule]
 })
 export class ProjectComponent extends ModalFormBaseComponent<ProjectService, ProjectModel> implements AfterViewInit {
   salons: ComboBase[];

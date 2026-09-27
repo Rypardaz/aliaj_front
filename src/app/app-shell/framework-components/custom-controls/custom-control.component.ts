@@ -2,6 +2,7 @@ import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Optional, Output, Self } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'custom-control',
   template: ''
 })

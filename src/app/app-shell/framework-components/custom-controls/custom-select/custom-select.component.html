@@ -3,35 +3,45 @@
   <div class="input-group">
     <div class="input-group-prepend">
       <div class="input-group-text">{{label}}
-        <span class="text-danger" *ngIf="required"> *</span>
+        @if (required) {
+          <span class="text-danger"> *</span>
+        }
       </div>
     </div>
 
-    <ng-container [ngSwitch]="type">
-      <ng-container *ngSwitchCase="'select'">
+    @switch (type) {
+      @case ('select') {
         <select appSelect2 data-toggle="select2" class="mr-2" [id]="identity" (itemSelected)="itemSeleceted()"
           [disabled]="isDisabled" [attr.required]="required || null" [placeholder]="placeholder">
           <option></option>
-          <option *ngFor="let item of options" [value]="item.guid" [selected]="item.guid == value">{{item.title}}
-          </option>
+          @for (item of options; track item) {
+            <option [value]="item.guid" [selected]="item.guid == value">{{item.title}}
+            </option>
+          }
         </select>
-      </ng-container>
-      <ng-container *ngSwitchCase="'select-ajax'">
+      }
+      @case ('select-ajax') {
         <select appSelect2 data-toggle="select2" class="mr-2" [id]="identity" (itemSelected)="itemSeleceted()"
           [disabled]="isDisabled" [ajaxUrl]="ajaxUrl" [searchTerm]="searchTerm" [attr.required]="required || null"
           [placeholder]="placeholder" [selectedItem]="selectedItem">
-          <option *ngFor="let item of options" [value]="item.guid">{{item.title}}</option>
+          @for (item of options; track item) {
+            <option [value]="item.guid">{{item.title}}</option>
+          }
         </select>
-      </ng-container>
-    </ng-container>
+      }
+    }
 
     <ng-content></ng-content>
   </div>
 
-  <ul class="text-danger mt-1" *ngIf="ngControl?.invalid && (ngControl?.dirty)">
-    <li *ngIf="ngControl?.errors?.['required']">
-      این فیلد اجباری است.
-    </li>
-  </ul>
+  @if (ngControl?.invalid && (ngControl?.dirty)) {
+    <ul class="text-danger mt-1">
+      @if (ngControl?.errors?.['required']) {
+        <li>
+          این فیلد اجباری است.
+        </li>
+      }
+    </ul>
+  }
 
 </div>

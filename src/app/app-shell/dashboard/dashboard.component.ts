@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReportService } from '../basic-info/reports/report.service';
 import { BreadcrumbService } from '../framework-services/breadcrumb.service';
+
 declare var ApexCharts: any
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    imports: []
 })
 export class DashboardComponent implements OnInit {
 

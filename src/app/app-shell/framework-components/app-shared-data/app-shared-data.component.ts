@@ -5,8 +5,9 @@ import { FormGroup } from '@angular/forms';
 declare var $: any;
 
 @Component({
-  selector: 'app-app-shared-data',
-  templateUrl: './app-shared-data.component.html'
+    selector: 'app-app-shared-data',
+    templateUrl: './app-shared-data.component.html',
+    standalone: true
 })
 export class AppSharedDataComponent implements OnInit {
   currentDateYm;

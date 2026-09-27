@@ -1,9 +1,12 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AgGridStateService } from '../../framework-services/agGridState.service';
 
+import { LabelIconButtonComponent } from '../custom-buttons/label-icon-button.component';
+
 @Component({
-  selector: 'ag-grid-tools',
-  templateUrl: './ag-grid-tools.component.html'
+    selector: 'ag-grid-tools',
+    templateUrl: './ag-grid-tools.component.html',
+    imports: [LabelIconButtonComponent]
 })
 export class AgGridToolsComponent implements OnInit, OnChanges {
 

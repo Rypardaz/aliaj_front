@@ -5,7 +5,8 @@ declare var $: any;
 
 @Directive({
     selector: '[appHourMask]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class HourMaskDirective implements OnChanges {
     @Output()

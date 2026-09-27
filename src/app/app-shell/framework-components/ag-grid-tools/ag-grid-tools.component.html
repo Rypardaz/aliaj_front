@@ -1,11 +1,15 @@
 <app-label-icon-button btnType="button" identifier="submitBtn" label="Excel دریافت"
-    className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
+  className="btn btn-outline-secondary" icon="fas fa-file-excel" (click)="onExportExcel()">
 </app-label-icon-button>
 
-<app-label-icon-button *ngIf="hasSavedState" btnType="button" identifier="restoreStateBtn"
+@if (hasSavedState) {
+  <app-label-icon-button btnType="button" identifier="restoreStateBtn"
     label="برگشت جدول به حالت پیش فرض" className="btn btn-outline-secondary" icon="fas fa-save" (click)="resetState()">
-</app-label-icon-button>
+  </app-label-icon-button>
+}
 
-<app-label-icon-button *ngIf="!hasSavedState" btnType="button" identifier="saveStateBtn" label="ذخیره حالت جدول"
+@if (!hasSavedState) {
+  <app-label-icon-button btnType="button" identifier="saveStateBtn" label="ذخیره حالت جدول"
     className="btn btn-outline-secondary" icon="fas fa-save" (click)="saveState()">
-</app-label-icon-button>
+  </app-label-icon-button>
+}

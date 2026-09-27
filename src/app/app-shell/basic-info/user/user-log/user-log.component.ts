@@ -1,3 +1,8 @@
+import { ReactiveFormsModule } from '@angular/forms';
+import { AgGridModule } from 'ag-grid-angular';
+import { CustomInputComponent } from 'src/app/app-shell/framework-components/custom-controls/custom-input/custom-input.component';
+import { CustomSelectComponent } from 'src/app/app-shell/framework-components/custom-controls/custom-select/custom-select.component';
+import { LabelIconButtonComponent } from 'src/app/app-shell/framework-components/custom-buttons/label-icon-button.component';
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { ComboBase } from 'src/app/app-shell/framework-components/combo-base'
@@ -16,6 +21,8 @@ import { SettingService } from 'src/app/app-shell/framework-services/setting.ser
 import { UserSessionSuccessCellRendererComponent } from './user-session-success-cell-renderer.component'
 
 @Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, CustomInputComponent, CustomSelectComponent, LabelIconButtonComponent, AgGridModule],
   selector: 'app-user-log',
   templateUrl: './user-log.component.html'
 })

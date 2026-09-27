@@ -1,11 +1,13 @@
-import { NgControl } from '@angular/forms';
+import { NgControl, FormsModule } from '@angular/forms';
 import { Component, HostBinding, OnInit, Optional, Self } from '@angular/core';
 import { CustomControlComponent } from '../custom-control.component';
+
 declare var $: any;
 
 @Component({
-  selector: 'custom-checkbox',
-  templateUrl: './custom-checkbox.component.html'
+    selector: 'custom-checkbox',
+    templateUrl: './custom-checkbox.component.html',
+    imports: [FormsModule]
 })
 export class CustomCheckboxComponent extends CustomControlComponent implements OnInit {
 

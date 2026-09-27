@@ -4,7 +4,8 @@ import { ChangeDetectorRef } from '@angular/core';
 
 @Directive({
     selector: '[appDayMask]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class DayMaskDirective implements OnChanges {
     @Output()

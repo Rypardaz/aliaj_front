@@ -1,10 +1,12 @@
 import { ModalConfig } from './modal.config'
 import { Component, EventEmitter, Input, Output, AfterViewChecked } from '@angular/core'
+
 declare var $: any
 
 @Component({
     selector: 'app-modal',
     templateUrl: './modal.component.html',
+    imports: []
 })
 export class ModalComponent implements AfterViewChecked {
     @Input() public isModalOpen = false

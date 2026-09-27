@@ -4,7 +4,8 @@ declare var $: any;
 
 @Directive({
     selector: '[appClockPicker]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class ClockPickerDirective implements AfterViewInit {
     @Output()

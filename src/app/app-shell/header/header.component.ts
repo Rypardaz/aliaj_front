@@ -3,7 +3,7 @@ import { PasswordFlowService } from '../framework-services/password-flow.service
 import { LocalStorageService } from '../framework-services/local.storage.service';
 import { USER_CLASSIFICATION_LEVEL_ID_NAME, USER_COMPANY_ID_NAME, USER_ORGANIZATION_CHART_ID_NAME } from '../framework-services/configuration';
 import { ModalComponent } from '../framework-components/modal/modal.component';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from '../framework-services/notification.service';
 import { operationSuccessful } from '../framework-components/app-messages';
 import { ModalConfig } from '../framework-components/modal/modal.config';
@@ -11,12 +11,16 @@ import { CodeFlowService } from '../framework-services/code-flow.service';
 import { environment } from 'src/environment/environment';
 import { getTodayDate } from '../framework-components/constants';
 import { UserService } from '../basic-info/user/user.service';
+import { PasswordStrengthMeterComponent } from '../framework-components/password-strength-meter/password-strength-meter.component';
+import { CustomInputComponent } from '../framework-components/custom-controls/custom-input/custom-input.component';
+
 declare var $: any
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ["./header.style.css"]
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ["./header.style.css"],
+    imports: [FormsModule, ModalComponent, ReactiveFormsModule, CustomInputComponent, PasswordStrengthMeterComponent]
 })
 export class HeaderComponent implements OnInit, AfterContentInit {
 

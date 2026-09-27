@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../report.service';
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ProjectService } from '../../project/project.service';
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service';
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-project-report',
-  templateUrl: './project-report.component.html'
+    selector: 'app-project-report',
+    templateUrl: './project-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent, AgGridModule]
 })
 export class ProjectReportComponent extends AgGridBaseComponent implements OnInit {
 

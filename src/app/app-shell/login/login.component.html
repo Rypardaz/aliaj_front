@@ -1,0 +1,64 @@
+<div class="auth-fluid">
+
+  <div class="auth-fluid-form-box">
+    <div class="align-items-center d-flex h-100">
+      <div class="card-body">
+
+        <div class="auth-brand text-center text-lg-start">
+          <div class="auth-logo">
+            <a href="index.html" class="logo logo-dark text-center">
+              <span class="logo-lg">
+                <img src="../assets/images/logo.jpeg">
+              </span>
+            </a>
+
+            <a href="index.html" class="logo logo-light text-center">
+              <span class="logo-lg">
+                <img src="../assets/images/logo.jpeg">
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <h4 class="mt-0">ورود به سیستم</h4>
+        <p class="text-muted mb-4">لطفا برای ورود به سیستم کالیبراسیون اطلاعات زیر را وارد نمایید</p>
+
+        <form [formGroup]="loginForm" (submit)="submit()">
+
+          <div class="mb-2">
+            <label for="username" class="form-label">نام کاربری</label>
+            <input class="form-control" formControlName="username" id="username" autocomplete="off">
+          </div>
+
+          <div class="mb-2">
+            <label for="password" class="form-label">رمز عبور</label>
+            <div class="input-group input-group-merge">
+              <input formControlName="password" type="password" id="password" class="form-control" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="d-grid text-center">
+            @if (isLoading$ | async) {
+            <span class="indicator-progress" [style.display]="'block'">لطفا منتظر بمانید...
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+            } @else {
+            <button class="btn btn-primary" type="submit">ورود به سیستم </button>
+            }
+
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-fluid-right"
+    style="background-repeat: no-repeat; background-size: cover; background-image: url('../../../assets/wallpapers/{{welcome}}.jpg');">
+    <div class="auth-user-testimonial">
+    </div>
+  </div>
+
+</div>

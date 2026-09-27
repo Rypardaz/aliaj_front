@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
     selector: 'islast',
-    template: '<span></span>'
+    template: '<span></span>',
+    standalone: true
 })
 export class LoopLastDirective {
     @Input() isLast: boolean;

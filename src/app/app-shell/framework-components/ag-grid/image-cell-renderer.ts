@@ -1,17 +1,18 @@
 import { Component } from "@angular/core";
 import { ICellRendererAngularComp } from "ag-grid-angular";
+
 declare var $: any;
 
 @Component({
     selector: 'image-cell-renderer',
     template: `
-        <div *ngIf="photo; then specialPhoto else defaultPhoto"></div>
-        <ng-template #specialPhoto>
-            <img src="data:image/jpg;base64,{{photo}}" width="40" />
-        </ng-template>
-        <ng-template #defaultPhoto>
-            <img src="./assets/media/logos/blanklogo.png" width="40" />
-        </ng-template>`,
+        @if (photo) {
+          <img src="data:image/jpg;base64,{{photo}}" width="40" />
+        } @else {
+          <img src="./assets/media/logos/blanklogo.png" width="40" />
+        }
+        `,
+    imports: []
 })
 export class ImageCellRenderer implements ICellRendererAngularComp {
     params: any;

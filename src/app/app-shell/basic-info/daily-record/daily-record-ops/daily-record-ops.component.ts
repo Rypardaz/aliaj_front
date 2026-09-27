@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComboBase } from 'src/app/app-shell/framework-components/combo-base';
 import { SalonService } from '../../salon/salon.service';
 import { GasTypeService } from '../../gas-type/gas-type.service';
@@ -19,10 +19,18 @@ import { PowderTypeService } from '../../powder-type/powder-type.service';
 import { WireScrewService } from '../../wire-screw/wire-screw.service';
 import * as moment from 'jalali-moment'
 import { WireTypeService } from '../../wire-type/wire-type.service';
+import { IconButtonComponent } from '../../../framework-components/custom-buttons/icon-button.component';
+import { NgxMaskDirective } from 'ngx-mask';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+import { LabelButtonComponent } from '../../../framework-components/custom-buttons/label-button.component';
+import { CustomInputComponent } from '../../../framework-components/custom-controls/custom-input/custom-input.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-daily-record-ops',
-  templateUrl: './daily-record-ops.component.html'
+    selector: 'app-daily-record-ops',
+    templateUrl: './daily-record-ops.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent, LabelButtonComponent, LabelIconButtonComponent, NgxMaskDirective, IconButtonComponent]
 })
 export class DailyRecordOpsComponent implements OnInit {
 

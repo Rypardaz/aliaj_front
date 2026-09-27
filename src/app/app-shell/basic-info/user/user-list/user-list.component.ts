@@ -1,27 +1,30 @@
-import { Router } from '@angular/router'
+import { RouterLink } from '@angular/router'
 import { Component, OnInit } from '@angular/core'
 import { UserService } from '../user.service'
-import { LocalStorageService } from 'src/app/app-shell/framework-services/local.storage.service'
-import { SettingService } from 'src/app/app-shell/framework-services/setting.service'
-import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
 import { ModalFormBaseComponent } from 'src/app/app-shell/framework-components/modal/modal-form-base.component'
 import { User } from '../user'
-import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
-import { UserGroupService } from '../../user-group/user-group.service'
-import { UserGroup } from '../../user-group/user-group'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { operationSuccessful } from 'src/app/app-shell/framework-components/app-messages'
+import { CustomInputComponent } from '../../../framework-components/custom-controls/custom-input/custom-input.component';
+import { CustomSelectComponent } from '../../../framework-components/custom-controls/custom-select/custom-select.component';
+import { ModalComponent } from '../../../framework-components/modal/modal.component';
+import { IconButtonComponent } from '../../../framework-components/custom-buttons/icon-button.component';
+
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+import { Role } from '../../role/role'
+import { RoleService } from '../../role/role.service'
 
 @Component({
   selector: 'app-user-list',
-  templateUrl: './user-list.component.html'
+  templateUrl: './user-list.component.html',
+  imports: [LabelIconButtonComponent, RouterLink, IconButtonComponent, ModalComponent, FormsModule, ReactiveFormsModule, CustomSelectComponent, CustomInputComponent]
 })
 export class UserListComponent extends ModalFormBaseComponent<UserService, User> implements OnInit {
 
-  userGroups: UserGroup[]
+  roles: Role[]
 
   constructor(readonly userService: UserService,
-    private readonly userGroupService: UserGroupService) {
+    private readonly roleService: RoleService) {
     super('مدیریت کاربران', userService)
 
     this.form = new FormGroup({
@@ -40,9 +43,9 @@ export class UserListComponent extends ModalFormBaseComponent<UserService, User>
 
     this.afterListFetch
       .subscribe(_ => {
-        this.userGroupService
-          .getForCombo<UserGroup[]>()
-          .subscribe(data => this.userGroups = data)
+        this.roleService
+          .getForCombo<Role[]>()
+          .subscribe(data => this.roles = data)
       })
   }
 

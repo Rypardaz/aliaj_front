@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../report.service';
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component';
@@ -7,10 +7,16 @@ import { getCurrentMonth, getCurrentYear, months, weeks, years } from 'src/app/a
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service';
 import { SalonService } from '../../salon/salon.service';
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-personnel-report',
-  templateUrl: './personnel-report.component.html'
+    selector: 'app-personnel-report',
+    templateUrl: './personnel-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class PersonnelReportComponent extends AgGridBaseComponent implements OnInit {
 

@@ -5,7 +5,8 @@ declare var $: any;
 
 @Directive({
     selector: '[appVoiceRecognizer]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class VoiceRecognizerDirective implements AfterViewInit {
 

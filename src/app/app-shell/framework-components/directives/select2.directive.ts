@@ -9,7 +9,8 @@ declare var $: any;
 
 @Directive({
     selector: '[appSelect2]',
-    providers: []
+    providers: [],
+    standalone: true
 })
 export class Select2Directive implements AfterViewInit {
     select2: any;

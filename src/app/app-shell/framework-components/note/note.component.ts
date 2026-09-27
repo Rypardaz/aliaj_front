@@ -1,15 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { createGuid } from '../constants';
 import { USER_ID_NAME } from '../../framework-services/configuration';
 import { LocalStorageService } from '../../framework-services/local.storage.service';
 import { NoteService } from '../../framework-services/note.service';
 import { SwalService } from '../../framework-services/swal.service';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 declare var $: any;
 
 @Component({
-  selector: 'app-note',
-  templateUrl: './note.component.html'
+    selector: 'app-note',
+    templateUrl: './note.component.html',
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgIf, NgFor, NgClass]
 })
 export class NoteComponent implements OnInit {
 

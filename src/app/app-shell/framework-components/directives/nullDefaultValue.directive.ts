@@ -2,7 +2,8 @@ import { NgControl } from "@angular/forms";
 import { Directive, ElementRef, HostListener } from "@angular/core";
 
 @Directive({
-  selector: '[nullValue]'
+    selector: '[nullValue]',
+    standalone: true
 })
 export class NullDefaultValueDirective {
 

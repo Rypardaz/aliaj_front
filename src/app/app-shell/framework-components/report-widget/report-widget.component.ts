@@ -3,8 +3,8 @@ import { Location } from '@angular/common';
 import { Router, UrlSerializer } from '@angular/router';
 
 @Component({
-  selector: 'app-report-widget',
-  template: `
+    selector: 'app-report-widget',
+    template: `
           <div class="widget-bg-color-icon card" (click)="clicked()">
             <div class="card-body custom-card">
                 <div class="align-items-center flex-column d-flex">
@@ -16,7 +16,8 @@ import { Router, UrlSerializer } from '@angular/router';
                     </div>
                 </div>
             </div>
-          </div>`
+          </div>`,
+    standalone: true
 })
 export class ReportWidgetComponent implements OnInit {
 

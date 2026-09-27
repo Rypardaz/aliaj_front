@@ -1,15 +1,20 @@
 import { ChartService } from '../chart.service'
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component'
 import { ActivatedRoute } from '@angular/router'
+import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
 declare var ApexCharts: any
 
 @Component({
-  selector: 'app-wire-consumption-to-standaard-chart-report',
-  templateUrl: './wire-consumption-to-standaard-chart-report.component.html'
+    selector: 'app-wire-consumption-to-standaard-chart-report',
+    templateUrl: './wire-consumption-to-standaard-chart-report.component.html',
+    imports: [FormsModule, ReactiveFormsModule, DateMaskDirective, NgSelectModule, LabelIconButtonComponent]
 })
 export class WireConsumptionToStandardChartReportComponent extends AgGridBaseComponent implements OnInit {
 
