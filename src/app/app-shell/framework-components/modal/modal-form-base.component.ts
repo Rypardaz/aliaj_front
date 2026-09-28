@@ -7,7 +7,6 @@ import { ModalComponent } from './modal.component'
 import { ModalConfig } from './modal.config'
 import { BreadcrumbService } from '../../framework-services/breadcrumb.service'
 import { formGroupToFormData } from '../constants'
-import { USER_CLASSIFICATION_LEVEL_ID_NAME } from '../../framework-services/configuration'
 import { Router } from '@angular/router'
 import { DatatableService } from '../../framework-services/datatable.service'
 import { FeatureService } from '../../basic-info/feature/feature.service'
@@ -26,26 +25,26 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
   records: TModel[] = []
   modalConfig = new ModalConfig()
   featureTitle = ''
-  dtOptions: DataTables.Settings = {
-    destroy: true,
-    paging: true,
-    orderMulti: true,
-    order: [],
-    language: {
-      search: "جستجو:",
-      lengthMenu: "نمایش _MENU_ ردیف در صفحه",
-      zeroRecords: "ردیفی یافت نشد",
-      info: "نمایش صفحه _PAGE_ از _PAGES_",
-      infoEmpty: "ردیفی پیدا نشد",
-      infoFiltered: "(جستجو در میان _MAX_ ردیف)",
-      paginate: {
-        next: 'بعدی',
-        previous: 'قبلی',
-        first: 'اولین',
-        last: 'آخرین'
-      }
-    }
-  }
+  // dtOptions: DataTables.Settings = {
+  //   destroy: true,
+  //   paging: true,
+  //   orderMulti: true,
+  //   order: [],
+  //   language: {
+  //     search: "جستجو:",
+  //     lengthMenu: "نمایش _MENU_ ردیف در صفحه",
+  //     zeroRecords: "ردیفی یافت نشد",
+  //     info: "نمایش صفحه _PAGE_ از _PAGES_",
+  //     infoEmpty: "ردیفی پیدا نشد",
+  //     infoFiltered: "(جستجو در میان _MAX_ ردیف)",
+  //     paginate: {
+  //       next: 'بعدی',
+  //       previous: 'قبلی',
+  //       first: 'اولین',
+  //       last: 'آخرین'
+  //     }
+  //   }
+  // }
 
   @Output() afterListFetch = new EventEmitter()
   @Output() afterModalOpened = new EventEmitter()
@@ -75,12 +74,7 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
 
   override ngOnInit(): void {
     super.ngOnInit()
-
-    // if (this.featureTitle) {
-    //   this.getClassificationLevel()
-    // } else {
     this.getList()
-    // }
   }
 
   ngAfterViewInit(): void { }
@@ -98,29 +92,6 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
   handleListSubscription(data) {
     this.records = data
     this.afterListFetch.emit()
-  }
-
-  getClassificationLevel() {
-    const userClassificationLevelGuid = this.localStorageService.getItem(USER_CLASSIFICATION_LEVEL_ID_NAME)
-    const searchModel = {
-      featureTitle: this.featureTitle,
-      userClassificationLevelGuid
-    }
-
-    this.featureService
-      .getClassificationLevelByTitle(searchModel)
-      .subscribe({
-        next: result => {
-          if (!result) {
-            this.notificationService.error('شما به این صفحه دسترسی ندارید.')
-            this.router.navigateByUrl('/dashboard')
-            throw new Error()
-          }
-
-          this.getList()
-          this.breadcrumbService.setClassificationLevel(result.title)
-        }
-      })
   }
 
   delete(id) {

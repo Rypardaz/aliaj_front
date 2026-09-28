@@ -16,7 +16,6 @@ import { SecurityInterceptor } from './app/app-shell/framework-services/security
 import { LoaderInterceptor } from './app/app-shell/framework-services/loader.interceptor.service';
 import { PasswordFlowService } from './app/app-shell/framework-services/password-flow.service';
 import { LocalStorageService } from './app/app-shell/framework-services/local.storage.service';
-import { IdentityService } from './app/app-shell/framework-services/identity.service';
 import { SettingService } from './app/app-shell/framework-services/setting.service';
 import { NotificationService } from './app/app-shell/framework-services/notification.service';
 import { SwalService } from './app/app-shell/framework-services/swal.service';
@@ -37,7 +36,6 @@ bootstrapApplication(AppComponent, {
     HttpService,
     PasswordFlowService,
     LocalStorageService,
-    IdentityService,
     SettingService,
     NotificationService,
     SwalService,

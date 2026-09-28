@@ -1,13 +1,12 @@
 import { AsyncPipe } from '@angular/common'
-import { Subscription, Observable } from 'rxjs'
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { UserService } from '../basic-info/user/user.service'
+import { Subscription, Observable, firstValueFrom } from 'rxjs'
+import { Component, OnInit, OnDestroy, inject } from '@angular/core'
 import { FeatureService } from '../basic-info/feature/feature.service'
-import { IdentityService } from 'src/app/app-shell/framework-services/identity.service'
+import { ACCESS_TOKEN_NAME, PERMISSIONS_NAME } from 'src/app/app-shell/framework-services/configuration'
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
-import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
 import { PasswordFlowService } from 'src/app/app-shell/framework-services/password-flow.service'
 import { LocalStorageService } from 'src/app/app-shell/framework-services/local.storage.service'
-import { PERMISSIONS_NAME, ROLE_TOKEN_NAME, USER_ID_NAME } from 'src/app/app-shell/framework-services/configuration'
 
 @Component({
   selector: 'app-login',
@@ -22,13 +21,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   captchaText = ''
   captchaError = false
 
-  constructor(
-    private fb: FormBuilder,
-    private readonly notificationService: NotificationService,
-    private readonly identityService: IdentityService,
-    private readonly passwordFlowService: PasswordFlowService,
-    private readonly localStorageService: LocalStorageService,
-    private readonly featureService: FeatureService) { }
+  private fb = inject(FormBuilder)
+  private readonly passwordFlowService = inject(PasswordFlowService)
+  private readonly localStorageService = inject(LocalStorageService)
+  private readonly featureService = inject(FeatureService)
+  private readonly userService = inject(UserService)
+
+  constructor() { }
 
   ngOnInit(): void {
     this.initForm()
@@ -41,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.generateCaptcha()
   }
 
-  submit() {
+  async submit() {
     this.loginForm.markAllAsTouched()
     if (this.loginForm.invalid) {
       return
@@ -49,49 +48,27 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     const command = this.loginForm.value
     this.captchaError = command.captcha.trim().toUpperCase() !== this.captchaText
+
     if (this.captchaError) {
       this.generateCaptcha(false)
       return
     }
 
-    const loginSubscr = this.passwordFlowService
-      .login(command.username, command.password, 'PhoenixExample')
-      .subscribe({
-        next: () => {
-          this.notificationService.succeded('ورود با موفقیت انجام شد، لطفا کمی صبر کنید...')
-          this.getIdAndRole()
-        },
-        error: () => {
-          this.generateCaptcha()
-        }
-      })
+    const reuslt = await firstValueFrom<any>(this.userService.login(command))
+    if (reuslt === undefined) {
+      this.generateCaptcha()
+    }
 
-    this.unsubscribe.push(loginSubscr)
-  }
+    this.localStorageService.setItem(ACCESS_TOKEN_NAME, reuslt.token)
+    // this.localStorageService.setItem(DATABASAE_NAME, dbName)
 
-  getIdAndRole() {
-    this.identityService
-      .getIdAndRole()
-      .subscribe({
-        next: result => {
-          this.localStorageService.setItem(USER_ID_NAME, result.id)
-          this.localStorageService.setItem(ROLE_TOKEN_NAME, result.role)
-        },
-        error: () => this.passwordFlowService.logout(),
-        complete: () => this.getFeatures()
-      })
-  }
+    // const identity = await firstValueFrom(this.identityService.getIdAndRole())
+    // this.localStorageService.setItem(USER_ID_NAME, identity.id)
+    // this.localStorageService.setItem(ROLE_TOKEN_NAME, identity.role)
 
-  getFeatures() {
-    this.featureService
-      .getUserPermissions()
-      .subscribe({
-        next: permissions => {
-          this.localStorageService.setItem(PERMISSIONS_NAME, permissions)
-          this.passwordFlowService.navigateToDashboard(true)
-        },
-        error: () => this.passwordFlowService.logout(),
-      })
+    const permissions = await firstValueFrom(this.featureService.getUserPermissions())
+    this.localStorageService.setItem(PERMISSIONS_NAME, permissions)
+    this.passwordFlowService.navigateToDashboard()
   }
 
   get f() {

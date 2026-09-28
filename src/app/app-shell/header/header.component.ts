@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { PasswordFlowService } from '../framework-services/password-flow.service';
 import { LocalStorageService } from '../framework-services/local.storage.service';
-import { USER_CLASSIFICATION_LEVEL_ID_NAME, USER_COMPANY_ID_NAME, USER_ORGANIZATION_CHART_ID_NAME } from '../framework-services/configuration';
 import { ModalComponent } from '../framework-components/modal/modal.component';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from '../framework-services/notification.service';
 import { operationSuccessful } from '../framework-components/app-messages';
 import { ModalConfig } from '../framework-components/modal/modal.config';
-import { CodeFlowService } from '../framework-services/code-flow.service';
-import { environment } from 'src/environment/environment';
 import { getTodayDate } from '../framework-components/constants';
 import { UserService } from '../basic-info/user/user.service';
 import { PasswordStrengthMeterComponent } from '../framework-components/password-strength-meter/password-strength-meter.component';
@@ -17,10 +14,10 @@ import { CustomInputComponent } from '../framework-components/custom-controls/cu
 declare var $: any
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ["./header.style.css"],
-    imports: [FormsModule, ModalComponent, ReactiveFormsModule, CustomInputComponent, PasswordStrengthMeterComponent]
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ["./header.style.css"],
+  imports: [FormsModule, ModalComponent, ReactiveFormsModule, CustomInputComponent, PasswordStrengthMeterComponent]
 })
 export class HeaderComponent implements OnInit, AfterContentInit {
 
@@ -49,7 +46,6 @@ export class HeaderComponent implements OnInit, AfterContentInit {
 
   constructor(private readonly fb: FormBuilder,
     private readonly passwordFlowService: PasswordFlowService,
-    private readonly codeFlowService: CodeFlowService,
     private readonly userService: UserService,
     private readonly localStorageService: LocalStorageService,
     private readonly notificationService: NotificationService) {
@@ -82,16 +78,6 @@ export class HeaderComponent implements OnInit, AfterContentInit {
       .subscribe({
         next: result => {
           this.information = result
-          this.localStorageService.setItem(USER_COMPANY_ID_NAME, result.companyGuid)
-          this.localStorageService.setItem(USER_ORGANIZATION_CHART_ID_NAME, result.organizationChartGuid)
-          this.localStorageService.setItem(USER_CLASSIFICATION_LEVEL_ID_NAME, result.classificationLevelGuid)
-
-          // if (this.information.needChangePassword) {
-          //   this.changePassModalConfig.modalTitle = 'هشدار امنیتی، لطفا کلمه رمز را تغییر دهید'
-          //   this.changePassModalConfig.hideCloseButton = true
-          //   this.changePassModalConfig.submitButtonLabel = 'اعمال تغییر'
-          //   this.changePasswordModal.open()
-          // }
         },
         complete: () => { }
       })
@@ -129,11 +115,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   }
 
   logout() {
-    if (environment.ssoAuthenticationFlow == 'code') {
-      this.codeFlowService.logout()
-    } else {
-      this.passwordFlowService.logout()
-    }
+    this.userService.logout()
   }
 
   mobileMenuButton() {
