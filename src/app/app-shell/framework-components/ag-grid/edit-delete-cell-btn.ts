@@ -5,8 +5,8 @@ import { ICellRendererAngularComp } from "ag-grid-angular";
 declare var $: any;
 
 @Component({
-    selector: 'edit-delete-cell-renderer',
-    template: `
+  selector: 'edit-delete-cell-renderer',
+  template: `
     @if (params.hasEditMode) {
       <span>
         <a (click)="btnEditClicked()" class="btn btn-soft-primary btn-sm waves-effect waves-light">
@@ -38,59 +38,59 @@ declare var $: any;
         </span>
       }
     }`,
-    imports: []
+  imports: []
 })
 export class EditDeleteCellRenderer implements ICellRendererAngularComp {
-    params: any;
-    isActive: 1;
-    id: 0;
+  params: any;
+  isActive: 1;
+  id: 0;
 
-    constructor(private readonly router: Router) {
+  constructor(private readonly router: Router) {
+  }
+
+  refresh(params: any): boolean {
+    return true;
+  }
+
+  agInit(params: any): void {
+    this.params = params;
+
+    if (params.data) {
+      if (params.data.isActive) {
+        this.isActive = params.data.isActive;
+      }
+
+      if (params.data.id) {
+        this.id = params.data.id;
+      }
     }
+  }
 
-    refresh(params: any): boolean {
-        return true;
+  btnDeleteClicked() {
+    this.params.context
+      .componentParent
+      .delete(this.params.data.guid);
+  }
+
+  btnEditClicked() {
+    if (this.params.editInModal) {
+      this.params.context
+        .componentParent
+        .openOpsModal(this.params.data.guid);
+    } else {
+      this.router.navigateByUrl(`${this.params.editUrl}/${this.params.data.guid}`);
     }
+  }
 
-    agInit(params: any): void {
-        this.params = params;
+  activate() {
+    this.params.context
+      .componentParent
+      .activate(this.params.data.guid);
+  }
 
-        if (params.data) {
-            if (params.data.isActive) {
-                this.isActive = params.data.isActive;
-            }
-
-            if (params.data.id) {
-                this.id = params.data.id;
-            }
-        }
-    }
-
-    btnDeleteClicked() {
-        this.params.context
-            .componentParent
-            .delete(this.params.data.guid);
-    }
-
-    btnEditClicked() {
-        if (this.params.editInModal) {
-            this.params.context
-                .componentParent
-                .openOpsModal(this.params.data.guid);
-        } else {
-            this.router.navigateByUrl(`${this.params.editUrl}/${this.params.data.guid}`);
-        }
-    }
-
-    activate() {
-        this.params.context
-            .componentParent
-            .activate(this.params.data.guid);
-    }
-
-    deactivate() {
-        this.params.context
-            .componentParent
-            .deactivate(this.params.data.guid);
-    }
+  deactivate() {
+    this.params.context
+      .componentParent
+      .deactivate(this.params.data.guid);
+  }
 }

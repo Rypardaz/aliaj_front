@@ -92,9 +92,9 @@ export class ServiceBase {
         return this.httpService.getAll<any>(path, loading)
     }
 
-    getListWithParams(actionName: string, params: any, loading: boolean = false) {
-        let path = `${this.baseUrl}/${actionName}`
-        return this.httpService.getWithParams<any>(path, loading, params)
+    getListWithParams(params: any, loading: boolean = false) {
+        let path = `${this.baseUrl}/GetList`
+        return this.httpService.getWithParams<any>(path, params, loading)
     }
 
     getForCombo<T>(param: string = undefined) {

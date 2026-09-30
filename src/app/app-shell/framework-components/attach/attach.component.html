@@ -17,8 +17,8 @@
             <td>{{attach.get('creationDate').value}}</td>
             <td>{{attach.get('creatorName').value}}</td>
             <td>
-                <img src="{{attach.get('path').value}}" height="30" alt="icon" class="mr-2"
-                    *ngIf="attach.get('id').value">
+                <i class="fas mr-2" [ngClass]="getFileIcon(attach.get('attachExtension').value)"
+                    style="font-size: 30px;" aria-hidden="true" *ngIf="attach.get('id').value"></i>
                 <a href="javascript:void(0);" (click)="download(attach)" class="text-dark">{{ attach.get('attachName').value
                     }}</a>
             </td>
@@ -33,7 +33,8 @@
             <td>{{attach.get('creationDate').value}}</td>
             <td>{{attach.get('creatorName').value}}</td>
             <td>
-                <img src="{{attach.get('path').value}}" height="30" alt="icon" class="mr-2" *ngIf="attach.get('id').value">
+                <i class="fas mr-2" [ngClass]="getFileIcon(attach.get('attachExtension').value)"
+                    style="font-size: 30px;" aria-hidden="true" *ngIf="attach.get('id').value"></i>
                 <a href="javascript:void(0);" (click)="download(attach)" class="text-dark">{{ attach.get('attachName').value
                     }}</a>
             </td>

@@ -204,10 +204,10 @@ app-login {
   transition: background .2s;
 }
 
-.captcha-refresh svg,
-.login-submit svg {
-  width: 20px;
-  height: 20px;
+.captcha-refresh i,
+.login-submit i {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .field-hint,
