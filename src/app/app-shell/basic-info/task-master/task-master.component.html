@@ -30,11 +30,134 @@
 
 <app-modal #opsModal [modalConfig]="modalConfig" (submited)="submit($event)" (onModalHide)="modalClosed()"
     [isModalOpen]="isModalOpen">
-    <form [formGroup]="form" id="submitForm" class="form-row">
+    <form [formGroup]="form" id="submitForm" class="form-row" dir="rtl">
+        <div class="col-12">
+            <p class="text-muted mb-3">اطلاعات کارفرمایان و مشتریان شرکت در این فرم به‌عنوان مرجع اصلی برای تمام فرم‌های
+                استعلام و قرارداد ثبت می‌شود.</p>
+        </div>
 
-        <custom-input label="نام کارفرما" formControlName="name" identity="name" size="col-12" [required]="true">
-        </custom-input>
+        <section class="col-12 mb-3" aria-labelledby="customer-section-1">
+            <div class="card border mb-0 shadow-none">
+                <div class="card-header d-flex align-items-center gap-2">
+                    <span class="badge bg-primary rounded-pill">۱</span>
+                    <h5 class="mb-0" id="customer-section-1">مشخصات شرکت</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
 
+                        <custom-input label="نام شرکت" identity="customer-name" size="col-8"
+                            placeholder="مثال: فولاد مبارکه اصفهان" formControlName="name"
+                            [required]="true"></custom-input>
 
+                        <custom-ng-select class="col-4" formControlName="industryTypeId" [options]="industryTypes"
+                            placeholder="نوع صنعت" label="نوع صنعت" identity="industryTypeId"
+                            [required]="true"></custom-ng-select>
+
+                        <custom-input label="شماره ثبت" identity="customer-registration"
+                            formControlName="registrationNumber" size="col-4" placeholder="—"></custom-input>
+
+                        <custom-input label="شناسه ملی" identity="customer-national-id" formControlName="nationalId"
+                            size="col-4" placeholder="—"></custom-input>
+
+                        <custom-input label="شماره اقتصادی" identity="customer-economic-number"
+                            formControlName="economicNumber" size="col-4" placeholder="—"></custom-input>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-12 mb-3" aria-labelledby="customer-section-2">
+            <div class="card border mb-0 shadow-none">
+                <div class="card-header d-flex align-items-center gap-2">
+                    <span class="badge bg-primary rounded-pill">2</span>
+                    <h5 class="mb-0" id="customer-section-2">نشانی دفتر مرکزی</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <custom-ng-select class="col-4" formControlName="officeProvinceGuid" [options]="officeProvinces"
+                            placeholder="استان" label="استان" identity="officeProvinceGuid"></custom-ng-select>
+
+                        <custom-ng-select class="col-4" formControlName="officeCityGuid" [options]="officeCities"
+                            placeholder="شهر" label="شهر" identity="officeCityGuid"></custom-ng-select>
+
+                        <custom-input label="کدپستی" identity="customer-office-postal-code"
+                            formControlName="officePostalCode" size="col-4" placeholder="—"></custom-input>
+
+                        <custom-input label="آدرس" identity="customer-office-address" formControlName="officeAddress"
+                            size="col-4" placeholder="نشانی کامل دفتر مرکزی"></custom-input>
+
+                        <custom-input label="شماره تماس" identity="customer-office-phone" formControlName="officePhone"
+                            size="col-4" placeholder="—"></custom-input>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-12 mb-3" aria-labelledby="customer-section-3">
+            <div class="card border mb-0 shadow-none">
+                <div class="card-header d-flex align-items-center gap-2">
+                    <span class="badge bg-primary rounded-pill">3</span>
+                    <h5 class="mb-0" id="customer-section-3">نشانی کارخانه</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+
+                        <custom-ng-select class="col-4" formControlName="factoryProvinceGuid"
+                            [options]="factoryProvinces" placeholder="استان" label="استان"
+                            identity="factoryProvinceGuid"></custom-ng-select>
+
+                        <custom-ng-select class="col-4" formControlName="factoryCityGuid" [options]="factoryCities"
+                            placeholder="شهر" label="شهر" identity="factoryCityGuid"></custom-ng-select>
+
+                        <custom-input label="کدپستی" identity="customer-factory-postal-code"
+                            formControlName="factoryPostalCode" size="col-4" placeholder="—"></custom-input>
+
+                        <custom-input label="آدرس" identity="customer-factory-address" formControlName="factoryAddress"
+                            size="col-4" placeholder="نشانی کامل کارخانه"></custom-input>
+
+                        <custom-input label="شماره تماس" identity="customer-factory-phone"
+                            formControlName="factoryPhone" size="col-4" placeholder="—"></custom-input>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-12 mb-3" aria-labelledby="customer-section-4">
+            <div class="card border mb-0 shadow-none">
+                <div class="card-header d-flex align-items-center gap-2">
+                    <span class="badge bg-primary rounded-pill">4</span>
+                    <h5 class="mb-0" id="customer-section-4">افراد رابط</h5>
+                </div>
+                <div class="card-body">
+                    <div formArrayName="contacts">
+                        @for (contact of contacts.controls; track contact; let i = $index) {
+                        <div class="row g-3 mb-3" [formGroupName]="i">
+
+                            <custom-input label="نام رابط" [identity]="'customer-contact-name-' + i"
+                                formControlName="name" size="col-4" placeholder="—"></custom-input>
+
+                            <custom-input label="سمت" [identity]="'customer-contact-role-' + i" formControlName="role"
+                                size="col-4" placeholder="—"></custom-input>
+
+                            <custom-input label="شماره موبایل" [identity]="'customer-contact-mobile-' + i"
+                                formControlName="mobile" size="col-4" placeholder="۰۹۱۲…"></custom-input>
+
+                            <custom-input label="شماره ثابت" [identity]="'customer-contact-phone-' + i"
+                                formControlName="phone" size="col-4" placeholder="—"></custom-input>
+
+                            <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeContact(i)"
+                                [attr.aria-label]="'حذف فرد رابط ' + (i + 1)">حذف فرد رابط</button>
+                        </div>
+                        }
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-primary" (click)="addContact()">
+                                <i class="fa fa-plus me-1" aria-hidden="true"></i> افزودن فرد رابط
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </form>
 </app-modal>

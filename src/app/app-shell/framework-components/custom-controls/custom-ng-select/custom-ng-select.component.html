@@ -1,0 +1,16 @@
+<div class="mb-1 mt-1">
+  <label class="sr-only" [for]="identity">{{label}}</label>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div class="input-group-text">{{label}}
+        @if (required) {
+        <span class="text-danger"> *</span>
+        }
+      </div>
+    </div>
+    <ng-select class="" [items]="options" bindLabel="title" bindValue="guid" [labelForId]="identity" [ngModel]="value"
+      [placeholder]="placeholder" [searchable]="true" [multiple]="multiple" (ngModelChange)="onValueChange($event)"
+      (blur)="onTouched()">
+    </ng-select>
+  </div>
+</div>
