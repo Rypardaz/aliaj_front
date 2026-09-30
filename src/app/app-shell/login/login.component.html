@@ -68,11 +68,7 @@
               </div>
               <button class="captcha-refresh" type="button" (click)="generateCaptcha()"
                 aria-label="دریافت کد امنیتی جدید" title="کد جدید">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M20 11a8 8 0 1 1-2.5-5.8"></path>
-                  <path d="M20 4v6h-6"></path>
-                </svg>
+                <i class="fas fa-sync-alt" aria-hidden="true"></i>
               </button>
             </div>
             <p class="field-hint" id="captcha-help">حروف و اعداد نمایش داده شده را وارد کنید.</p>
@@ -93,10 +89,7 @@
               در حال ورود...
             } @else {
               ورود به سامانه
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M19 12H5"></path><path d="m11 18-6-6 6-6"></path>
-              </svg>
+              <i class="fas fa-arrow-left" aria-hidden="true"></i>
             }
           </button>
         </form>

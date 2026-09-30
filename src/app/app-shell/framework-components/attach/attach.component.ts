@@ -62,7 +62,6 @@ export class AttachComponent implements OnInit {
     attach = '',
     attachName = null,
     attachExtension = null,
-    path = '',
     id = 0,
     creationDate = new Date().toLocaleDateString('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }),
     creatorName = '',
@@ -76,10 +75,26 @@ export class AttachComponent implements OnInit {
       engDescription,
       attachName,
       attachExtension,
-      path,
       attach,
       canEdit: false
     });
+  }
+
+  getFileIcon(extension: string | null | undefined): string {
+    switch ((extension ?? '').replace(/^\./, '').toLowerCase()) {
+      case 'pdf': return 'fa-file-pdf';
+      case 'doc': case 'docx': case 'odt': return 'fa-file-word';
+      case 'xls': case 'xlsx': case 'csv': case 'ods': return 'fa-file-excel';
+      case 'ppt': case 'pptx': case 'odp': return 'fa-file-powerpoint';
+      case 'jpg': case 'jpeg': case 'png': case 'gif': case 'bmp':
+      case 'webp': case 'svg': case 'tif': case 'tiff': case 'ico': return 'fa-file-image';
+      case 'mp3': case 'wav': case 'ogg': case 'flac': case 'm4a': return 'fa-file-audio';
+      case 'mp4': case 'avi': case 'mov': case 'mkv': case 'webm': return 'fa-file-video';
+      case 'zip': case 'rar': case '7z': case 'gz': case 'tar': return 'fa-file-archive';
+      case 'html': case 'css': case 'js': case 'ts': case 'json': case 'xml': return 'fa-file-code';
+      case 'txt': case 'rtf': case 'md': case 'log': return 'fa-file-alt';
+      default: return 'fa-file';
+    }
   }
 
   getAttaches() {
@@ -94,9 +109,8 @@ export class AttachComponent implements OnInit {
       }
 
       data.forEach(attach => {
-        const path = `../assets/images/file-icons/${attach.attachExtension}.svg`;
         const formGroup = this.createAttachControl(attach.description, attach.engDescription, '', attach.attachName,
-          attach.attachExtension, path, attach.id, attach.creationDate, attach.creatorName, attach.creator);
+          attach.attachExtension, attach.id, attach.creationDate, attach.creatorName, attach.creator);
 
         this.currentUserId = parseInt(this.localStorageService.getItem(USER_ID_NAME));
         if (formGroup.get('creator').value !== this.currentUserId) {
@@ -165,7 +179,7 @@ export class AttachComponent implements OnInit {
     if (command.id) {
       this.attachService.editWithFile(formData).subscribe(data => {
         attach.get('attachName').setValue(data.attachName);
-        attach.get('path').setValue(`../assets/images/file-icons/${data.attachExtension}.svg`);
+        attach.get('attachExtension').setValue(data.attachExtension);
         this.goToEditMode(attach, false);
       });
     } else {
@@ -176,7 +190,7 @@ export class AttachComponent implements OnInit {
           attach.get('id').setValue(data.id);
           attach.get('creatorName').setValue(data.creatorName);
           attach.get('attachName').setValue(data.attachName);
-          attach.get('path').setValue(`../assets/images/file-icons/${data.attachExtension}.svg`);
+          attach.get('attachExtension').setValue(data.attachExtension);
           this.emitCount();
         });
     }
