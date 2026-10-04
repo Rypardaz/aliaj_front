@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit, AfterContentInit {
 
   passwordStrength = 0
   changePassModalConfig = new ModalConfig()
-  mobileMenuState = 1
   day
   todayDate
 
@@ -119,33 +118,24 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   }
 
   mobileMenuButton() {
-    var ua = navigator.userAgent
-
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
-      $("body").attr("data-sidebar-size", "default")
-      if (this.mobileMenuState == 1) {
-        $("body").addClass("sidebar-enable")
-        this.mobileMenuState = 0
-      } else {
-        $("body").removeClass("sidebar-enable")
-        this.mobileMenuState = 1
+    if (window.matchMedia('(max-width: 991.98px)').matches) {
+      $("body").attr("data-sidebar-size", "default").toggleClass("sidebar-enable")
+      if (document.body.classList.contains('sidebar-enable')) {
+        document.querySelector<HTMLButtonElement>('app-sidebar .sidebar-close')?.focus()
       }
-    }
-    else if (/Chrome/i.test(ua)) {
-      this.desktopFunction()
-    }
-    else {
+    } else {
       this.desktopFunction()
     }
   }
 
+  isMenuExpanded(): boolean {
+    return window.matchMedia('(max-width: 991.98px)').matches
+      ? document.body.classList.contains('sidebar-enable')
+      : document.body.getAttribute('data-sidebar-size') !== 'condensed'
+  }
+
   desktopFunction() {
-    if (this.mobileMenuState == 1) {
-      $("body").attr("data-sidebar-size", "condensed")
-      this.mobileMenuState = 0
-    } else {
-      $("body").attr("data-sidebar-size", "default")
-      this.mobileMenuState = 1
-    }
+    const collapsed = $("body").attr("data-sidebar-size") === "condensed"
+    $("body").attr("data-sidebar-size", collapsed ? "default" : "condensed")
   }
 }

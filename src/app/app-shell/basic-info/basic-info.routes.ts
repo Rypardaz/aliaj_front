@@ -46,6 +46,8 @@ import { RoleListComponent } from './role/role-list/role-list.component'
 import { RoleOpsComponent } from './role/role-ops/role-ops.component'
 import { UnitComponent } from './unit/unit.component'
 import { MaterialComponent } from './material/material.component'
+import { TenderInquiryComponent } from './tender-inquiry/tender-inquiry.component'
+import { TenderInquiryOpsComponent } from './tender-inquiry/tender-inquiry-ops/tender-inquiry-ops.component'
 
 export const BASIC_INFO_ROUTES: Routes = [
   {
@@ -137,6 +139,10 @@ export const BASIC_INFO_ROUTES: Routes = [
       { path: 'user/list', component: UserListComponent },
       { path: 'user/create', component: UserOpsComponent },
       { path: 'user/edit/:guid', component: UserOpsComponent },
+
+      { path: 'pmis/tender-inquiry/list', component: TenderInquiryComponent },
+      { path: 'pmis/tender-inquiry/create', component: TenderInquiryOpsComponent },
+      { path: 'pmis/tender-inquiry/edit/:guid', component: TenderInquiryOpsComponent }
 
     ]
   }

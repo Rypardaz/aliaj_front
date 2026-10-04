@@ -255,12 +255,12 @@
 </div>
 
 <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
-  <!-- <li>
-  <button type="button" class="button-menu-mobile waves-effect waves-light" (click)="mobileMenuButton()">
-    <i class="fas fa-bars"></i>
-  </button>
-</li>
--->
+  <li>
+    <button type="button" id="sidebar-menu-toggle" class="sidebar-menu-toggle" aria-label="باز و بسته کردن منو"
+      aria-controls="main-navigation" [attr.aria-expanded]="isMenuExpanded()" (click)="mobileMenuButton()">
+      <i class="ri-menu-line" aria-hidden="true"></i>
+    </button>
+  </li>
 <li>
   <!-- Mobile menu toggle (Horizontal Layout)-->
   <a class="navbar-toggle nav-link" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">

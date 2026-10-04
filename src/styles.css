@@ -318,9 +318,49 @@ table.dataTable tfoot td {
   text-align: right !important;
 }
 
-body[data-layout-mode=two-column] .sidebar-icon-menu {
-  background-color: #2d2d2d !important;
+/* Keep the shell aligned with the single-column navigation. */
+body[data-layout-mode=vertical] { --app-sidebar-width: 272px; }
+body[data-layout-mode=vertical] .navbar-custom { right: 0; }
+body[data-layout-mode=vertical] .navbar-custom .logo-box {
+  display: block;
+  right: 0;
+  width: var(--app-sidebar-width);
+  border-left: 1px solid #e8edf2;
 }
+body[data-layout-mode=vertical] .topnav-menu-left { margin-right: var(--app-sidebar-width) !important; }
+
+@media (min-width: 992px) {
+  body[data-layout-mode=vertical] .content-page { margin-right: var(--app-sidebar-width); }
+  body[data-layout-mode=vertical] .footer { right: var(--app-sidebar-width); }
+  body[data-layout-mode=vertical][data-sidebar-size=condensed] { min-height: 100vh; }
+  body[data-layout-mode=vertical][data-sidebar-size=condensed] .left-side-menu,
+  body[data-layout-mode=vertical][data-sidebar-size=condensed] .logo-box { display: none; }
+  body[data-layout-mode=vertical][data-sidebar-size=condensed] .content-page { margin-right: 0 !important; }
+  body[data-layout-mode=vertical][data-sidebar-size=condensed] .footer { right: 0 !important; }
+  body[data-layout-mode=vertical][data-sidebar-size=condensed] .topnav-menu-left { margin-right: 0 !important; }
+}
+
+@media (max-width: 991.98px) {
+  body[data-layout-mode=vertical] .navbar-custom .logo-box { display: none; }
+  body[data-layout-mode=vertical] .topnav-menu-left { margin-right: 0 !important; }
+}
+
+.sidebar-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 13px 4px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #334155;
+  font-size: 22px;
+  cursor: pointer;
+}
+.sidebar-menu-toggle:hover { background: #f4f7fa; }
+.sidebar-menu-toggle:focus-visible { outline: 2px solid #14785e; outline-offset: -2px; }
 
 .logo .logo-lg-text-light {
   color: #1fac83;

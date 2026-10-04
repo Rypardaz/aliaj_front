@@ -1,141 +1,113 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { DOCUMENT } from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLinkActive, RouterLink } from '@angular/router';
+import { filter } from 'rxjs';
 import { SalonService } from '../basic-info/salon/salon.service';
-import { Router, RouterLinkActive, RouterLink } from '@angular/router';
 import { LocalStorageService } from '../framework-services/local.storage.service';
 import { SALON_GUID_NAME } from '../framework-services/configuration';
-import { ListItemService } from '../basic-info/list-item/list-item.service';
-
 import { HasPermissionDirective } from '../framework-components/directives/has-permission.directive';
-declare var $: any
 
 @Component({
-    selector: 'app-sidebar',
-    templateUrl: './sidebar.component.html',
-    imports: [HasPermissionDirective, RouterLinkActive, RouterLink]
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.css',
+  imports: [HasPermissionDirective, RouterLinkActive, RouterLink]
 })
-export class SidebarComponent implements OnInit, AfterViewInit {
+export class SidebarComponent implements OnInit {
+  private readonly document = inject(DOCUMENT);
+  private readonly router = inject(Router);
+  private readonly salonService = inject(SalonService);
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly currentUrl = signal(this.router.url.split(/[?#]/)[0]);
+  readonly currentSection = computed(() => {
+    if (this.currentUrl().startsWith('/dashboard')) return 'dashboard';
+    if (this.currentUrl().startsWith('/basic-info/daily-record/')) return 'daily-record-info';
+    return null;
+  });
 
-  salonTypes = []
-  weldingSalons = []
-  productionSalons = []
+  readonly expandedSection = signal<string | null>('dashboard');
+  readonly expandedSubmenus = signal(new Set<string>());
+  weldingSalons = [];
+  productionSalons = [];
 
-  constructor(
-    private readonly router: Router,
-    private readonly salonService: SalonService,
-    private readonly listItemService: ListItemService,
-    private readonly localStorageService: LocalStorageService) {
+  constructor() {
+    this.openCurrentSection(this.currentUrl());
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      takeUntilDestroyed()
+    ).subscribe(event => {
+      const url = event.urlAfterRedirects.split(/[?#]/)[0];
+      this.currentUrl.set(url);
+      this.openCurrentSection(url);
+      if (url !== '/') this.closeMenu();
+    });
   }
 
   ngOnInit(): void {
-    this.salonService
-      .getForComboBySalonType(1)
-      .subscribe(data => this.productionSalons = data)
-
-    this.salonService
-      .getForComboBySalonType(2)
-      .subscribe(data => this.weldingSalons = data)
-
-    this.listItemService
-      .getForCombo("14")
-      .subscribe((data: any) => {
-        this.salonTypes = data
-      })
+    this.salonService.getForComboBySalonType(1)
+      .subscribe(data => this.productionSalons = data);
+    this.salonService.getForComboBySalonType(2)
+      .subscribe(data => this.weldingSalons = data);
   }
 
-  ngAfterViewInit(): void {
-    var twoColSideNav = $("#two-col-sidenav-main");
-    if (twoColSideNav.length) {
-      var twoColSideNavItems = $("#two-col-sidenav-main .nav-link");
-      var sideSubMenus = $(".twocolumn-menu-item");
+  toggleSection(section: string): void {
+    this.expandedSection.update(current => current === section ? null : section);
+  }
 
-      var nav = $('.twocolumn-menu-item .nav-second-level');
-      var navCollapse = $('#two-col-menu li .collapse');
+  toggleSubmenu(submenu: string): void {
+    this.expandedSubmenus.update(current => {
+      const next = new Set(current);
+      if (next.has(submenu)) next.delete(submenu);
+      else next.add(submenu);
+      return next;
+    });
+  }
 
-      // open one menu at a time only
-      navCollapse.on({
-        'show.bs.collapse': function () {
-          var nearestNav = $(this).closest(nav).closest(nav).find(navCollapse);
-          if (nearestNav.length)
-            nearestNav.not($(this)).collapse('hide');
-          else
-            navCollapse.not($(this)).collapse('hide');
-        }
-      });
+  isSubmenuOpen(submenu: string): boolean {
+    return this.expandedSubmenus().has(submenu);
+  }
 
-      twoColSideNavItems.on('click', function (e) {
-        var target = $($(this).attr('href'));
+  onSectionActive(section: string, active: boolean): void {
+    if (active) this.expandedSection.set(section);
+  }
 
-        if (target.length) {
-          e.preventDefault();
+  onSubmenuActive(submenu: string, active: boolean): void {
+    if (active) this.expandedSubmenus.update(current => new Set(current).add(submenu));
+  }
 
-          twoColSideNavItems.removeClass('active');
-          $(this).addClass('active');
+  isCurrentRoute(route: string): boolean {
+    return this.currentUrl().toLowerCase() === route.toLowerCase();
+  }
 
-          sideSubMenus.removeClass("d-block");
-          target.addClass("d-block");
-
-          // showing full sidebar if menu item is clicked
-          // $.LayoutThemeApp.leftSidebar.changeSize('default');
-          return false;
-        }
-        return true;
-      });
-
-      // activate menu with no child
-      var pageUrl = window.location.href.split(/[?#]/)[0];
-      twoColSideNavItems.each(function () {
-        if (this.href == pageUrl) {
-          $(this).addClass('active');
-        }
-      });
-
-      // activate the menu in left side bar (Two column) based on url
-      $("#two-col-menu a").each(function () {
-        if (this.href == pageUrl) {
-          $(this).addClass("active");
-          $(this).parent().addClass("menuitem-active");
-          $(this).parent().parent().parent().addClass("show");
-          $(this).parent().parent().parent().parent().addClass("menuitem-active"); // add active to li of the current link
-
-          var firstLevelParent = $(this).parent().parent().parent().parent().parent().parent();
-          if (firstLevelParent.attr('id') !== 'sidebar-menu')
-            firstLevelParent.addClass("show");
-
-          $(this).parent().parent().parent().parent().parent().parent().parent().addClass("menuitem-active");
-
-          var secondLevelParent = $(this).parent().parent().parent().parent().parent().parent().parent().parent().parent();
-          if (secondLevelParent.attr('id') !== 'wrapper')
-            secondLevelParent.addClass("show");
-
-          var upperLevelParent = $(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().parent();
-          if (!upperLevelParent.is('body'))
-            upperLevelParent.addClass("menuitem-active");
-
-          // opening menu
-          var matchingItem = null;
-          var targetEl = '#' + $(this).parents('.twocolumn-menu-item').attr("id");
-          $("#two-col-sidenav-main .nav-link").each(function () {
-            if ($(this).attr('href') === targetEl) {
-              matchingItem = $(this);
-            }
-          });
-          if (matchingItem) matchingItem.trigger('click');
-        }
-      });
+  closeMenu(): void {
+    if (this.document.body.classList.contains('sidebar-enable')) {
+      this.document.body.classList.remove('sidebar-enable');
+      this.document.getElementById('sidebar-menu-toggle')?.focus();
     }
   }
 
-  navigateToForm(guid) {
-    this.localStorageService.setItem(SALON_GUID_NAME, guid)
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigateByUrl(`basic-info/daily-record/${this.localStorageService.getItem(SALON_GUID_NAME)}`)
-    })
+  private openCurrentSection(url: string): void {
+    if (url.startsWith('/dashboard')) this.expandedSection.set('dashboard');
+    else if (url.startsWith('/basic-info/daily-record/')) this.expandedSection.set('daily-record-info');
   }
 
-  onDashboardClicked(guid) {
-    this.localStorageService.setItem(SALON_GUID_NAME, guid)
+  navigateToForm(guid: string, event: MouseEvent): void {
+    this.localStorageService.setItem(SALON_GUID_NAME, guid);
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    // These screens read the salon on initialization and need a fresh instance.
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigateByUrl(`dashboard/${guid}`)
-    })
+      this.router.navigateByUrl(`basic-info/daily-record/${guid}`);
+    });
+  }
+
+  onDashboardClicked(guid: string, event: MouseEvent): void {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    this.localStorageService.setItem(SALON_GUID_NAME, guid);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl(`dashboard/${guid}`);
+    });
   }
 }
