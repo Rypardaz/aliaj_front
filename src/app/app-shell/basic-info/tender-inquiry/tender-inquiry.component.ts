@@ -37,7 +37,7 @@ export class TenderInquiryComponent extends ModalFormBaseComponent<TenderInquiry
           hasActiveMode: false,
           hasEditMode: true,
           hasDeleteMode: true,
-          editUrl: '/basic-info/daily-record-ops'
+          editUrl: '/basic-info/pmis/tender-inquiry/edit'
         },
         width: 70
       },
@@ -93,10 +93,9 @@ export class TenderInquiryComponent extends ModalFormBaseComponent<TenderInquiry
   }
 
   navigateTo(guid = null) {
-    let path = 'basic-info/daily-record-ops'
-    if (guid) {
-      path += `/${guid}`
-    }
+    const path = guid
+      ? `/basic-info/pmis/tender-inquiry/edit/${guid}`
+      : '/basic-info/pmis/tender-inquiry/create'
 
     this.router.navigateByUrl(path)
   }
