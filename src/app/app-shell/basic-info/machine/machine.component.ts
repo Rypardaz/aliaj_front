@@ -13,9 +13,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-machine',
-    templateUrl: './machine.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule]
+  selector: 'app-machine',
+  templateUrl: './machine.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule]
 })
 export class MachineComponent extends ModalFormBaseComponent<MachineService, MachineModel> implements AfterViewInit {
 
@@ -57,8 +57,9 @@ export class MachineComponent extends ModalFormBaseComponent<MachineService, Mac
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
+
     this.gridOptions.columnDefs = [
       {
         field: 'ویرایش/حذف/وضعیت',
@@ -130,7 +131,7 @@ export class MachineComponent extends ModalFormBaseComponent<MachineService, Mac
       this.notificationService.error('آیپی دستگاه مشخص نشده است.')
       return
     }
-    
+
     window.open(ip, "_blank")
   }
 }

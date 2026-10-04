@@ -15,9 +15,9 @@ import { GridSearchPanelComponent } from '../../framework-components/grid-search
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-daily-record',
-    templateUrl: './daily-record.component.html',
-    imports: [LabelIconButtonComponent, GridSearchPanelComponent, AgGridToolsComponent, AgGridModule]
+  selector: 'app-daily-record',
+  templateUrl: './daily-record.component.html',
+  imports: [LabelIconButtonComponent, GridSearchPanelComponent, AgGridToolsComponent, AgGridModule]
 })
 export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordService, DailyRecordModel> implements AfterViewInit {
   salonGuid
@@ -61,7 +61,7 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
       })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.salonGuid = this.localStorageService.getItem(SALON_GUID_NAME)
 
     this.salonService
@@ -144,15 +144,12 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
     super.ngAfterViewInit()
   }
 
-  override getList() {
+  override async getList() {
     this.records = []
     this.searchModel.salonGuid = this.salonGuid
 
-    this.service
-      .getDailyRecords(this.searchModel)
-      .subscribe({
-        next: data => this.handleListSubscription(data)
-      })
+    const data = this.executeWithLoading(this.service.getDailyRecords(this.searchModel))
+    this.handleListSubscription(data)
   }
 
   navigateTo(guid = null) {
@@ -165,8 +162,8 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
   }
 
 
-  searchList(searchModel) {
+  async searchList(searchModel) {
     this.searchModel = searchModel
-    this.getList()
+    await this.getList()
   }
 }

@@ -17,9 +17,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-activity',
-    templateUrl: './activity.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule, CustomCheckboxComponent]
+  selector: 'app-activity',
+  templateUrl: './activity.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule, CustomCheckboxComponent]
 })
 export class ActivityComponent extends ModalFormBaseComponent<ActivityService, ActivityModel> implements AfterViewInit {
   activityTypes = activityTypes
@@ -83,8 +83,8 @@ export class ActivityComponent extends ModalFormBaseComponent<ActivityService, A
     return this.getFormValue(this.form, 'type')
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
     this.getSources()
     this.gridOptions.columnDefs = [
       {

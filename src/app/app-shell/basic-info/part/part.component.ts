@@ -13,9 +13,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-part',
-    templateUrl: './part.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
+  selector: 'app-part',
+  templateUrl: './part.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
 })
 export class PartComponent extends ModalFormBaseComponent<PartService, PartModel> implements AfterViewInit {
 
@@ -47,8 +47,9 @@ export class PartComponent extends ModalFormBaseComponent<PartService, PartModel
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit();
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
+
     this.gridOptions.columnDefs = [
       {
         field: 'ویرایش/حذف/وضعیت',

@@ -13,9 +13,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-wire-screw',
-    templateUrl: './wire-screw.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
+  selector: 'app-wire-screw',
+  templateUrl: './wire-screw.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
 })
 export class WireScrewComponent extends ModalFormBaseComponent<WireScrewService, WireScrewModel> implements AfterViewInit {
   wireTypes: ComboBase[];
@@ -53,8 +53,8 @@ export class WireScrewComponent extends ModalFormBaseComponent<WireScrewService,
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {

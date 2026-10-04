@@ -128,9 +128,9 @@ export class TaskMasterComponent extends ModalFormBaseComponent<TaskMasterServic
     this.resetContacts()
   }
 
-  override submit(action, hasFile = false): void {
+  override async submit(action, hasFile = false): Promise<void> {
     this.form.markAllAsTouched()
-    super.submit(action, hasFile)
+    await super.submit(action, hasFile)
   }
 
   override async ngOnInit(): Promise<void> {

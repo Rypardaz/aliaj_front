@@ -10,9 +10,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-powder-type-group',
-    templateUrl: './powder-type-group.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent]
+  selector: 'app-powder-type-group',
+  templateUrl: './powder-type-group.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent]
 })
 export class PowderTypeGroupComponent extends ModalFormBaseComponent<PowderTypeGroupService, PowderTypeGroupModel> implements AfterViewInit {
 
@@ -35,8 +35,8 @@ export class PowderTypeGroupComponent extends ModalFormBaseComponent<PowderTypeG
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {

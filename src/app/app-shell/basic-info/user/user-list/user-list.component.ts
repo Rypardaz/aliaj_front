@@ -38,8 +38,8 @@ export class UserListComponent extends ModalFormBaseComponent<UserService, User>
     })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.afterListFetch
       .subscribe(_ => {

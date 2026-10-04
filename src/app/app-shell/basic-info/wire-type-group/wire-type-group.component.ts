@@ -10,9 +10,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-wire-type-group',
-    templateUrl: './wire-type-group.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent]
+  selector: 'app-wire-type-group',
+  templateUrl: './wire-type-group.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent]
 })
 export class WireTypeGroupComponent extends ModalFormBaseComponent<WireTypeGroupService, WireTypeGroupModel> implements AfterViewInit {
 
@@ -35,8 +35,8 @@ export class WireTypeGroupComponent extends ModalFormBaseComponent<WireTypeGroup
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {

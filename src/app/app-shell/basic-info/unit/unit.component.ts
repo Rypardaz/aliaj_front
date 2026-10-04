@@ -4,10 +4,14 @@ import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angu
 import { UnitModel } from './unit-model'
 import { UnitService } from "./unit.service"
 import { EditDeleteCellRenderer } from '../../framework-components/ag-grid/edit-delete-cell-btn';
+import { ModalComponent } from '../../framework-components/modal/modal.component';
+import { CustomInputComponent } from '../../framework-components/custom-controls/custom-input/custom-input.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
   selector: 'app-unit',
-  imports: [],
+  imports: [ModalComponent, CustomInputComponent, FormsModule, ReactiveFormsModule, AgGridModule, LabelIconButtonComponent],
   templateUrl: './unit.component.html'
 })
 export class UnitComponent extends ModalFormBaseComponent<UnitService, UnitModel> implements AfterViewInit {
@@ -23,6 +27,11 @@ export class UnitComponent extends ModalFormBaseComponent<UnitService, UnitModel
         Validators.minLength(1),
         Validators.maxLength(100)
       ]],
+      code: ['', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(100)
+      ]],
     })
 
     this.afterListFetch
@@ -31,8 +40,8 @@ export class UnitComponent extends ModalFormBaseComponent<UnitService, UnitModel
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {

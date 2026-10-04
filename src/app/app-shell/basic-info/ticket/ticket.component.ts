@@ -13,9 +13,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-ticket',
-    templateUrl: './ticket.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
+  selector: 'app-ticket',
+  templateUrl: './ticket.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
 })
 export class TicketComponent extends ModalFormBaseComponent<TicketService, TicketModel> implements AfterViewInit {
 
@@ -34,8 +34,8 @@ export class TicketComponent extends ModalFormBaseComponent<TicketService, Ticke
     })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
     this.getUsers()
 
     this.gridOptions.columnDefs = [
@@ -79,15 +79,11 @@ export class TicketComponent extends ModalFormBaseComponent<TicketService, Ticke
       })
   }
 
-  override getList() {
+  override async getList() {
     const searchModel = {
       type: 'output'
     }
 
-    this.service
-      .getTickets(searchModel)
-      .subscribe(data => {
-        this.records = data
-      })
+    this.records = await this.executeWithLoading(this.service.getTickets(searchModel))
   }
 }

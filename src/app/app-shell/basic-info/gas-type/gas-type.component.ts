@@ -13,9 +13,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-gas-type',
-    templateUrl: './gas-type.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
+  selector: 'app-gas-type',
+  templateUrl: './gas-type.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, NgSelectModule, CustomInputComponent]
 })
 export class GasTypeComponent extends ModalFormBaseComponent<GasTypeService, GasTypeModel> implements AfterViewInit {
 
@@ -47,8 +47,8 @@ export class GasTypeComponent extends ModalFormBaseComponent<GasTypeService, Gas
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {

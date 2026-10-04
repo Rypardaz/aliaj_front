@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren, inject } from '@angular/core'
+import { AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren, inject, signal } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { NotificationService } from '../../framework-services/notification.service'
 import { ServiceBase } from '../../framework-services/service.base'
@@ -10,6 +10,7 @@ import { formGroupToFormData } from '../constants'
 import { Router } from '@angular/router'
 import { DatatableService } from '../../framework-services/datatable.service'
 import { FeatureService } from '../../basic-info/feature/feature.service'
+import { firstValueFrom, Observable } from 'rxjs'
 declare var $: any
 
 @Component({
@@ -25,26 +26,7 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
   records: TModel[] = []
   modalConfig = new ModalConfig()
   featureTitle = ''
-  // dtOptions: DataTables.Settings = {
-  //   destroy: true,
-  //   paging: true,
-  //   orderMulti: true,
-  //   order: [],
-  //   language: {
-  //     search: "جستجو:",
-  //     lengthMenu: "نمایش _MENU_ ردیف در صفحه",
-  //     zeroRecords: "ردیفی یافت نشد",
-  //     info: "نمایش صفحه _PAGE_ از _PAGES_",
-  //     infoEmpty: "ردیفی پیدا نشد",
-  //     infoFiltered: "(جستجو در میان _MAX_ ردیف)",
-  //     paginate: {
-  //       next: 'بعدی',
-  //       previous: 'قبلی',
-  //       first: 'اولین',
-  //       last: 'آخرین'
-  //     }
-  //   }
-  // }
+  loading$ = signal(false)
 
   @Output() afterListFetch = new EventEmitter()
   @Output() afterModalOpened = new EventEmitter()
@@ -72,21 +54,20 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
     this.breadcrumbService.setTitle(title)
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     super.ngOnInit()
-    this.getList()
+    await this.getList()
   }
 
   ngAfterViewInit(): void { }
 
   listSubscription = this.service.getList<TModel[]>()
 
-  getList() {
+  async getList() {
     this.records = []
-    this.listSubscription
-      .subscribe({
-        next: data => this.handleListSubscription(data)
-      })
+
+    const data = await this.executeWithLoading(this.listSubscription)
+    this.handleListSubscription(data)
   }
 
   handleListSubscription(data) {
@@ -94,36 +75,31 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
     this.afterListFetch.emit()
   }
 
-  delete(id) {
-    this.fireDeleteSwal().then((t) => {
-      if (t.value === true) {
-        this.deleteRecord(id)
-      } else {
-        this.dismissDeleteSwal(t)
-      }
-    })
+  async delete(id) {
+    const t = await this.fireDeleteSwal()
+    if (t.value === true) {
+      await this.deleteRecord(id)
+    } else {
+      this.dismissDeleteSwal(t)
+    }
   }
 
-  deleteRecord(id) {
-    this.service
-      .delete(id)
-      .subscribe(() => {
-        this.getList()
-        this.fireDeleteSucceddedSwal()
-        this.afterDelete.emit()
-      })
+  async deleteRecord(id) {
+    await this.executeWithLoading(this.service.delete(id))
+    await this.getList()
+
+    this.fireDeleteSucceddedSwal()
+    this.afterDelete.emit()
   }
 
-  openOpsModal(guid = null) {
+  async openOpsModal(guid = null) {
     if (guid) {
-      this.service
-        .getForEdit(guid)
-        .subscribe(data => {
-          this.modalConfig.modalTitle = `ویرایش ${this.title}`
-          this.form.patchValue(data)
-          this.afterEntityFetch.emit(data)
-          this.afterModalOpened.emit()
-        })
+      const data = await this.executeWithLoading(this.service.getForEdit(guid))
+
+      this.modalConfig.modalTitle = `ویرایش ${this.title}`
+      this.form.patchValue(data)
+      this.afterEntityFetch.emit(data)
+      this.afterModalOpened.emit()
     }
     else {
       this.form.reset()
@@ -135,73 +111,57 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
     this.opsModalComponent.open()
   }
 
-  activate(guid: string) {
-    this.service
-      .activate(guid)
-      .subscribe(() => {
-        this.getList()
-      })
+  async activate(guid: string) {
+    await this.executeWithLoading(this.service.activate(guid))
+    await this.getList()
   }
 
-  deactivate(guid: string) {
-    this.service
-      .deactivate(guid)
-      .subscribe(() => {
-        this.getList()
-      })
+  async deactivate(guid: string) {
+    await this.executeWithLoading(this.service.deactivate(guid))
+    await this.getList()
   }
 
-  submit(action, hasFile = false) {
+  async submit(action, hasFile = false) {
     if (this.form.invalid) {
       this.notificationService.error('اطلاعات فرم به درستی وارد نشده است.')
       return
     }
 
     if (hasFile) {
-      this.submitWithFile(action)
+      await this.submitWithFile(action)
     } else {
-      this.submitWithJson(action)
+      await this.submitWithJson(action)
     }
   }
 
-  submitWithJson(action) {
+  async submitWithJson(action) {
     const command = this.form.value
 
-    if (command.guid) {
-      this.service
-        .edit(command)
-        .subscribe(data => {
-          this.handleCreateEditOps(action)
-        })
-    } else {
-      this.service
-        .create(command)
-        .subscribe(guid => {
-          this.handleCreateEditOps(action)
-        })
-    }
+    const request$ = command.guid
+      ? this.service.edit(command)
+      : this.service.create(command)
+
+    const result = await this.executeWithLoading(request$)
+    if (result === undefined) return
+
+    this.handleCreateEditOps(action)
   }
 
-  submitWithFile(action) {
+  async submitWithFile(action) {
     const guid = this.form.value.guid
     const formData = formGroupToFormData(this.form)
 
-    if (guid) {
-      this.service
-        .editWithFile(formData)
-        .subscribe(data => {
-          this.handleCreateEditOps(action)
-        })
-    } else {
-      this.service
-        .createWithFile(formData)
-        .subscribe(guid => {
-          this.handleCreateEditOps(action)
-        })
-    }
+    const request$ = guid
+      ? this.service.editWithFile(formData)
+      : this.service.createWithFile(formData)
+
+    const result = await this.executeWithLoading(request$)
+    if (result === undefined) return
+
+    this.handleCreateEditOps(action)
   }
 
-  handleCreateEditOps(action) {
+  async handleCreateEditOps(action) {
     if (action == "new") {
       this.form.reset()
       this.modalConfig.modalTitle = `ایجاد ${this.title}`
@@ -213,7 +173,8 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
     // this.initForm()
     this.afterReset.emit()
     this.afterFormSubmit.emit()
-    this.getList()
+    await this.getList()
+
     this.notificationService.succeded()
   }
 
@@ -232,13 +193,32 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
   }
 
   forceCloseModal() {
-    setTimeout(() => {
-      this.opsModalComponent.close()
-    }, 2000)
+    setTimeout(() => { this.opsModalComponent.close() }, 2000)
+
     this.notificationService.succeded()
   }
 
   initForm() {
+  }
 
+  async execute<T>(observable$: Observable<T>): Promise<T | undefined> {
+    try {
+      return await firstValueFrom(observable$)
+    } catch (error) {
+      console.error(error)
+      return undefined
+    }
+  }
+
+  async executeWithLoading<T>(observable$: Observable<T>): Promise<T | undefined> {
+    this.loading$.set(true)
+    try {
+      return await firstValueFrom(observable$)
+    } catch (error) {
+      console.error(error)
+      return undefined
+    } finally {
+      this.loading$.set(false)
+    }
   }
 }

@@ -1,7 +1,6 @@
-import { AsyncPipe } from '@angular/common'
 import { UserService } from '../basic-info/user/user.service'
-import { Subscription, Observable, firstValueFrom } from 'rxjs'
-import { Component, OnInit, OnDestroy, inject } from '@angular/core'
+import { firstValueFrom } from 'rxjs'
+import { Component, OnInit, inject, signal } from '@angular/core'
 import { FeatureService } from '../basic-info/feature/feature.service'
 import { ACCESS_TOKEN_NAME, PERMISSIONS_NAME } from 'src/app/app-shell/framework-services/configuration'
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
@@ -11,12 +10,11 @@ import { LocalStorageService } from 'src/app/app-shell/framework-services/local.
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  imports: [ReactiveFormsModule, AsyncPipe]
+  imports: [ReactiveFormsModule]
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup
-  isLoading$: Observable<boolean>
-  unsubscribe: Subscription[] = []
+  readonly isLoading = signal(false)
   showPassword = false
   captchaText = ''
   captchaError = false
@@ -31,7 +29,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm()
-    this.isLoading$ = this.passwordFlowService.isLoading$
 
     if (this.passwordFlowService.isLoggedIn()) {
       this.passwordFlowService.navigateToDashboard()
@@ -41,6 +38,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   async submit() {
+    if (this.isLoading()) {
+      return
+    }
+
     this.loginForm.markAllAsTouched()
     if (this.loginForm.invalid) {
       return
@@ -54,21 +55,25 @@ export class LoginComponent implements OnInit, OnDestroy {
       return
     }
 
-    const reuslt = await firstValueFrom<any>(this.userService.login(command))
-    if (reuslt === undefined) {
+    this.isLoading.set(true)
+    try {
+      const result = await firstValueFrom<any>(this.userService.login(command))
+      if (!result?.token) {
+        this.generateCaptcha()
+        return
+      }
+
+      this.localStorageService.setItem(ACCESS_TOKEN_NAME, result.token)
+
+      const permissions = await firstValueFrom(this.featureService.getUserPermissions())
+      this.localStorageService.setItem(PERMISSIONS_NAME, permissions)
+      this.passwordFlowService.navigateToDashboard()
+    } catch {
+      // HTTP errors are displayed by the exception interceptor.
       this.generateCaptcha()
+    } finally {
+      this.isLoading.set(false)
     }
-
-    this.localStorageService.setItem(ACCESS_TOKEN_NAME, reuslt.token)
-    // this.localStorageService.setItem(DATABASAE_NAME, dbName)
-
-    // const identity = await firstValueFrom(this.identityService.getIdAndRole())
-    // this.localStorageService.setItem(USER_ID_NAME, identity.id)
-    // this.localStorageService.setItem(ROLE_TOKEN_NAME, identity.role)
-
-    const permissions = await firstValueFrom(this.featureService.getUserPermissions())
-    this.localStorageService.setItem(PERMISSIONS_NAME, permissions)
-    this.passwordFlowService.navigateToDashboard()
   }
 
   get f() {
@@ -94,7 +99,4 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe())
-  }
 }

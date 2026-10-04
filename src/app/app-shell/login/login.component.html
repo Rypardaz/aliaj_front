@@ -83,8 +83,8 @@
             }
           </div>
 
-          <button class="login-submit" type="submit" [disabled]="isLoading$ | async">
-            @if (isLoading$ | async) {
+          <button class="login-submit" type="submit" [disabled]="isLoading()" [attr.aria-busy]="isLoading()">
+            @if (isLoading()) {
               <span class="login-spinner" aria-hidden="true"></span>
               در حال ورود...
             } @else {

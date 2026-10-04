@@ -14,9 +14,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-project-type',
-    templateUrl: './project-type.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule]
+  selector: 'app-project-type',
+  templateUrl: './project-type.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule]
 })
 export class ProjectTypeComponent extends ModalFormBaseComponent<ProjectTypeService, ProjectTypeModel> implements AfterViewInit {
 
@@ -45,8 +45,8 @@ export class ProjectTypeComponent extends ModalFormBaseComponent<ProjectTypeServ
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {

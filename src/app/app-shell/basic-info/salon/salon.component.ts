@@ -14,9 +14,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-salon',
-    templateUrl: './salon.component.html',
-    imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule, CustomCheckboxComponent]
+  selector: 'app-salon',
+  templateUrl: './salon.component.html',
+  imports: [LabelIconButtonComponent, AgGridModule, ModalComponent, FormsModule, ReactiveFormsModule, CustomInputComponent, NgSelectModule, CustomCheckboxComponent]
 })
 export class SalonComponent extends ModalFormBaseComponent<SalonService, SalonModel> implements AfterViewInit {
 
@@ -66,8 +66,9 @@ export class SalonComponent extends ModalFormBaseComponent<SalonService, SalonMo
     })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
+
     this.gridOptions.columnDefs = [
       {
         field: 'ویرایش/حذف/وضعیت',

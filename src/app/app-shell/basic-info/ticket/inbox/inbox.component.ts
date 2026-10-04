@@ -6,9 +6,9 @@ import { ModalFormBaseComponent } from 'src/app/app-shell/framework-components/m
 import { AgGridModule } from 'ag-grid-angular';
 
 @Component({
-    selector: 'app-inbox',
-    templateUrl: './inbox.component.html',
-    imports: [AgGridModule]
+  selector: 'app-inbox',
+  templateUrl: './inbox.component.html',
+  imports: [AgGridModule]
 })
 export class InboxComponent extends ModalFormBaseComponent<TicketService, TicketModel> {
 
@@ -16,8 +16,8 @@ export class InboxComponent extends ModalFormBaseComponent<TicketService, Ticket
     super('پیام', ticketService, 'BasicInformation_Ticket')
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {
@@ -52,15 +52,11 @@ export class InboxComponent extends ModalFormBaseComponent<TicketService, Ticket
     ]
   }
 
-  override getList() {
+  override async getList() {
     const searchModel = {
       type: 'input'
     }
 
-    this.service
-      .getTickets(searchModel)
-      .subscribe(data => {
-        this.records = data
-      })
+    this.records = await this.executeWithLoading(this.service.getTickets(searchModel))
   }
 }

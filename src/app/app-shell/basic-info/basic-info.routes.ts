@@ -44,6 +44,8 @@ import { UserListComponent } from './user/user-list/user-list.component'
 import { UserOpsComponent } from './user/user-ops/user-ops.component'
 import { RoleListComponent } from './role/role-list/role-list.component'
 import { RoleOpsComponent } from './role/role-ops/role-ops.component'
+import { UnitComponent } from './unit/unit.component'
+import { MaterialComponent } from './material/material.component'
 
 export const BASIC_INFO_ROUTES: Routes = [
   {
@@ -66,6 +68,8 @@ export const BASIC_INFO_ROUTES: Routes = [
       { path: 'machine', component: MachineComponent },
       { path: 'projectType', component: ProjectTypeComponent },
       { path: 'work-calendar', component: WorkCalendarComponent },
+      { path: 'unit', component: UnitComponent },
+      { path: 'material', component: MaterialComponent },
 
       { path: 'project', component: ProjectComponent },
       { path: 'project-ops', component: ProjectOpsComponent },

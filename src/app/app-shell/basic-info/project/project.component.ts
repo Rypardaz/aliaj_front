@@ -12,9 +12,9 @@ import { GridSearchPanelComponent } from '../../framework-components/grid-search
 import { LabelIconButtonComponent } from '../../framework-components/custom-buttons/label-icon-button.component';
 
 @Component({
-    selector: 'app-project',
-    templateUrl: './project.component.html',
-    imports: [LabelIconButtonComponent, GridSearchPanelComponent, AgGridToolsComponent, AgGridModule]
+  selector: 'app-project',
+  templateUrl: './project.component.html',
+  imports: [LabelIconButtonComponent, GridSearchPanelComponent, AgGridToolsComponent, AgGridModule]
 })
 export class ProjectComponent extends ModalFormBaseComponent<ProjectService, ProjectModel> implements AfterViewInit {
   salons: ComboBase[];
@@ -57,8 +57,8 @@ export class ProjectComponent extends ModalFormBaseComponent<ProjectService, Pro
       })
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit()
+  override async ngOnInit(): Promise<void> {
+    await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
       {
@@ -146,17 +146,14 @@ export class ProjectComponent extends ModalFormBaseComponent<ProjectService, Pro
     this.router.navigateByUrl(path)
   }
 
-  searchList(searchModel) {
+  async searchList(searchModel) {
     this.searchModel = searchModel
-    this.getList()
+    await this.getList()
   }
 
-  override getList() {
+  override async getList() {
     this.records = []
-    this.service
-      .getProjects(this.searchModel)
-      .subscribe({
-        next: data => this.handleListSubscription(data)
-      })
+    const data = this.executeWithLoading(this.service.getProjects(this.searchModel))
+    this.handleListSubscription(data)
   }
 }
