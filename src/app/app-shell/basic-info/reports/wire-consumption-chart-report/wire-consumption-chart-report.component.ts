@@ -19,9 +19,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 declare var ApexCharts: any
 
 @Component({
-    selector: 'app-wire-consumption-chart-report',
-    templateUrl: './wire-consumption-chart-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent]
+  selector: 'app-wire-consumption-chart-report',
+  templateUrl: './wire-consumption-chart-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent]
 })
 export class WireConsumptionChartReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -51,7 +51,7 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
     private readonly chartService: ChartService,
     private readonly notificationService: NotificationService,
     private readonly listItemService: ListItemService) {
-    super(false)
+    super()
 
     const month = getCurrentMonth()
     const year = getCurrentYear()
@@ -72,7 +72,7 @@ export class WireConsumptionChartReportComponent extends AgGridBaseComponent imp
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.type = this.activatedRoute.snapshot.paramMap.get('type')
     this.setFormValue(this.form, 'type', this.type)
 

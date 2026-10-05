@@ -17,9 +17,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-wire-type-consumption-report',
-    templateUrl: './wire-type-consumption-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-wire-type-consumption-report',
+  templateUrl: './wire-type-consumption-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class WireTypeConsumptionReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -40,14 +40,14 @@ export class WireTypeConsumptionReportComponent extends AgGridBaseComponent impl
   pivotTitle = ''
   form: FormGroup
 
-  constructor(private readonly fb: FormBuilder,
+  constructor(fb: FormBuilder,
     private readonly salonService: SalonService,
     private readonly listItemService: ListItemService,
     private readonly reportService: ReportService,
     private readonly breadCrumbService: BreadcrumbService,
     private readonly notificationService: NotificationService,
     private readonly activatedRoute: ActivatedRoute) {
-    super(false)
+    super()
 
     const month = getCurrentMonth()
     const year = getCurrentYear()
@@ -64,7 +64,7 @@ export class WireTypeConsumptionReportComponent extends AgGridBaseComponent impl
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.type = this.activatedRoute.snapshot.paramMap.get('type')
     this.setFormValue(this.form, 'type', this.type)
 

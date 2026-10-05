@@ -12,9 +12,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 declare var ApexCharts: any
 
 @Component({
-    selector: 'app-wire-consumption-to-standaard-chart-report',
-    templateUrl: './wire-consumption-to-standaard-chart-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, DateMaskDirective, NgSelectModule, LabelIconButtonComponent]
+  selector: 'app-wire-consumption-to-standaard-chart-report',
+  templateUrl: './wire-consumption-to-standaard-chart-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, DateMaskDirective, NgSelectModule, LabelIconButtonComponent]
 })
 export class WireConsumptionToStandardChartReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -30,7 +30,7 @@ export class WireConsumptionToStandardChartReportComponent extends AgGridBaseCom
     private readonly breadCrumbService: BreadcrumbService,
     private readonly chartService: ChartService,
     private readonly activatedRoute: ActivatedRoute) {
-    super(false)
+    super()
 
     this.form = fb.group({
       type: [],
@@ -40,7 +40,7 @@ export class WireConsumptionToStandardChartReportComponent extends AgGridBaseCom
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.type = this.activatedRoute.snapshot.paramMap.get('type')
     this.setFormValue(this.form, 'type', this.type)
 

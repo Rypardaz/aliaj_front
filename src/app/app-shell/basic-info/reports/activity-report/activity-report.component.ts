@@ -15,9 +15,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-activity-report',
-    templateUrl: './activity-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-activity-report',
+  templateUrl: './activity-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class ActivityReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -47,7 +47,7 @@ export class ActivityReportComponent extends AgGridBaseComponent implements OnIn
     private readonly reportService: ReportService,
     private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     const month = getCurrentMonth()
     const year = getCurrentYear()
@@ -64,7 +64,7 @@ export class ActivityReportComponent extends AgGridBaseComponent implements OnIn
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('فعالیت ها / توقفات')
     this.getSalons()
     this.getSources()
@@ -206,43 +206,43 @@ export class ActivityReportComponent extends AgGridBaseComponent implements OnIn
       })
   }
 
-  modalUpdated() {
-    let columnsForAggregation = [
-      { column: 'weldingTime', type: 'time' },
-    ]
+  // modalUpdated() {
+  //   let columnsForAggregation = [
+  //     { column: 'weldingTime', type: 'time' },
+  //   ]
 
-    this.columns
-      .filter(x => x.type == 1)
-      .forEach(column => {
-        columnsForAggregation.push({
-          column: 'pValue' + column.activityId,
-          type: 'time'
-        })
-      })
+  //   this.columns
+  //     .filter(x => x.type == 1)
+  //     .forEach(column => {
+  //       columnsForAggregation.push({
+  //         column: 'pValue' + column.activityId,
+  //         type: 'time'
+  //       })
+  //     })
 
-    this.columns
-      .filter(x => x.type == 2)
-      .forEach(column => {
-        columnsForAggregation.push({
-          column: 'spValue' + column.activityId,
-          type: 'time'
-        })
-      })
+  //   this.columns
+  //     .filter(x => x.type == 2)
+  //     .forEach(column => {
+  //       columnsForAggregation.push({
+  //         column: 'spValue' + column.activityId,
+  //         type: 'time'
+  //       })
+  //     })
 
-    columnsForAggregation.push({ column: 'productionTime', type: 'time' })
+  //   columnsForAggregation.push({ column: 'productionTime', type: 'time' })
 
-    this.columns
-      .filter(x => x.type == 3)
-      .forEach(column => {
-        columnsForAggregation.push({
-          column: 'sValue' + column.activityId,
-          type: 'time'
-        })
-      })
+  //   this.columns
+  //     .filter(x => x.type == 3)
+  //     .forEach(column => {
+  //       columnsForAggregation.push({
+  //         column: 'sValue' + column.activityId,
+  //         type: 'time'
+  //       })
+  //     })
 
-    let pinnedRow = this.generatePinnedBottomData(columnsForAggregation)
+  //   let pinnedRow = this.generatePinnedBottomData(columnsForAggregation)
 
-    this.gridApi.setPinnedBottomRowData([pinnedRow])
-  }
+  //   this.gridApi.setPinnedBottomRowData([pinnedRow])
+  // }
 
 }

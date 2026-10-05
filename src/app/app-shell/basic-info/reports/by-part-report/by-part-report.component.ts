@@ -13,9 +13,9 @@ import { LabelIconButtonComponent } from '../../../framework-components/custom-b
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-by-part-report',
-    templateUrl: './by-part-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-by-part-report',
+  templateUrl: './by-part-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent, AgGridModule]
 })
 export class ByPartReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -34,7 +34,7 @@ export class ByPartReportComponent extends AgGridBaseComponent implements OnInit
     private readonly reportService: ReportService,
     private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     const year = getCurrentYear()
     const month = getCurrentMonth()
@@ -49,7 +49,7 @@ export class ByPartReportComponent extends AgGridBaseComponent implements OnInit
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('عملکرد قطعات')
     this.getSalons()
 

@@ -13,9 +13,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-dailyrecordlistproductunits',
-    templateUrl: './dailyrecordlistproductunits.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-dailyrecordlistproductunits',
+  templateUrl: './dailyrecordlistproductunits.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class DailyrecordlistproductunitsComponent extends AgGridBaseComponent implements OnInit {
 
@@ -33,7 +33,7 @@ export class DailyrecordlistproductunitsComponent extends AgGridBaseComponent im
     private readonly reportService: ReportService,
     private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     const month = getCurrentMonth()
     const year = getCurrentYear()
@@ -49,7 +49,7 @@ export class DailyrecordlistproductunitsComponent extends AgGridBaseComponent im
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('اطلاعات فرم روزانه تولید')
     this.getSalons()
   }

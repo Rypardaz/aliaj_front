@@ -14,9 +14,9 @@ import { LabelIconButtonComponent } from '../../../framework-components/custom-b
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-final-card-project-report',
-    templateUrl: './final-card-project-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-final-card-project-report',
+  templateUrl: './final-card-project-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent, AgGridModule]
 })
 export class FinalCardProjectReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -38,7 +38,7 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
     private readonly reportService: ReportService,
     private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     this.form = fb.group({
       projectGuid: [],
@@ -61,7 +61,7 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
       })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('کارت پروژه')
 
     this.getProjects()

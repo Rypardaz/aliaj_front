@@ -15,9 +15,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 declare var ApexCharts: any
 
 @Component({
-    selector: 'app-activity-chart-report',
-    templateUrl: './activity-chart-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent]
+  selector: 'app-activity-chart-report',
+  templateUrl: './activity-chart-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent]
 })
 export class ActivityChartReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -42,7 +42,7 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
     private readonly activityService: ActivityService,
     private readonly salonService: SalonService,
     private readonly notificationService: NotificationService) {
-    super(false)
+    super()
 
     const year = getCurrentYear()
 
@@ -59,7 +59,7 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.type = this.activatedRoute.snapshot.paramMap.get('type')
     this.setFormValue(this.form, 'type', this.type)
 

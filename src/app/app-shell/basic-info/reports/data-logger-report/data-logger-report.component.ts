@@ -15,9 +15,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-data-logger-report',
-    templateUrl: './data-logger-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-data-logger-report',
+  templateUrl: './data-logger-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class DataLoggerReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -45,7 +45,7 @@ export class DataLoggerReportComponent extends AgGridBaseComponent implements On
     private readonly machineService: MachineService,
     private readonly reportService: ReportService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     this.form = fb.group({
       shift: [this.shifts[2].id],
@@ -56,7 +56,7 @@ export class DataLoggerReportComponent extends AgGridBaseComponent implements On
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.getMachines()
 
     this.type = this.activatedRoute.snapshot.paramMap.get('type')

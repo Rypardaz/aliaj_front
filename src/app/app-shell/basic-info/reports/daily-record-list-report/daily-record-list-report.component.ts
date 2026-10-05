@@ -15,9 +15,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-daily-record-list-report',
-    templateUrl: './daily-record-list-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-daily-record-list-report',
+  templateUrl: './daily-record-list-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class DailyRecordListReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class DailyRecordListReportComponent extends AgGridBaseComponent implemen
     private readonly reportService: ReportService,
     private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     const month = getCurrentMonth()
     const year = getCurrentYear()
@@ -52,7 +52,7 @@ export class DailyRecordListReportComponent extends AgGridBaseComponent implemen
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('اطلاعات فرم روزانه جوشکاری')
     this.getSalons()
   }

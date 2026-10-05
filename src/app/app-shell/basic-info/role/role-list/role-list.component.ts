@@ -20,7 +20,7 @@ export class RoleListComponent extends AgGridBaseComponent implements OnInit {
     super()
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     super.ngOnInit()
     this.gridOptions.columnDefs = [
       {

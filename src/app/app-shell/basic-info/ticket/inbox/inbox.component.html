@@ -3,9 +3,9 @@
         <div class="card">
 
             <div class="card-body">
-                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-material"
-                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
-                    [modules]="modules" (gridReady)="onGridReady($event)"></ag-grid-angular>
+                <ag-grid-angular #agGrid [style]="agGridStyle" [class]="agGridTheme" [rowData]="records"
+                    [gridOptions]="gridOptions" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
             </div>
 
         </div>

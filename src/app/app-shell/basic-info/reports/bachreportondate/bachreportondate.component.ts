@@ -13,9 +13,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-bachreportondate',
-    templateUrl: './bachreportondate.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-bachreportondate',
+  templateUrl: './bachreportondate.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class BachreportondateComponent extends AgGridBaseComponent implements OnInit {
 
@@ -33,7 +33,7 @@ export class BachreportondateComponent extends AgGridBaseComponent implements On
     private readonly reportService: ReportService,
     private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     const month = getCurrentMonth()
     const year = getCurrentYear()
@@ -49,7 +49,7 @@ export class BachreportondateComponent extends AgGridBaseComponent implements On
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('گزارش بچ سیم و دستگاه')
     this.getSalons()
   }

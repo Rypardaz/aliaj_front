@@ -14,16 +14,14 @@
                     </app-label-icon-button>
                     <grid-search-panel (search)="searchList($event)"></grid-search-panel>
 
-                    <ag-grid-tools [name]="'project'" [gridApi]="gridApi"
-                        [gridColumnApi]="gridColumnApi"></ag-grid-tools>
+                    <ag-grid-tools [name]="'project'" [gridApi]="gridApi"></ag-grid-tools>
 
                 </div>
             </div>
             <div class="card-body">
-                <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-material"
-                    style="height: 600px; width: auto;" [rowData]="records" [gridOptions]="gridOptions"
-                    [modules]="modules" (gridReady)="onGridReady($event)"
-                    (rowDoubleClicked)="navigateTo($event.data.guid)"></ag-grid-angular>
+                <ag-grid-angular #agGrid [style]="agGridStyle" [class]="agGridTheme" [rowData]="records"
+                    [gridOptions]="gridOptions" (gridReady)="onGridReady($event)">
+                </ag-grid-angular>
             </div>
         </div>
     </div>

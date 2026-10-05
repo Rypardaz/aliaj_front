@@ -8,7 +8,7 @@ import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcru
 import { NotificationService } from 'src/app/app-shell/framework-services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { getCurrentMonth, getCurrentYear, getTodayDate, months, weeks, years } from 'src/app/app-shell/framework-components/constants';
-import * as moment from 'jalali-moment';
+import moment from 'jalali-moment';
 import { AgGridModule } from 'ag-grid-angular';
 import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
 import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
@@ -16,9 +16,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-daily-record-report',
-    templateUrl: './daily-record-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-daily-record-report',
+  templateUrl: './daily-record-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class DailyRecordReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -43,7 +43,7 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
     private readonly listItemService: ListItemService,
     private readonly reportService: ReportService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     this.currentMonth = getCurrentMonth()
     const year = getCurrentYear()
@@ -59,7 +59,7 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.getSalons()
     this.getShifts()
 
@@ -188,16 +188,32 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
 
         this.columnDefs.push(activityCol)
 
+        let columnsForAggregation = [
+          { column: 'weldingTime', type: 'time' },
+          { column: 'randeman', type: 'sum' },
+          { column: 'productionActivityTime', type: 'time' },
+          { column: 'productionStopTime', type: 'time' },
+          { column: 'productionTime', type: 'time' },
+          { column: 'maintenanceStoppageTime', type: 'time' },
+          { column: 'unMaintenanceStoppageTime', type: 'time' },
+          { column: 'totalHoursReported', type: 'time' },
+          { column: 'netHoursInProduce', type: 'time' },
+          { column: 'headCount', type: 'avg' },
+          { column: 'realHead', type: 'avg' }
+        ]
+
         this.columnDefs.push(
           {
             field: 'wireConsumption',
             headerName: 'جمع سیم مصرفی (kg)',
             filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'weldingTime',
             headerName: 'زمان خالص جوشکاری (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'randeman',
@@ -207,47 +223,56 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
           {
             field: 'productionActivityTime',
             headerName: 'زمان فعالیت های تولیدی (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'productionStopTime',
             headerName: 'زمان توقفات تولیدی (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'productionTime',
             headerName: 'جمع فعالیت ها و توقفات تولیدی (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'maintenanceStoppageTime',
             headerName: 'زمان توقفات تعمیراتی (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'unMaintenanceStoppageTime',
             headerName: 'زمان سایر توقفات غیرتولیدی (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'totalHoursReported',
             headerName: 'جمع ساعت گزارش شده توسط تولید (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'netHoursInProduce',
             headerName: 'خالص ساعت در اختیار تولید (h)',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'headCount',
             headerName: 'تعداد هد جوشکاری',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           },
           {
             field: 'realHead',
             headerName: 'تعداد هد واقعی در اختیار تولید',
-            filter: 'agSetColumnFilter'
+            filter: 'agSetColumnFilter',
+            aggFunc: 'sum'
           }
         )
 
@@ -260,34 +285,5 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
             this.records = data
           })
       })
-  }
-
-  modalUpdated() {
-    let columnsForAggregation = [
-      { column: 'wireConsumption', type: 'sum' },
-      { column: 'weldingTime', type: 'time' },
-      { column: 'randeman', type: 'sum' },
-      { column: 'productionActivityTime', type: 'time' },
-      { column: 'productionStopTime', type: 'time' },
-      { column: 'productionTime', type: 'time' },
-      { column: 'maintenanceStoppageTime', type: 'time' },
-      { column: 'unMaintenanceStoppageTime', type: 'time' },
-      { column: 'totalHoursReported', type: 'time' },
-      { column: 'netHoursInProduce', type: 'time' },
-      { column: 'headCount', type: 'avg' },
-      { column: 'realHead', type: 'avg' }
-    ]
-
-    this.columns
-      .forEach(column => {
-        columnsForAggregation.push({
-          column: 'value' + column.activityId,
-          type: 'sum'
-        })
-      })
-
-    let pinnedRow = this.generatePinnedBottomData(columnsForAggregation)
-
-    this.gridApi.setPinnedBottomRowData([pinnedRow])
   }
 }

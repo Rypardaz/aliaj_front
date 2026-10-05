@@ -17,9 +17,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 declare var ApexCharts: any
 
 @Component({
-    selector: 'app-randeman-chart-report',
-    templateUrl: './randeman-chart-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent]
+  selector: 'app-randeman-chart-report',
+  templateUrl: './randeman-chart-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent]
 })
 export class RandemanChartReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -45,7 +45,7 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
     private readonly chartService: ChartService,
     private readonly notificationService: NotificationService,
     private readonly activatedRoute: ActivatedRoute) {
-    super(false)
+    super()
 
     const year = getCurrentYear()
 
@@ -60,7 +60,7 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.type = this.activatedRoute.snapshot.paramMap.get('type')
     this.setFormValue(this.form, 'type', this.type)
 

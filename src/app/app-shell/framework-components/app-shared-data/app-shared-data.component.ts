@@ -5,9 +5,9 @@ import { FormGroup } from '@angular/forms';
 declare var $: any;
 
 @Component({
-    selector: 'app-app-shared-data',
-    templateUrl: './app-shared-data.component.html',
-    standalone: true
+  selector: 'app-app-shared-data',
+  templateUrl: './app-shared-data.component.html',
+  standalone: true
 })
 export class AppSharedDataComponent implements OnInit {
   currentDateYm;
@@ -21,7 +21,7 @@ export class AppSharedDataComponent implements OnInit {
     // this.SomeGlobalSetting = this.settingService.getSettingValue("Public_UseSecondlanguage");
   }
 
-  ngOnInit() { }
+  async ngOnInit() { }
 
   getFormValue(form: FormGroup, controlName: string) {
     return form.get(controlName).value;

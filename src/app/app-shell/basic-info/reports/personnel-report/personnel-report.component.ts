@@ -14,9 +14,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-personnel-report',
-    templateUrl: './personnel-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
+  selector: 'app-personnel-report',
+  templateUrl: './personnel-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, DateMaskDirective, LabelIconButtonComponent, AgGridModule]
 })
 export class PersonnelReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class PersonnelReportComponent extends AgGridBaseComponent implements OnI
     private readonly salonService: SalonService,
     private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
-    super(false)
+    super()
 
     const month = getCurrentMonth()
     const year = getCurrentYear()
@@ -52,7 +52,7 @@ export class PersonnelReportComponent extends AgGridBaseComponent implements OnI
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('عملکرد پرسنل')
     this.getPersonnels()
 
@@ -90,22 +90,26 @@ export class PersonnelReportComponent extends AgGridBaseComponent implements OnI
       {
         field: 'totalHoursReported',
         headerName: 'ساعت گزارش شده',
-        filter: 'agSetColumnFilter'
+        filter: 'agSetColumnFilter',
+        aggFunc: 'sum'
       },
       {
         field: 'hoursInProduction',
         headerName: 'ساعت در اختیار تولید',
-        filter: 'agSetColumnFilter'
+        filter: 'agSetColumnFilter',
+        aggFunc: 'sum'
       },
       {
         field: 'wireConsumption',
         headerName: 'مقدار مصرف واقعی (Kg)',
-        filter: 'agSetColumnFilter'
+        filter: 'agSetColumnFilter',
+        aggFunc: 'sum'
       },
       {
         field: 'standardWireConsumption',
         headerName: 'مقدار مصرف استاندارد (Kg)',
-        filter: 'agSetColumnFilter'
+        filter: 'agSetColumnFilter',
+        aggFunc: 'sum'
       },
       {
         field: 'randeman',
@@ -148,17 +152,5 @@ export class PersonnelReportComponent extends AgGridBaseComponent implements OnI
       .subscribe((data: []) => {
         this.records = data
       })
-  }
-
-  modalUpdated() {
-    let columnsForAggregation = [
-      { column: 'totalHoursReported', type: 'sum' },
-      { column: 'hoursInProduction', type: 'sum' },
-      { column: 'wireConsumption', type: 'sum' },
-      { column: 'standardWireConsumption', type: 'sum' }
-    ]
-
-    let pinnedRow = this.generatePinnedBottomData(columnsForAggregation)
-    this.gridApi.setPinnedBottomRowData([pinnedRow])
   }
 }

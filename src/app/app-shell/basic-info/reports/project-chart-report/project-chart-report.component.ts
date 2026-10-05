@@ -8,9 +8,9 @@ import { DateMaskDirective } from '../../../framework-components/directives/date
 declare var ApexCharts: any
 
 @Component({
-    selector: 'app-project-chart-report',
-    templateUrl: './project-chart-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, DateMaskDirective, LabelIconButtonComponent]
+  selector: 'app-project-chart-report',
+  templateUrl: './project-chart-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, DateMaskDirective, LabelIconButtonComponent]
 })
 export class ProjectChartReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -22,7 +22,7 @@ export class ProjectChartReportComponent extends AgGridBaseComponent implements 
   constructor(fb: FormBuilder,
     private readonly breadCrumbService: BreadcrumbService,
     private readonly chartService: ChartService) {
-    super(false)
+    super()
 
     this.form = fb.group({
       type: [],
@@ -31,7 +31,7 @@ export class ProjectChartReportComponent extends AgGridBaseComponent implements 
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.breadCrumbService.setTitle('نمودار عملکرد پروژه')
 
     this.getReport()

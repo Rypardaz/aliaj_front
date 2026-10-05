@@ -6,8 +6,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { HotkeyModule } from 'angular2-hotkeys';
-import { LicenseManager } from '@ag-grid-enterprise/all-modules';
-
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app-shell/app.routes';
 import { HttpService } from './app/app-shell/framework-services/http.service';
@@ -19,8 +17,6 @@ import { LocalStorageService } from './app/app-shell/framework-services/local.st
 import { SettingService } from './app/app-shell/framework-services/setting.service';
 import { NotificationService } from './app/app-shell/framework-services/notification.service';
 import { SwalService } from './app/app-shell/framework-services/swal.service';
-
-LicenseManager.setLicenseKey('MjAwMDAwMDAwMDAwMA==5a5ea3be8a8aaa9b54ce7186663066431');
 
 bootstrapApplication(AppComponent, {
   providers: [

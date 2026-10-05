@@ -1,17 +1,9 @@
-import { AllModules, RowGroupingModule } from '@ag-grid-enterprise/all-modules';
-import { ConfirmationStateCellRenderer } from '../ag-grid/confirmation-state-label-cell';
-import { EditDeleteCellRenderer } from '../ag-grid/edit-delete-cell-btn';
-import { IsCanceledCellRenderer } from '../ag-grid/is-canceled-label-cell';
-import { TaxStateCellRenderer } from '../ag-grid/tax-state-label-cell';
-import { ValidateionStateCellRenderer } from '../ag-grid/validation-state-label-cell';
 import { AppSharedDataComponent } from '../app-shared-data/app-shared-data.component';
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
-import { ImageCellRenderer } from '../ag-grid/image-cell-renderer';
-import { YesNoCellRenderer } from '../ag-grid/yes-no-label-cell';
 import { AG_GRID_LOCALE_FA } from './locale.fa';
-import { GoToDocumentCellBtnRenderer } from '../ag-grid/go-to-document-cell-btn-renderer';
-import { RowNode } from 'ag-grid-community';
+import { GridOptions } from 'ag-grid-enterprise'
 declare var Swal: any;
+declare var $: any
 
 @Component({
   standalone: true,
@@ -22,25 +14,67 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
 
   public childName: string;
   public gridApi;
-  public gridColumnApi;
-  public modules: any[] = AllModules;
-  gridOptions: any
+  public agGridTheme = 'ag-theme-material'
+  public agGridStyle = 'height: 700px;width: auto'
+  gridOptions: GridOptions
   @Output() afterGridReady = new EventEmitter<number>()
 
-  constructor(@Inject(Boolean) hasPinnedRow = false) {
+  constructor() {
     super();
 
+    // this.gridOptions = {
+    //   defaultColDef: {
+    //     flex: 1,
+    //     resizable: true,
+    //     filter: true,
+    //     sortable: true,
+    //     minWidth: 150,
+    //     enableValue: true,
+    //     enableRowGroup: true,
+    //     enablePivot: true,
+    //   },
+    //   autoGroupColumnDef: { minWidth: 200 },
+    //   rowGroupPanelShow: 'always',
+    //   pivotPanelShow: 'always',
+    //   statusBar: {
+    //     statusPanels: [
+    //       {
+    //         statusPanel: 'agTotalAndFilteredRowCountComponent',
+    //         align: 'left',
+    //       },
+    //       {
+    //         statusPanel: 'agTotalRowCountComponent',
+    //         align: 'center',
+    //       },
+    //       { statusPanel: 'agFilteredRowCountComponent' },
+    //       { statusPanel: 'agSelectedRowCountComponent' },
+    //       { statusPanel: 'agAggregationComponent' },
+    //     ]
+    //   },
+    //   context: { componentParent: this },
+    //   localeText: AG_GRID_LOCALE_FA,
+    //   enableRtl: true,
+    //   animateRows: true,
+    //   pagination: true,
+    //   columnHoverHighlight: true,
+    // }
+
     this.gridOptions = {
+      allowContextMenuWithControlKey: true,
+
+      enableCharts: true,
       defaultColDef: {
         flex: 1,
         resizable: true,
         filter: true,
+        floatingFilter: true,
         sortable: true,
         minWidth: 150,
         enableValue: true,
         enableRowGroup: true,
         enablePivot: true,
       },
+      // grandTotalRow: 'bottom',
       autoGroupColumnDef: { minWidth: 200 },
       rowGroupPanelShow: 'always',
       pivotPanelShow: 'always',
@@ -63,21 +97,12 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
       localeText: AG_GRID_LOCALE_FA,
       enableRtl: true,
       animateRows: true,
-      pagination: true,
+      pagination: false,
+      paginationPageSize: 50,
       columnHoverHighlight: true,
+      cellSelection: true
     }
   }
-
-  public components: { [p: string]: any; } = {
-    editDeleteCellRenderer: EditDeleteCellRenderer,
-    imageCellRenderer: ImageCellRenderer,
-    validationStateCellRenderer: ValidateionStateCellRenderer,
-    taxStateCellRenderer: TaxStateCellRenderer,
-    confirmationStateCellRenderer: ConfirmationStateCellRenderer,
-    isCanceledCellRenderer: IsCanceledCellRenderer,
-    goToDocumentCellRenderer: GoToDocumentCellBtnRenderer,
-    yesNoCellRenderer: YesNoCellRenderer
-  };
 
   fireDeleteSwal() {
     return Swal.fire({
@@ -120,15 +145,14 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
     this.gridApi.exportDataAsCsv();
   }
 
-  setColumnsVisible(colName: string, state: boolean) {
-    this.gridColumnApi.setColumnsVisible(colName, state)
-  }
+  // setColumnsVisible(colName: string, state: boolean) {
+  //   this.gridColumnApi.setColumnsVisible(colName, state)
+  // }
 
   onGridReady(params) {
     this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-
-    this.gridApi.hideOverlay();
+    // this.gridApi.hideOverlay();
+    this.afterGridReady.emit(1)
   }
 
   openNav() {
@@ -145,52 +169,52 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
     $(".rightbar-overlay").removeClass("d-block")
   }
 
-  generatePinnedBottomData(columns) {
-    let target = {}
+  // generatePinnedBottomData(columns) {
+  //   let target = {}
 
-    if (!this.gridColumnApi) return
+  //   if (!this.gridColumnApi) return
 
-    this.gridColumnApi
-      .getAllGridColumns()
-      .forEach(item => {
-        target[item.colId] = null
-      })
+  //   this.gridColumnApi
+  //     .getAllGridColumns()
+  //     .forEach(item => {
+  //       target[item.colId] = null
+  //     })
 
-    return this.calculatePinnedBottomData(columns, target)
-  }
+  //   return this.calculatePinnedBottomData(columns, target)
+  // }
 
-  calculatePinnedBottomData(columns, target) {
-    let a;
-    let b;
-    columns.forEach(item => {
-      a = 0;
-      b = 0;
+  // calculatePinnedBottomData(columns, target) {
+  //   let a;
+  //   let b;
+  //   columns.forEach(item => {
+  //     a = 0;
+  //     b = 0;
 
-      this.gridApi.forEachNodeAfterFilter((rowNode: RowNode) => {
-        if (rowNode.data[item.column])
-          target[item.column] += Number(rowNode.data[item.column])
+  //     this.gridApi.forEachNodeAfterFilter((rowNode: RowNode) => {
+  //       if (rowNode.data[item.column])
+  //         target[item.column] += Number(rowNode.data[item.column])
 
-        a += Math.floor(rowNode.data[item.column])
-        b += (rowNode.data[item.column] - Math.floor(rowNode.data[item.column])) * 100
-      })
+  //       a += Math.floor(rowNode.data[item.column])
+  //       b += (rowNode.data[item.column] - Math.floor(rowNode.data[item.column])) * 100
+  //     })
 
 
-      if (target[item.column])
-        if (item.type == 'sum')
-          target[item.column] = `${target[item.column].toFixed(2)}`
-        else if (item.type == 'avg')
-          target[item.column] = `${(target[item.column] / this.gridApi.getDisplayedRowCount()).toFixed(2)}`
-        else if (item.type == 'time') {
-          a += Math.floor(Math.floor(b) / 60)
-          b = Math.floor(b - (Math.floor(Math.floor(b) / 60) * 60))
-          b = b / 100
-          a = a + b
+  //     if (target[item.column])
+  //       if (item.type == 'sum')
+  //         target[item.column] = `${target[item.column].toFixed(2)}`
+  //       else if (item.type == 'avg')
+  //         target[item.column] = `${(target[item.column] / this.gridApi.getDisplayedRowCount()).toFixed(2)}`
+  //       else if (item.type == 'time') {
+  //         a += Math.floor(Math.floor(b) / 60)
+  //         b = Math.floor(b - (Math.floor(Math.floor(b) / 60) * 60))
+  //         b = b / 100
+  //         a = a + b
 
-          target[item.column] = `${a}`
-        }
+  //         target[item.column] = `${a}`
+  //       }
 
-    })
+  //   })
 
-    return target
-  }
+  //   return target
+  // }
 }

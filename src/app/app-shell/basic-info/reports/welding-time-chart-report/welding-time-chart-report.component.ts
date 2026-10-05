@@ -18,9 +18,9 @@ import { LabelIconButtonComponent } from '../../../framework-components/custom-b
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-    selector: 'app-welding-time-chart-report',
-    templateUrl: './welding-time-chart-report.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent]
+  selector: 'app-welding-time-chart-report',
+  templateUrl: './welding-time-chart-report.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgSelectModule, LabelIconButtonComponent]
 })
 export class WeldingTimeChartReportComponent extends AgGridBaseComponent implements OnInit {
 
@@ -50,7 +50,7 @@ export class WeldingTimeChartReportComponent extends AgGridBaseComponent impleme
     private readonly chartService: ChartService,
     private readonly notificationService: NotificationService,
     private readonly listItemService: ListItemService) {
-    super(false)
+    super()
 
     const year = getCurrentYear()
 
@@ -70,7 +70,7 @@ export class WeldingTimeChartReportComponent extends AgGridBaseComponent impleme
     })
   }
 
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
     this.type = this.activatedRoute.snapshot.paramMap.get('type')
     this.setFormValue(this.form, 'type', this.type)
 
