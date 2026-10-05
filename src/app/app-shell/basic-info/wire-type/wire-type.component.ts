@@ -53,59 +53,59 @@ export class WireTypeComponent extends ModalFormBaseComponent<WireTypeService, W
     await super.ngOnInit()
 
     this.gridOptions.columnDefs = [
-      // {
-      //   field: 'ویرایش/حذف/وضعیت',
-      //   pinned: "left",
-      //   cellRenderer: EditDeleteCellRenderer,
-      //   cellRendererParams: {
-      //     editPermission: "BasicInformation_MissionType",
-      //     deletePermission: "BasicInformation_MissionType",
-      //     editInModal: true,
-      //     hasActiveMode: true,
-      //     hasEditMode: true,
-      //     hasDeleteMode: true
-      //   },
-      //   width: 200
-      // },
+      {
+        field: 'ویرایش/حذف/وضعیت',
+        pinned: "left",
+        cellRenderer: EditDeleteCellRenderer,
+        cellRendererParams: {
+          editPermission: "BasicInformation_MissionType",
+          deletePermission: "BasicInformation_MissionType",
+          editInModal: true,
+          hasActiveMode: true,
+          hasEditMode: true,
+          hasDeleteMode: true
+        },
+        width: 200
+      },
       {
         field: 'wireTypeGroup',
         headerName: 'گروه سیم',
-        // filter: 'agSetColumnFilter'
+        filter: 'agSetColumnFilter'
       },
-      // {
-      //   field: 'code',
-      //   headerName: 'کد سیم',
-      //   filter: 'agSetColumnFilter',
-      // },
-      // {
-      //   field: 'name',
-      //   headerName: 'نام سیم',
-      //   filter: 'agSetColumnFilter',
-      //   cellClass: 'ltr'
-      // },
-      // {
-      //   field: 'wireSize',
-      //   headerName: 'سایز سیم (mm)',
-      //   filter: 'agSetColumnFilter'
-      // },
-      // {
-      //   field: 'isActiveStr',
-      //   headerName: 'وضعیت',
-      //   filter: 'agSetColumnFilter',
-      //   cellClass: params => {
-      //     return params.value == 'فعال' ? 'text-success' : 'text-danger';
-      //   },
-      // },
-      // {
-      //   field: 'createdBy',
-      //   headerName: 'ایجاد کننده',
-      //   filter: 'agSetColumnFilter'
-      // },
-      // {
-      //   field: 'created',
-      //   headerName: 'تاریخ ایجاد',
-      //   filter: 'agSetColumnFilter'
-      // }
+      {
+        field: 'code',
+        headerName: 'کد سیم',
+        filter: 'agSetColumnFilter',
+      },
+      {
+        field: 'name',
+        headerName: 'نام سیم',
+        filter: 'agSetColumnFilter',
+        cellClass: 'ltr'
+      },
+      {
+        field: 'wireSize',
+        headerName: 'سایز سیم (mm)',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'isActiveStr',
+        headerName: 'وضعیت',
+        filter: 'agSetColumnFilter',
+        cellClass: params => {
+          return params.value == 'فعال' ? 'text-success' : 'text-danger';
+        },
+      },
+      {
+        field: 'createdBy',
+        headerName: 'ایجاد کننده',
+        filter: 'agSetColumnFilter'
+      },
+      {
+        field: 'created',
+        headerName: 'تاریخ ایجاد',
+        filter: 'agSetColumnFilter'
+      }
     ]
   }
 
