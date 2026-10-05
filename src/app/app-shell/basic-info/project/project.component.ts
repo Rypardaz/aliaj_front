@@ -58,8 +58,6 @@ export class ProjectComponent extends ModalFormBaseComponent<ProjectService, Pro
   }
 
   override async ngOnInit(): Promise<void> {
-    await super.ngOnInit()
-
     this.gridOptions.columnDefs = [
       {
         field: 'عملیات',
@@ -131,6 +129,8 @@ export class ProjectComponent extends ModalFormBaseComponent<ProjectService, Pro
       //   filter: 'agSetColumnFilter'
       // }
     ]
+
+    await super.ngOnInit()
   }
 
   override ngAfterViewInit(): void {
@@ -153,7 +153,7 @@ export class ProjectComponent extends ModalFormBaseComponent<ProjectService, Pro
 
   override async getList() {
     this.records = []
-    const data = this.executeWithLoading(this.service.getProjects(this.searchModel))
+    const data = await this.executeWithLoading(this.service.getProjects(this.searchModel))
     this.handleListSubscription(data)
   }
 }

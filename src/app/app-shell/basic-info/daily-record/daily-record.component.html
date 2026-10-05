@@ -23,7 +23,7 @@
             </div>
             <div class="card-body">
                 <ag-grid-angular #agGrid [style]="agGridStyle" [class]="agGridTheme" [rowData]="records"
-                    [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
+                    [gridOptions]="gridOptions" [columnDefs]="gridOptions.columnDefs" (gridReady)="onGridReady($event)"
                     (rowDoubleClicked)="navigateTo($event.data.guid)">
                 </ag-grid-angular>
             </div>

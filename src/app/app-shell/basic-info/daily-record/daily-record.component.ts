@@ -146,7 +146,7 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
     this.records = []
     this.searchModel.salonGuid = this.salonGuid
 
-    const data = this.executeWithLoading(this.service.getDailyRecords(this.searchModel))
+    const data = await this.executeWithLoading(this.service.getDailyRecords(this.searchModel))
     this.handleListSubscription(data)
   }
 

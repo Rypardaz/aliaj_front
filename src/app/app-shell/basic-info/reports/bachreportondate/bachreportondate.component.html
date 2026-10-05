@@ -65,7 +65,7 @@
 
       <div class="card-body">
         <ag-grid-angular #agGrid [style]="agGridStyle" [class]="agGridTheme" [rowData]="records"
-          [gridOptions]="gridOptions" (gridReady)="onGridReady($event)">
+          [gridOptions]="gridOptions" [columnDefs]="columnDefs" (gridReady)="onGridReady($event)">
         </ag-grid-angular>
       </div>
 

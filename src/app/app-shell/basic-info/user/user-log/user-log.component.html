@@ -44,7 +44,7 @@
     </div>
     <div class="card-body">
       <ag-grid-angular #agGrid id="myGrid" [components]="components" class="ag-theme-material"
-        style="height: 600px; width: auto;" [rowData]="userLogList" [gridOptions]="gridOptions" [modules]="modules"
+        style="height: 600px; width: auto;" [rowData]="userLogList" [gridOptions]="gridOptions" [columnDefs]="gridOptions.columnDefs" [modules]="modules"
         (gridReady)="onGridReady($event)"></ag-grid-angular>
     </div>
   </div>

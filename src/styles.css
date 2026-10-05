@@ -1,6 +1,7 @@
 @import './app/app-shell/login/login.component.css';
 @import "ag-grid-community/styles/ag-grid.min.css";
 @import "ag-grid-community/styles/ag-theme-material.css";
+@import "ag-grid-community/styles/ag-theme-balham.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
 @import 'ngx-toastr/toastr';

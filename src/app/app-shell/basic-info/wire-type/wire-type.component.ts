@@ -50,8 +50,7 @@ export class WireTypeComponent extends ModalFormBaseComponent<WireTypeService, W
   }
 
   override async ngOnInit(): Promise<void> {
-    await super.ngOnInit()
-
+    // Define columns before the grid renders while the initial list request is pending.
     this.gridOptions.columnDefs = [
       {
         field: 'ویرایش/حذف/وضعیت',
@@ -107,6 +106,8 @@ export class WireTypeComponent extends ModalFormBaseComponent<WireTypeService, W
         filter: 'agSetColumnFilter'
       }
     ]
+
+    await super.ngOnInit()
   }
 
   override ngAfterViewInit(): void {

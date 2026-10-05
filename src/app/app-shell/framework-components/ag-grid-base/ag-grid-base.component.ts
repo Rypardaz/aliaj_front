@@ -17,6 +17,7 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
   public agGridTheme = 'ag-theme-material'
   public agGridStyle = 'height: 700px;width: auto'
   gridOptions: GridOptions
+
   @Output() afterGridReady = new EventEmitter<number>()
 
   constructor() {
@@ -67,7 +68,7 @@ export class AgGridBaseComponent extends AppSharedDataComponent {
         flex: 1,
         resizable: true,
         filter: true,
-        floatingFilter: true,
+        // floatingFilter: true,
         sortable: true,
         minWidth: 150,
         enableValue: true,
