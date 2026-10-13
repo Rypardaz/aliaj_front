@@ -44,9 +44,7 @@ export class WireTypeConsumptionReportComponent extends AgGridBaseComponent impl
     private readonly salonService: SalonService,
     private readonly listItemService: ListItemService,
     private readonly reportService: ReportService,
-    private readonly breadCrumbService: BreadcrumbService,
-    private readonly notificationService: NotificationService,
-    private readonly activatedRoute: ActivatedRoute) {
+    private readonly breadCrumbService: BreadcrumbService) {
     super()
 
     const month = getCurrentMonth()

@@ -1,8 +1,4 @@
-export type TenderInquiryModel = {
-    guid: string
-}
-
-export type TenderInquiryCommand = {
+export type ProjectDossierModel = {
     guid: string
     projectCode: string
     saleDepartmentGuid: string

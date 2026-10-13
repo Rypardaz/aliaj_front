@@ -24,7 +24,7 @@ export class PersonnelComponent extends ModalFormBaseComponent<PersonnelService,
   constructor(private readonly fb: FormBuilder,
     private readonly personnelService: PersonnelService,
     private readonly salonService: SalonService) {
-    super('پرسنل', personnelService, 'BasicInformation_MissionType')
+    super('پرسنل', personnelService)
 
     this.form = this.fb.group({
       guid: [''],

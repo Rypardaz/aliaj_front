@@ -13,7 +13,7 @@ import { AgGridModule } from 'ag-grid-angular';
 export class InboxComponent extends ModalFormBaseComponent<TicketService, TicketModel> {
 
   constructor(ticketService: TicketService) {
-    super('پیام', ticketService, 'BasicInformation_Ticket')
+    super('پیام', ticketService)
   }
 
   override async ngOnInit(): Promise<void> {

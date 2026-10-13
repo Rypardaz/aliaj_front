@@ -1,0 +1,105 @@
+<form [formGroup]="form" id="submitForm" (ngSubmit)="submit()">
+
+    <div class="card">
+        <div class="card-header">مشخصات پرونده پروژه</div>
+        <div class="card-body p-2">
+            <div class="row">
+                <div class="col-12 col-md-6 col-xl-4">
+                    <custom-input label="شماره پروژه (کد پروژه)" formControlName="projectCode" identity="projectCode"
+                        size="col-12" placeholder="مثال: S8901" [required]="true">
+                    </custom-input>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="mt-1 mb-1">
+                        <label class="sr-only" for="saleDepartmentGuid">واحد فروش</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">واحد فروش <span class="text-danger">*</span></div>
+                            </div>
+                            <ng-select [items]="saleDepartments" formControlName="saleDepartmentGuid"
+                                labelForId="saleDepartmentGuid" bindLabel="title" bindValue="guid"
+                                placeholder="انتخاب کنید" [required]="true">
+                            </ng-select>
+                        </div>
+                        @if (form.get('saleDepartmentGuid').invalid && form.get('saleDepartmentGuid').touched) {
+                        <div class="text-danger mt-1">این فیلد اجباری است.</div>
+                        }
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="mt-1 mb-1">
+                        <label class="sr-only" for="taskMasterGuid">کارفرما</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">کارفرما <span class="text-danger">*</span></div>
+                            </div>
+                            <ng-select [items]="taskMasters" formControlName="taskMasterGuid"
+                                labelForId="taskMasterGuid" bindLabel="title" bindValue="guid" placeholder="انتخاب کنید"
+                                [required]="true">
+                            </ng-select>
+                        </div>
+                        @if (form.get('taskMasterGuid').invalid && form.get('taskMasterGuid').touched) {
+                        <div class="text-danger mt-1">این فیلد اجباری است.</div>
+                        }
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="mt-1 mb-1">
+                        <label class="sr-only" for="applicationTypeGuid">نوع اپلیکیشن</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">نوع اپلیکیشن <span class="text-danger">*</span></div>
+                            </div>
+                            <ng-select [items]="applicationTypes" formControlName="applicationTypeGuid"
+                                labelForId="applicationTypeGuid" bindLabel="title" bindValue="guid"
+                                placeholder="انتخاب کنید" [required]="true">
+                            </ng-select>
+                        </div>
+                        @if (form.get('applicationTypeGuid').invalid && form.get('applicationTypeGuid').touched) {
+                        <div class="text-danger mt-1">این فیلد اجباری است.</div>
+                        }
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="mt-1 mb-1">
+                        <label class="sr-only" for="projectTypeGuid">نوع پروژه</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">نوع پروژه <span class="text-danger">*</span></div>
+                            </div>
+                            <ng-select [items]="projectTypes" formControlName="projectTypeGuid"
+                                labelForId="projectTypeGuid" bindLabel="title" bindValue="guid"
+                                placeholder="انتخاب کنید" [required]="true">
+                            </ng-select>
+                        </div>
+                        @if (form.get('projectTypeGuid').invalid && form.get('projectTypeGuid').touched) {
+                        <div class="text-danger mt-1">این فیلد اجباری است.</div>
+                        }
+                    </div>
+                </div>
+                <div class="col-12">
+                    <custom-input type="text-area" label="شرح پروژه" formControlName="description"
+                        identity="description" size="col-12" placeholder="متن آزاد">
+                    </custom-input>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-2">
+            <div class="button-list">
+
+                <app-label-icon-button className="success" icon="fa fa-check" label="ذخیره" [disable]="loading$ | async"
+                    (clicked)="submit()">
+                </app-label-icon-button>
+
+                <app-label-icon-button className="danger" icon="fas fa-times" label="انصراف"
+                    [disable]="loading$ | async" (clicked)="navigateToList()">
+                </app-label-icon-button>
+
+            </div>
+        </div>
+    </div>
+
+</form>

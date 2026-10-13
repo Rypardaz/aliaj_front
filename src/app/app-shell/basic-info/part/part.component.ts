@@ -24,7 +24,7 @@ export class PartComponent extends ModalFormBaseComponent<PartService, PartModel
   constructor(private readonly fb: FormBuilder,
     private readonly partGroupService: PartGroupService,
     private readonly partService: PartService) {
-    super('نوع قطعه', partService, 'BasicInformation_MissionType')
+    super('نوع قطعه', partService)
 
     this.form = this.fb.group({
       guid: [''],

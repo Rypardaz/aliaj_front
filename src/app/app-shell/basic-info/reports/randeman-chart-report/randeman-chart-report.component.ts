@@ -1,20 +1,14 @@
 import { Component, OnInit } from '@angular/core'
-import { ReportService } from '../report.service'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SalonService } from '../../salon/salon.service'
-import { MachineService } from '../../machine/machine.service'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component'
-import { PersonnelService } from '../../personnel/personnel.service'
-import { WireTypeService } from '../../wire-type/wire-type.service'
 import { ChartService } from '../chart.service'
 import { getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants'
-import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
-import { ActivatedRoute } from '@angular/router'
 import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
-
 import { NgSelectModule } from '@ng-select/ng-select';
 declare var ApexCharts: any
+declare var $: any
 
 @Component({
   selector: 'app-randeman-chart-report',
@@ -42,9 +36,7 @@ export class RandemanChartReportComponent extends AgGridBaseComponent implements
   constructor(fb: FormBuilder,
     private readonly salonService: SalonService,
     private readonly breadCrumbService: BreadcrumbService,
-    private readonly chartService: ChartService,
-    private readonly notificationService: NotificationService,
-    private readonly activatedRoute: ActivatedRoute) {
+    private readonly chartService: ChartService) {
     super()
 
     const year = getCurrentYear()

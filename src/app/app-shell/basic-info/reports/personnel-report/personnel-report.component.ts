@@ -34,7 +34,6 @@ export class PersonnelReportComponent extends AgGridBaseComponent implements OnI
     private readonly personnelService: PersonnelService,
     private readonly reportService: ReportService,
     private readonly salonService: SalonService,
-    private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
     super()
 

@@ -23,7 +23,7 @@ export class WireScrewComponent extends ModalFormBaseComponent<WireScrewService,
   constructor(private readonly fb: FormBuilder,
     private readonly wireScrewService: WireScrewService,
     private readonly wireTypeService: WireTypeService) {
-    super('بچ سیم', wireScrewService, 'BasicInformation_MissionType')
+    super('بچ سیم', wireScrewService)
 
     this.form = this.fb.group({
       guid: [''],

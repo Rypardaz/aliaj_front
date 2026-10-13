@@ -2,6 +2,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { LocalStorageService } from '../../framework-services/local.storage.service';
 import { SettingService } from '../../framework-services/setting.service';
 import { FormGroup } from '@angular/forms';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BreadcrumbService } from '../../framework-services/breadcrumb.service';
+import { NotificationService } from '../../framework-services/notification.service';
 declare var $: any;
 
 @Component({
@@ -10,15 +14,18 @@ declare var $: any;
   standalone: true
 })
 export class AppSharedDataComponent implements OnInit {
-  currentDateYm;
-  currentCompanyGuid;
+  loading$ = new BehaviorSubject(false)
+
   SomeGlobalSetting;
 
-  localStorageService = inject(LocalStorageService)
-  settingService = inject(SettingService)
+  readonly router = inject(Router)
+  readonly activatedRoute = inject(ActivatedRoute)
+  readonly settingService = inject(SettingService)
+  readonly breadcrumbService = inject(BreadcrumbService)
+  readonly notificationService = inject(NotificationService)
+  readonly localStorageService = inject(LocalStorageService)
 
   constructor() {
-    // this.SomeGlobalSetting = this.settingService.getSettingValue("Public_UseSecondlanguage");
   }
 
   async ngOnInit() { }
@@ -47,8 +54,25 @@ export class AppSharedDataComponent implements OnInit {
     $(id).removeClass('d-none');
   }
 
-  // changeElement(id, value) {
-  //   $(id).innerHTML = value;
-  // }
+  async execute<T>(observable$: Observable<T>): Promise<T | undefined> {
+    try {
+      return await firstValueFrom(observable$)
+    } catch (error) {
+      console.error(error)
+      return undefined
+    }
+  }
+
+  async executeWithLoading<T>(observable$: Observable<T>): Promise<T | undefined> {
+    this.loading$.next(true)
+    try {
+      return await firstValueFrom(observable$)
+    } catch (error) {
+      console.error(error)
+      return undefined
+    } finally {
+      this.loading$.next(false)
+    }
+  }
 
 }

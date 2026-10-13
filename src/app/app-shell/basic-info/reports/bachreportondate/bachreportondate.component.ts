@@ -31,7 +31,6 @@ export class BachreportondateComponent extends AgGridBaseComponent implements On
   constructor(readonly fb: FormBuilder,
     private readonly salonService: SalonService,
     private readonly reportService: ReportService,
-    private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
     super()
 

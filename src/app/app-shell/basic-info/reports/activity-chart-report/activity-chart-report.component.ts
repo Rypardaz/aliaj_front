@@ -3,16 +3,15 @@ import { ActivatedRoute } from '@angular/router'
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ActivityService } from '../../activity/activity.service'
-import { activitySubTypes, getCurrentMonth, getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants'
+import { activitySubTypes, getCurrentYear, months, weeks, years } from 'src/app/app-shell/framework-components/constants'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component'
-import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
 import { SalonService } from '../../salon/salon.service'
 import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
 import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
-
 import { NgSelectModule } from '@ng-select/ng-select';
 declare var ApexCharts: any
+declare var $: any
 
 @Component({
   selector: 'app-activity-chart-report',
@@ -38,10 +37,8 @@ export class ActivityChartReportComponent extends AgGridBaseComponent implements
   constructor(fb: FormBuilder,
     private readonly breadCrumbService: BreadcrumbService,
     private readonly chartService: ChartService,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly activityService: ActivityService,
-    private readonly salonService: SalonService,
-    private readonly notificationService: NotificationService) {
+    private readonly salonService: SalonService) {
     super()
 
     const year = getCurrentYear()

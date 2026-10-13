@@ -31,7 +31,7 @@ export class ActivityComponent extends ModalFormBaseComponent<ActivityService, A
     activityService: ActivityService,
     private readonly listItemService: ListItemService,
     private readonly salonService: SalonService) {
-    super('کد فعالیت/توقف', activityService, 'BasicInformation_MissionType')
+    super('کد فعالیت/توقف', activityService)
 
     this.form = this.fb.group({
       guid: [''],

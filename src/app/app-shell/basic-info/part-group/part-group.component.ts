@@ -23,7 +23,7 @@ export class PartGroupComponent extends ModalFormBaseComponent<PartGroupService,
   constructor(private readonly fb: FormBuilder,
     partGroupService: PartGroupService,
     private readonly salonService: SalonService) {
-    super('گروه قطعه', partGroupService, 'BasicInformation_MissionType')
+    super('گروه قطعه', partGroupService)
 
     this.form = this.fb.group({
       guid: [''],

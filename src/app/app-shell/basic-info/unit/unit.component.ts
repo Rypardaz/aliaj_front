@@ -18,7 +18,7 @@ export class UnitComponent extends ModalFormBaseComponent<UnitService, UnitModel
 
   constructor(private readonly fb: FormBuilder,
     unitService: UnitService) {
-    super('واحد سنجش', unitService, '')
+    super('واحد سنجش', unitService)
 
     this.form = this.fb.group({
       guid: [''],

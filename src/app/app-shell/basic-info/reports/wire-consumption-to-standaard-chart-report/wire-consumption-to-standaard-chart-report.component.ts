@@ -4,12 +4,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { SalonService } from '../../salon/salon.service'
 import { BreadcrumbService } from 'src/app/app-shell/framework-services/breadcrumb.service'
 import { AgGridBaseComponent } from 'src/app/app-shell/framework-components/ag-grid-base/ag-grid-base.component'
-import { ActivatedRoute } from '@angular/router'
 import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
-
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DateMaskDirective } from '../../../framework-components/directives/date-mask.directive';
 declare var ApexCharts: any
+declare var $: any
 
 @Component({
   selector: 'app-wire-consumption-to-standaard-chart-report',
@@ -28,8 +27,7 @@ export class WireConsumptionToStandardChartReportComponent extends AgGridBaseCom
   constructor(fb: FormBuilder,
     private readonly salonService: SalonService,
     private readonly breadCrumbService: BreadcrumbService,
-    private readonly chartService: ChartService,
-    private readonly activatedRoute: ActivatedRoute) {
+    private readonly chartService: ChartService) {
     super()
 
     this.form = fb.group({

@@ -1,4 +1,5 @@
 <form [formGroup]="form" id="submitForm" (ngSubmit)="submit(1)">
+
   <div class="card">
     <div class="card-header">مشخصات استعلام</div>
     <div class="card-body p-2">
@@ -15,12 +16,12 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">واحد فروش <span class="text-danger">*</span></div>
               </div>
-              <ng-select [items]="saleDepartments" formControlName="saleDepartmentGuid" labelForId="saleDepartmentGuid"
+              <!-- <ng-select [items]="saleDepartments" formControlName="saleDepartmentGuid" labelForId="saleDepartmentGuid"
                 bindLabel="title" bindValue="guid" placeholder="انتخاب کنید" [required]="true">
-              </ng-select>
+              </ng-select> -->
             </div>
             @if (form.get('saleDepartmentGuid').invalid && form.get('saleDepartmentGuid').touched) {
-              <div class="text-danger mt-1">این فیلد اجباری است.</div>
+            <div class="text-danger mt-1">این فیلد اجباری است.</div>
             }
           </div>
         </div>
@@ -31,12 +32,12 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">کارفرما <span class="text-danger">*</span></div>
               </div>
-              <ng-select [items]="taskMasters" formControlName="taskMasterGuid" labelForId="taskMasterGuid"
+              <!-- <ng-select [items]="taskMasters" formControlName="taskMasterGuid" labelForId="taskMasterGuid"
                 bindLabel="title" bindValue="guid" placeholder="انتخاب کنید" [required]="true">
-              </ng-select>
+              </ng-select> -->
             </div>
             @if (form.get('taskMasterGuid').invalid && form.get('taskMasterGuid').touched) {
-              <div class="text-danger mt-1">این فیلد اجباری است.</div>
+            <div class="text-danger mt-1">این فیلد اجباری است.</div>
             }
           </div>
         </div>
@@ -47,12 +48,13 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">نوع اپلیکیشن <span class="text-danger">*</span></div>
               </div>
-              <ng-select [items]="applicationTypes" formControlName="applicationTypeGuid" labelForId="applicationTypeGuid"
-                bindLabel="title" bindValue="guid" placeholder="انتخاب کنید" [required]="true">
-              </ng-select>
+              <!-- <ng-select [items]="applicationTypes" formControlName="applicationTypeGuid"
+                labelForId="applicationTypeGuid" bindLabel="title" bindValue="guid" placeholder="انتخاب کنید"
+                [required]="true">
+              </ng-select> -->
             </div>
             @if (form.get('applicationTypeGuid').invalid && form.get('applicationTypeGuid').touched) {
-              <div class="text-danger mt-1">این فیلد اجباری است.</div>
+            <div class="text-danger mt-1">این فیلد اجباری است.</div>
             }
           </div>
         </div>
@@ -63,18 +65,18 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">نوع پروژه <span class="text-danger">*</span></div>
               </div>
-              <ng-select [items]="projectTypes" formControlName="projectTypeGuid" labelForId="projectTypeGuid"
+              <!-- <ng-select [items]="projectTypes" formControlName="projectTypeGuid" labelForId="projectTypeGuid"
                 bindLabel="title" bindValue="guid" placeholder="انتخاب کنید" [required]="true">
-              </ng-select>
+              </ng-select> -->
             </div>
             @if (form.get('projectTypeGuid').invalid && form.get('projectTypeGuid').touched) {
-              <div class="text-danger mt-1">این فیلد اجباری است.</div>
+            <div class="text-danger mt-1">این فیلد اجباری است.</div>
             }
           </div>
         </div>
         <div class="col-12 col-md-6 col-xl-4">
-          <custom-input label="شماره استعلام / مناقصه" formControlName="no" identity="no"
-            size="col-12" placeholder="مثال: MN-1404-12">
+          <custom-input label="شماره استعلام / مناقصه" formControlName="no" identity="no" size="col-12"
+            placeholder="مثال: MN-1404-12">
           </custom-input>
         </div>
         <div class="col-12">
@@ -85,28 +87,29 @@
       </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-header">تاریخ‌های استعلام</div>
     <div class="card-body p-2">
       <div class="row">
         <div class="col-12 col-md-6 col-xl-4">
-          <custom-input type="date" label="تاریخ دریافت اسناد مناقصه/استعلام" formControlName="documentReceivedDate" identity="documentReceivedDate"
-            size="col-12" placeholder="روز / ماه / سال">
+          <custom-input type="date" label="تاریخ دریافت اسناد مناقصه/استعلام" formControlName="documentReceivedDate"
+            identity="documentReceivedDate" size="col-12" placeholder="روز / ماه / سال">
           </custom-input>
         </div>
         <div class="col-12 col-md-6 col-xl-4">
-          <custom-input type="date" label="مهلت ارسال" formControlName="submissionDeadline" identity="submissionDeadline"
-            size="col-12" placeholder="روز / ماه / سال">
+          <custom-input type="date" label="مهلت ارسال" formControlName="submissionDeadline"
+            identity="submissionDeadline" size="col-12" placeholder="روز / ماه / سال">
           </custom-input>
         </div>
         <div class="col-12 col-md-6 col-xl-4">
-          <custom-input type="date" label="تاریخ دریافت ضمانت‌نامه" formControlName="guaranteeReceivedDate" identity="guaranteeReceivedDate"
-            size="col-12" placeholder="روز / ماه / سال">
+          <custom-input type="date" label="تاریخ دریافت ضمانت‌نامه" formControlName="guaranteeReceivedDate"
+            identity="guaranteeReceivedDate" size="col-12" placeholder="روز / ماه / سال">
           </custom-input>
         </div>
         <div class="col-12 col-md-6 col-xl-4">
-          <custom-input type="date" label="تاریخ ارسال استعلام" formControlName="inquirySentDate" identity="inquirySentDate"
-            size="col-12" placeholder="روز / ماه / سال">
+          <custom-input type="date" label="تاریخ ارسال استعلام" formControlName="inquirySentDate"
+            identity="inquirySentDate" size="col-12" placeholder="روز / ماه / سال">
           </custom-input>
         </div>
         <div class="col-12 col-md-6 col-xl-4">
@@ -116,18 +119,19 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">مبلغ اعلامی</div>
               </div>
-              <input type="number" id="quotedAmount" formControlName="quotedAmount" class="form-control"
-                min="0" step="1" placeholder="۰">
+              <input type="number" id="quotedAmount" formControlName="quotedAmount" class="form-control" min="0"
+                step="1" placeholder="۰">
               <span class="input-group-text">ریال</span>
             </div>
             @if (form.get('quotedAmount').invalid && form.get('quotedAmount').touched) {
-              <div class="text-danger mt-1">مبلغ باید یک عدد صحیح و غیرمنفی باشد.</div>
+            <div class="text-danger mt-1">مبلغ باید یک عدد صحیح و غیرمنفی باشد.</div>
             }
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-header">نتیجه استعلام</div>
     <div class="card-body p-2">
@@ -170,28 +174,30 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">مبلغ برنده استعلام/مناقصه (فقط اگر باخت)</div>
               </div>
-              <input type="number" id="winningAmount" formControlName="winningAmount" class="form-control"
-                min="0" step="1" placeholder="۰">
+              <input type="number" id="winningAmount" formControlName="winningAmount" class="form-control" min="0"
+                step="1" placeholder="۰">
               <span class="input-group-text">ریال</span>
             </div>
             @if (form.get('winningAmount').invalid && form.get('winningAmount').touched) {
-              <div class="text-danger mt-1">مبلغ باید یک عدد صحیح و غیرمنفی باشد.</div>
+            <div class="text-danger mt-1">مبلغ باید یک عدد صحیح و غیرمنفی باشد.</div>
             }
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-body p-2">
       <div class="button-list">
-        <app-label-icon-button className="success" icon="fa fa-check" label="ذخیره"
-          [disable]="isSaving || isLoading" (clicked)="submit(2)"></app-label-icon-button>
+        <app-label-icon-button className="success" icon="fa fa-check" label="ذخیره" [disable]="isSaving || isLoading"
+          (clicked)="submit(2)"></app-label-icon-button>
         <app-label-icon-button className="success" icon="fa fa-check-double" label="ذخیره و خروج"
           [disable]="isSaving || isLoading" (clicked)="submit(1)"></app-label-icon-button>
-        <app-label-icon-button className="danger" icon="fas fa-times" label="انصراف"
-          [disable]="isSaving" (clicked)="navigateToList()"></app-label-icon-button>
+        <app-label-icon-button className="danger" icon="fas fa-times" label="انصراف" [disable]="isSaving"
+          (clicked)="navigateToList()"></app-label-icon-button>
       </div>
     </div>
   </div>
+
 </form>

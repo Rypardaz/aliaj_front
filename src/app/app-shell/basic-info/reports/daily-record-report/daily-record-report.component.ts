@@ -37,8 +37,6 @@ export class DailyRecordReportComponent extends AgGridBaseComponent implements O
   form: FormGroup
 
   constructor(fb: FormBuilder,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly notificationService: NotificationService,
     private readonly salonService: SalonService,
     private readonly listItemService: ListItemService,
     private readonly reportService: ReportService,

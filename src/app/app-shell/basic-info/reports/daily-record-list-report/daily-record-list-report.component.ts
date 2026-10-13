@@ -34,7 +34,6 @@ export class DailyRecordListReportComponent extends AgGridBaseComponent implemen
     private readonly salonService: SalonService,
     private readonly listItemService: ListItemService,
     private readonly reportService: ReportService,
-    private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
     super()
 

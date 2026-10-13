@@ -35,7 +35,6 @@ export class MachineReportComponent extends AgGridBaseComponent implements OnIni
     private readonly salonService: SalonService,
     private readonly listItemService: ListItemService,
     private readonly reportService: ReportService,
-    private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
     super()
 

@@ -25,7 +25,7 @@ export class GasTypeComponent extends ModalFormBaseComponent<GasTypeService, Gas
     private readonly gasTypeService: GasTypeService,
     private readonly gasTypeGroupService: GasTypeGroupService
   ) {
-    super('نوع گاز', gasTypeService, 'BasicInformation_MissionType')
+    super('نوع گاز', gasTypeService)
 
     this.form = this.fb.group({
       guid: [''],

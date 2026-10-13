@@ -15,8 +15,7 @@ export class RoleListComponent extends AgGridBaseComponent implements OnInit {
 
   userGroups
 
-  constructor(private readonly router: Router,
-    private readonly roleService: RoleService) {
+  constructor(private readonly roleService: RoleService) {
     super()
   }
 

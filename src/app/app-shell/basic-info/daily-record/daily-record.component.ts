@@ -27,7 +27,7 @@ export class DailyRecordComponent extends ModalFormBaseComponent<DailyRecordServ
   constructor(private readonly fb: FormBuilder,
     dailyRecordService: DailyRecordService,
     private readonly salonService: SalonService) {
-    super('لیست گزارشات روزانه', dailyRecordService, 'BasicInformation_MissionType')
+    super('لیست گزارشات روزانه', dailyRecordService)
 
     this.form = this.fb.group({
       guid: [''],

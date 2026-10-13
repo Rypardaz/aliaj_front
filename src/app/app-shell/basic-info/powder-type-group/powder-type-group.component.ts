@@ -18,7 +18,7 @@ export class PowderTypeGroupComponent extends ModalFormBaseComponent<PowderTypeG
 
   constructor(private readonly fb: FormBuilder,
     powderTypeGroupService: PowderTypeGroupService) {
-    super('گروه های پودر', powderTypeGroupService, 'BasicInformation_MissionType')
+    super('گروه های پودر', powderTypeGroupService)
 
     this.form = this.fb.group({
       guid: [''],

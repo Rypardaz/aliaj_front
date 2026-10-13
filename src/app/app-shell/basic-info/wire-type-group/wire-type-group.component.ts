@@ -18,7 +18,7 @@ export class WireTypeGroupComponent extends ModalFormBaseComponent<WireTypeGroup
 
   constructor(private readonly fb: FormBuilder,
     wireTypeGroupService: WireTypeGroupService) {
-    super('گروه های سیم', wireTypeGroupService, 'BasicInformation_MissionType')
+    super('گروه های سیم', wireTypeGroupService)
 
     this.form = this.fb.group({
       guid: [''],

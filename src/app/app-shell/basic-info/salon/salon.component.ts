@@ -25,7 +25,7 @@ export class SalonComponent extends ModalFormBaseComponent<SalonService, SalonMo
   constructor(private readonly fb: FormBuilder,
     salonService: SalonService,
     private readonly listItemService: ListItemService) {
-    super('واحدهای تولید', salonService, 'BasicInformation_MissionType')
+    super('واحدهای تولید', salonService)
 
     this.initForm()
 

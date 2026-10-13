@@ -8,14 +8,12 @@ import { PersonnelService } from '../../personnel/personnel.service'
 import { WireTypeService } from '../../wire-type/wire-type.service'
 import { ChartService } from '../chart.service'
 import { years, months, weeks, getCurrentYear } from 'src/app/app-shell/framework-components/constants'
-import { ActivatedRoute } from '@angular/router'
 import { ListItemService } from '../../list-item/list-item.service'
-import { NotificationService } from 'src/app/app-shell/framework-services/notification.service'
 declare var ApexCharts: any
 import * as _ from 'lodash'
 import { LabelIconButtonComponent } from '../../../framework-components/custom-buttons/label-icon-button.component';
-
 import { NgSelectModule } from '@ng-select/ng-select';
+declare var $: any
 
 @Component({
   selector: 'app-welding-time-chart-report',
@@ -41,14 +39,12 @@ export class WeldingTimeChartReportComponent extends AgGridBaseComponent impleme
   form: FormGroup
 
   constructor(private fb: FormBuilder,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly salonService: SalonService,
     private readonly machineService: MachineService,
     private readonly personnelService: PersonnelService,
     private readonly wireTypeService: WireTypeService,
     private readonly breadCrumbService: BreadcrumbService,
     private readonly chartService: ChartService,
-    private readonly notificationService: NotificationService,
     private readonly listItemService: ListItemService) {
     super()
 

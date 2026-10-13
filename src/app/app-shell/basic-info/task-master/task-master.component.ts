@@ -41,7 +41,7 @@ export class TaskMasterComponent extends ModalFormBaseComponent<TaskMasterServic
   listItemService = inject(ListItemService)
 
   constructor(taskMasterService: TaskMasterService) {
-    super('کارفرمایان', taskMasterService, 'BasicInformation_MissionType')
+    super('کارفرمایان', taskMasterService)
 
     this.modalConfig.size = 'modal-full-width'
 

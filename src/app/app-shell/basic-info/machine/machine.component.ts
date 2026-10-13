@@ -27,7 +27,7 @@ export class MachineComponent extends ModalFormBaseComponent<MachineService, Mac
   constructor(private readonly fb: FormBuilder,
     private readonly machineService: MachineService,
     private readonly salonService: SalonService) {
-    super('ماشین آلات', machineService, 'BasicInformation_MissionType')
+    super('ماشین آلات', machineService)
 
     this.form = this.fb.group({
       guid: [''],

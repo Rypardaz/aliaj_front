@@ -39,8 +39,6 @@ export class DataLoggerReportComponent extends AgGridBaseComponent implements On
   form: FormGroup
 
   constructor(fb: FormBuilder,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly notificationService: NotificationService,
     private readonly listItemService: ListItemService,
     private readonly machineService: MachineService,
     private readonly reportService: ReportService,

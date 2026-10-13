@@ -25,8 +25,6 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
   form: FormGroup
   records: TModel[] = []
   modalConfig = new ModalConfig()
-  featureTitle = ''
-  loading$ = signal(false)
 
   @Output() afterListFetch = new EventEmitter()
   @Output() afterModalOpened = new EventEmitter()
@@ -39,18 +37,13 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
   @ViewChildren('tableTr') things: QueryList<any>
 
   featureService = inject(FeatureService)
-  router = inject(Router)
   datatableService = inject(DatatableService)
-  notificationService = inject(NotificationService)
-  breadcrumbService = inject(BreadcrumbService)
 
   constructor(
     @Inject(String) title,
-    @Inject(ServiceBase) readonly service: T,
-    @Inject(String) featureTitle = '') {
+    @Inject(ServiceBase) readonly service: T) {
     super()
     this.title = title
-    this.featureTitle = featureTitle
     this.breadcrumbService.setTitle(title)
   }
 
@@ -199,26 +192,5 @@ export class ModalFormBaseComponent<T extends ServiceBase, TModel> extends AgGri
   }
 
   initForm() {
-  }
-
-  async execute<T>(observable$: Observable<T>): Promise<T | undefined> {
-    try {
-      return await firstValueFrom(observable$)
-    } catch (error) {
-      console.error(error)
-      return undefined
-    }
-  }
-
-  async executeWithLoading<T>(observable$: Observable<T>): Promise<T | undefined> {
-    this.loading$.set(true)
-    try {
-      return await firstValueFrom(observable$)
-    } catch (error) {
-      console.error(error)
-      return undefined
-    } finally {
-      this.loading$.set(false)
-    }
   }
 }

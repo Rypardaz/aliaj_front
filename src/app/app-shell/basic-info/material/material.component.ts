@@ -33,7 +33,7 @@ export class MaterialComponent extends ModalFormBaseComponent<MaterialService, M
   private readonly unitService = inject(UnitService)
 
   constructor(materialService: MaterialService) {
-    super('متریان مصرفی', materialService, '')
+    super('متریان مصرفی', materialService)
 
     this.form = this.fb.group({
       guid: [''],

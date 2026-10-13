@@ -25,7 +25,7 @@ export class TicketComponent extends ModalFormBaseComponent<TicketService, Ticke
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
     ticketService: TicketService) {
-    super('پیام', ticketService, 'BasicInformation_Ticket')
+    super('پیام', ticketService)
 
     this.form = this.fb.group({
       guid: [''],

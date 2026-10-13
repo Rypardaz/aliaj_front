@@ -36,7 +36,6 @@ export class FinalCardProjectReportComponent extends AgGridBaseComponent impleme
   constructor(readonly fb: FormBuilder,
     private readonly projectService: ProjectService,
     private readonly reportService: ReportService,
-    private readonly notificationService: NotificationService,
     private readonly breadCrumbService: BreadcrumbService) {
     super()
 
